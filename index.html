@@ -129,6 +129,27 @@ input[type=range]{width:100%;accent-color:var(--btn)}
 .note.bn{font-size:1rem}
 .star{color:var(--accent)}
 a{color:var(--btn)}
+.pron{font-family:var(--f-bn);font-size:1.15rem;line-height:1.5;color:var(--btn);background:var(--soft);border-radius:10px;padding:10px 12px}
+.pron small,.qbn small{display:block;font-size:.8rem;color:var(--muted)}
+.green{background:var(--good-bg);border:2px solid var(--good);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.green b{font-size:1.5rem;line-height:1.25;color:var(--ink)}
+.glabel{font-family:var(--f-bn);font-weight:700;color:var(--good);font-size:1rem}
+.glabel span{font-family:var(--f-body);font-weight:400;font-size:.8rem;color:var(--muted)}
+.gpron{font-family:var(--f-bn);font-size:1.2rem;color:var(--btn)}
+.gbn{font-family:var(--f-bn);font-size:1.1rem;color:var(--muted)}
+.green .hear{background:var(--card)}
+details.others{background:none;border:0;padding:0;font-size:1rem}
+details.others summary{font-family:var(--f-bn);font-weight:600;color:var(--btn);padding:6px 0}
+.countdown{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.countdown b{display:block;font-size:1.35rem;line-height:1.25}
+.countdown span.bn{color:var(--muted);font-size:1rem}
+.ring{flex:none;width:68px;height:68px;border-radius:50%;background:conic-gradient(var(--good) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center}
+.ring span{width:52px;height:52px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-family:var(--f-bn);font-weight:700;font-size:.95rem}
+.progress{display:flex;flex-direction:column;gap:6px}
+.bar{height:12px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--good);border-radius:6px}
+input[type=date]{font:inherit;font-size:1rem;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);width:100%}
+input[type=checkbox]{width:22px;height:22px;margin-top:3px;accent-color:var(--btn);flex:none}
 </style>
 
 <div class="wrap" id="app"></div>
@@ -401,12 +422,120 @@ const BN = {
 128:["ভেটেরানস ডে কী?",["(মার্কিন) সেনাবাহিনীর মানুষদের সম্মান জানানোর ছুটির দিন","যাঁরা (মার্কিন সেনাবাহিনীতে) কাজ করেছেন, তাঁদের সম্মান জানানোর ছুটির দিন"]],
 };
 
+// ---------- 2008 civics test (USCIS, rev. 01/19): 100 questions, with Bangla pronunciation and meaning ----------
+// sa/sp/sbn = the short answer to memorize, its pronunciation and Bangla meaning. au = [question start, end, answer start, end] in audio.mp3 (seconds).
+const Q08 = [{"n":1,"q":"What is the supreme law of the land?","a":["the Constitution"],"star":false,"qp":"হোয়াট ইজ দ্য সুপ্রিম ল অফ দ্য ল্যান্ড?","qbn":"দেশের সর্বোচ্চ আইন কী?","sa":"the Constitution","sp":"দ্য কনস্টিটিউশন","sbn":"সংবিধান","au":[12.14,16.35,22.1,24.25]},
+{"n":2,"q":"What does the Constitution do?","a":["sets up the government","defines the government","protects basic rights of Americans"],"star":false,"qp":"হোয়াট ডাজ দ্য কনস্টিটিউশন ডু?","qbn":"সংবিধান কী কাজ করে?","sa":"sets up the government","sp":"সেটস আপ দ্য গভর্নমেন্ট","sbn":"সরকার গঠন করে","au":[26.47,30.44,36.19,38.41]},
+{"n":3,"q":"The idea of self-government is in the first three words of the Constitution. What are these words?","a":["We the People"],"star":false,"qp":"দ্য আইডিয়া অফ সেলফ-গভর্নমেন্ট ইজ ইন দ্য ফার্স্ট থ্রি ওয়ার্ডস অফ দ্য কনস্টিটিউশন। হোয়াট আর দিজ ওয়ার্ডস?","qbn":"সংবিধানের প্রথম তিনটি শব্দে স্বশাসনের ধারণা আছে। শব্দ তিনটি কী?","sa":"We the People","sp":"উই দ্য পিপল","sbn":"আমরা জনগণ","au":[40.63,49.25,54.98,56.81]},
+{"n":4,"q":"What is an amendment?","a":["a change (to the Constitution)","an addition (to the Constitution)"],"star":false,"qp":"হোয়াট ইজ অ্যান অ্যামেন্ডমেন্ট?","qbn":"সংশোধনী কী?","sa":"a change to the Constitution","sp":"আ চেইঞ্জ টু দ্য কনস্টিটিউশন","sbn":"সংবিধানে পরিবর্তন","au":[59.04,62.67,68.4,71.12]},
+{"n":5,"q":"What do we call the first ten amendments to the Constitution?","a":["the Bill of Rights"],"star":false,"qp":"হোয়াট ডু উই কল দ্য ফার্স্ট টেন অ্যামেন্ডমেন্টস টু দ্য কনস্টিটিউশন?","qbn":"সংবিধানের প্রথম দশটি সংশোধনীকে কী বলা হয়?","sa":"the Bill of Rights","sp":"দ্য বিল অফ রাইটস","sbn":"অধিকারের সনদ","au":[73.37,78.99,84.72,86.74]},
+{"n":6,"q":"What is one right or freedom from the First Amendment?","a":["speech","religion","assembly","press","petition the government"],"star":true,"qp":"হোয়াট ইজ ওয়ান রাইট অর ফ্রিডম ফ্রম দ্য ফার্স্ট অ্যামেন্ডমেন্ট?","qbn":"প্রথম সংশোধনীর একটি অধিকার বা স্বাধীনতা বলুন।","sa":"speech","sp":"স্পিচ","sbn":"কথা বলার স্বাধীনতা","au":[88.99,94.4,100.13,101.77]},
+{"n":7,"q":"How many amendments does the Constitution have?","a":["twenty-seven (27) === page 2 === -2- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"হাউ মেনি অ্যামেন্ডমেন্টস ডাজ দ্য কনস্টিটিউশন হ্যাভ?","qbn":"সংবিধানে কয়টি সংশোধনী আছে?","sa":"twenty-seven (27)","sp":"টুয়েন্টি-সেভেন","sbn":"সাতাশ","au":[103.99,108.99,114.72,116.53]},
+{"n":8,"q":"What did the Declaration of Independence do?","a":["announced our independence (from Great Britain)","declared our independence (from Great Britain)","said that the United States is free (from Great Britain)"],"star":false,"qp":"হোয়াট ডিড দ্য ডেক্লারেশন অফ ইন্ডিপেন্ডেন্স ডু?","qbn":"স্বাধীনতার ঘোষণাপত্র কী করেছিল?","sa":"declared our independence","sp":"ডিক্লেয়ারড আওয়ার ইন্ডিপেন্ডেন্স","sbn":"আমাদের স্বাধীনতা ঘোষণা করেছিল","au":[118.77,123.82,129.55,131.98]},
+{"n":9,"q":"What are two rights in the Declaration of Independence?","a":["life","liberty","pursuit of happiness"],"star":false,"qp":"হোয়াট আর টু রাইটস ইন দ্য ডেক্লারেশন অফ ইন্ডিপেন্ডেন্স?","qbn":"স্বাধীনতার ঘোষণাপত্রে থাকা দুটি অধিকার কী?","sa":"life, liberty","sp":"লাইফ, লিবার্টি","sbn":"জীবন, স্বাধীনতা","au":[134.23,139.83,145.58,147.58]},
+{"n":10,"q":"What is freedom of religion?","a":["You can practice any religion, or not practice a religion."],"star":false,"qp":"হোয়াট ইজ ফ্রিডম অফ রিলিজিয়ন?","qbn":"ধর্মের স্বাধীনতা কী?","sa":"You can practice any religion, or not practice a religion.","sp":"ইউ ক্যান প্র্যাকটিস এনি রিলিজিয়ন, অর নট প্র্যাকটিস আ রিলিজিয়ন","sbn":"যেকোনো ধর্ম পালন করা যায়, অথবা কোনো ধর্ম পালন না করাও যায়","au":[149.83,153.68,159.41,163.97]},
+{"n":11,"q":"What is the economic system in the United States?","a":["capitalist economy","market economy"],"star":true,"qp":"হোয়াট ইজ দ্য ইকোনমিক সিস্টেম ইন দ্য ইউনাইটেড স্টেটস?","qbn":"যুক্তরাষ্ট্রের অর্থনৈতিক ব্যবস্থা কী?","sa":"capitalist economy","sp":"ক্যাপিটালিস্ট ইকোনমি","sbn":"পুঁজিবাদী অর্থনীতি","au":[166.2,171.7,177.43,179.79]},
+{"n":12,"q":"What is the \"rule of law\"?","a":["Everyone must follow the law.","Leaders must obey the law.","Government must obey the law.","No one is above the law."],"star":false,"qp":"হোয়াট ইজ দ্য \"রুল অফ ল\"?","qbn":"\"আইনের শাসন\" কী?","sa":"No one is above the law.","sp":"নো ওয়ান ইজ অ্যাবাভ দ্য ল","sbn":"কেউ আইনের ঊর্ধ্বে নয়","au":[182.04,185.91,191.66,194.14],"alts":["nobody is above the law"]},
+{"n":13,"q":"Name one branch or part of the government.","a":["Congress","legislative","President","executive","the courts","judicial"],"star":true,"qp":"নেইম ওয়ান ব্র্যাঞ্চ অর পার্ট অফ দ্য গভর্নমেন্ট।","qbn":"সরকারের একটি শাখা বা অংশের নাম বলুন।","sa":"Congress","sp":"কংগ্রেস","sbn":"কংগ্রেস (আইনসভা)","au":[196.39,201.44,207.19,208.85]},
+{"n":14,"q":"What stops one branch of government from becoming too powerful?","a":["checks and balances","separation of powers"],"star":false,"qp":"হোয়াট স্টপস ওয়ান ব্র্যাঞ্চ অফ গভর্নমেন্ট ফ্রম বিকামিং টু পাওয়ারফুল?","qbn":"সরকারের কোনো একটি শাখা যেন অতিরিক্ত ক্ষমতাশালী না হয়, তা কী দিয়ে ঠেকানো হয়?","sa":"checks and balances","sp":"চেকস অ্যান্ড ব্যালেন্সেস","sbn":"ক্ষমতার নিয়ন্ত্রণ ও ভারসাম্য","au":[211.08,217.33,223.05,225.29]},
+{"n":15,"q":"Who is in charge of the executive branch?","a":["the President"],"star":false,"qp":"হু ইজ ইন চার্জ অফ দ্য এগজেকিউটিভ ব্র্যাঞ্চ?","qbn":"নির্বাহী বিভাগের দায়িত্বে কে থাকেন?","sa":"the President","sp":"দ্য প্রেসিডেন্ট","sbn":"প্রেসিডেন্ট","au":[227.52,232.69,238.41,240.29]},
+{"n":16,"q":"Who makes federal laws?","a":["Congress","Senate and House (of Representatives)","(U.S. or national) legislature"],"star":false,"qp":"হু মেইকস ফেডারেল লজ?","qbn":"ফেডারেল (জাতীয়) আইন কে তৈরি করে?","sa":"Congress","sp":"কংগ্রেস","sbn":"কংগ্রেস (আইনসভা)","au":[242.52,246.49,252.21,253.88],"alts":["Senate and House"]},
+{"n":17,"q":"\u0007What are the two parts of the U.S. Congress?","a":["the Senate and House (of Representatives)"],"star":true,"qp":"হোয়াট আর দ্য টু পার্টস অফ দ্য ইউ এস কংগ্রেস?","qbn":"মার্কিন কংগ্রেসের দুটি অংশ কী কী?","sa":"the Senate and the House","sp":"দ্য সেনেট অ্যান্ড দ্য হাউস","sbn":"সিনেট এবং প্রতিনিধি পরিষদ (হাউস)","au":[256.13,261.49,267.21,269.5]},
+{"n":18,"q":"How many U.S. Senators are there?","a":["one hundred (100) === page 3 === -3- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"হাউ মেনি ইউ এস সেনেটরস আর দেয়ার?","qbn":"মার্কিন সিনেটর কতজন?","sa":"one hundred (100)","sp":"ওয়ান হান্ড্রেড","sbn":"একশো","au":[271.75,276.49,282.21,284.09]},
+{"n":19,"q":"We elect a U.S. Senator for how many years?","a":["six (6)"],"star":false,"qp":"উই ইলেক্ট আ ইউ এস সেনেটর ফর হাউ মেনি ইয়ার্স?","qbn":"আমরা একজন মার্কিন সিনেটরকে কত বছরের জন্য নির্বাচিত করি?","sa":"six (6)","sp":"সিক্স","sbn":"ছয়","au":[286.32,291.97,297.69,299.31],"alts":["6"]},
+{"n":20,"q":"Who is one of your state's U.S. Senators now?","a":["$senator1","$senator2"],"star":true,"qp":"হু ইজ ওয়ান অফ ইয়োর স্টেটস ইউ এস সেনেটরস নাউ?","qbn":"এখন আপনার অঙ্গরাজ্যের একজন মার্কিন সিনেটর কে?","sa":"Chuck Schumer","sp":"চাক শুমার","sbn":"নিউ ইয়র্কের সিনেটর অথবা: Kirsten Gillibrand (কারস্টেন জিলিব্র্যান্ড)","au":[301.53,306.99,312.72,314.53],"pk":"senator1"},
+{"n":21,"q":"The House of Representatives has how many voting members?","a":["four hundred thirty-five (435)"],"star":false,"qp":"দ্য হাউস অফ রেপ্রিজেন্টেটিভস হ্যাজ হাউ মেনি ভোটিং মেম্বারস?","qbn":"প্রতিনিধি পরিষদে ভোট দেওয়ার ক্ষমতাসহ কতজন সদস্য আছেন?","sa":"four hundred thirty-five (435)","sp":"ফোর হান্ড্রেড থার্টি-ফাইভ","sbn":"চারশো পঁয়ত্রিশ","au":[316.75,323.0,328.75,331.21]},
+{"n":22,"q":"We elect a U.S. Representative for how many years?","a":["two (2)"],"star":false,"qp":"উই ইলেক্ট আ ইউ এস রেপ্রিজেন্টেটিভ ফর হাউ মেনি ইয়ার্স?","qbn":"আমরা একজন প্রতিনিধিকে (রিপ্রেজেন্টেটিভ) কত বছরের জন্য নির্বাচিত করি?","sa":"two (2)","sp":"টু","sbn":"দুই","au":[333.45,339.92,345.65,347.14],"alts":["2"]},
+{"n":23,"q":"Name your U.S. Representative.","a":["$representative"],"star":false,"qp":"নেইম ইয়োর ইউ এস রেপ্রিজেন্টেটিভ।","qbn":"আপনার মার্কিন প্রতিনিধির (রিপ্রেজেন্টেটিভ) নাম বলুন।","sa":"Nydia Velázquez","sp":"নিডিয়া ভেলাসকেজ","sbn":"আপনার এলাকার প্রতিনিধি (নিউ ইয়র্ক ডিস্ট্রিক্ট ৭)","au":[349.39,354.27,360.02,362.05],"pk":"representative"},
+{"n":24,"q":"Who does a U.S. Senator represent?","a":["all people of the state"],"star":false,"qp":"হু ডাজ আ ইউ এস সেনেটর রেপ্রিজেন্ট?","qbn":"একজন মার্কিন সিনেটর কাদের প্রতিনিধিত্ব করেন?","sa":"all people of the state","sp":"অল পিপল অফ দ্য স্টেট","sbn":"অঙ্গরাজ্যের সব মানুষ","au":[364.27,369.46,375.21,377.57]},
+{"n":25,"q":"Why do some states have more Representatives than other states?","a":["(because of) the state's population","(because) they have more people","(because) some states have more people"],"star":false,"qp":"হোয়াই ডু সাম স্টেটস হ্যাভ মোর রেপ্রিজেন্টেটিভস দ্যান আদার স্টেটস?","qbn":"কিছু অঙ্গরাজ্যের প্রতিনিধি অন্য অঙ্গরাজ্যের চেয়ে বেশি কেন?","sa":"because they have more people","sp":"বিকজ দে হ্যাভ মোর পিপল","sbn":"কারণ সেখানে মানুষ বেশি","au":[379.82,386.12,391.85,394.28]},
+{"n":26,"q":"We elect a President for how many years?","a":["four (4)"],"star":false,"qp":"উই ইলেক্ট আ প্রেসিডেন্ট ফর হাউ মেনি ইয়ার্স?","qbn":"আমরা প্রেসিডেন্টকে কত বছরের জন্য নির্বাচিত করি?","sa":"four (4)","sp":"ফোর","sbn":"চার","au":[396.53,401.5,407.23,408.85],"alts":["4"]},
+{"n":27,"q":"In what month do we vote for President?","a":["November"],"star":true,"qp":"ইন হোয়াট মান্থ ডু উই ভোট ফর প্রেসিডেন্ট?","qbn":"আমরা কোন মাসে প্রেসিডেন্ট নির্বাচনে ভোট দিই?","sa":"November","sp":"নভেম্বার","sbn":"নভেম্বর মাস","au":[411.07,415.85,421.61,423.34]},
+{"n":28,"q":"What is the name of the President of the United States now?","a":["$president"],"star":true,"qp":"হোয়াট ইজ দ্য নেইম অফ দ্য প্রেসিডেন্ট অফ দ্য ইউনাইটেড স্টেটস নাউ?","qbn":"এখন যুক্তরাষ্ট্রের প্রেসিডেন্টের নাম কী?","sa":"Donald Trump","sp":"ডোনাল্ড ট্রাম্প","sbn":"বর্তমান প্রেসিডেন্ট","au":[425.57,431.69,437.45,439.33],"pk":"president"},
+{"n":29,"q":"What is the name of the Vice President of the United States now?","a":["$vicepresident"],"star":false,"qp":"হোয়াট ইজ দ্য নেইম অফ দ্য ভাইস প্রেসিডেন্ট অফ দ্য ইউনাইটেড স্টেটস নাউ?","qbn":"এখন যুক্তরাষ্ট্রের ভাইস প্রেসিডেন্টের নাম কী?","sa":"JD Vance","sp":"জে ডি ভ্যান্স","sbn":"বর্তমান ভাইস প্রেসিডেন্ট","au":[441.55,448.09,453.81,455.98],"pk":"vicepresident"},
+{"n":30,"q":"If the President can no longer serve, who becomes President?","a":["the Vice President"],"star":false,"qp":"ইফ দ্য প্রেসিডেন্ট ক্যান নো লংগার সার্ভ, হু বিকামস প্রেসিডেন্ট?","qbn":"প্রেসিডেন্ট আর দায়িত্ব পালন করতে না পারলে কে প্রেসিডেন্ট হন?","sa":"the Vice President","sp":"দ্য ভাইস প্রেসিডেন্ট","sbn":"ভাইস প্রেসিডেন্ট","au":[458.23,464.14,469.89,471.99]},
+{"n":31,"q":"If both the President and the Vice President can no longer serve, who becomes President?","a":["the Speaker of the House"],"star":false,"qp":"ইফ বোথ দ্য প্রেসিডেন্ট অ্যান্ড দ্য ভাইস প্রেসিডেন্ট ক্যান নো লংগার সার্ভ, হু বিকামস প্রেসিডেন্ট?","qbn":"প্রেসিডেন্ট ও ভাইস প্রেসিডেন্ট দুজনেই দায়িত্ব পালন করতে না পারলে কে প্রেসিডেন্ট হন?","sa":"the Speaker of the House","sp":"দ্য স্পিকার অফ দ্য হাউস","sbn":"প্রতিনিধি পরিষদের স্পিকার","au":[474.24,482.29,488.04,490.3]},
+{"n":32,"q":"Who is the Commander in Chief of the military?","a":["the President"],"star":false,"qp":"হু ইজ দ্য কমান্ডার ইন চিফ অফ দ্য মিলিটারি?","qbn":"সামরিক বাহিনীর সর্বাধিনায়ক কে?","sa":"the President","sp":"দ্য প্রেসিডেন্ট","sbn":"প্রেসিডেন্ট","au":[492.53,498.03,503.78,505.64]},
+{"n":33,"q":"Who signs bills to become laws?","a":["the President"],"star":false,"qp":"হু সাইনস বিলস টু বিকাম লজ?","qbn":"কে বিলে সই করে সেটিকে আইনে পরিণত করেন?","sa":"the President","sp":"দ্য প্রেসিডেন্ট","sbn":"প্রেসিডেন্ট","au":[507.86,512.5,518.25,520.11]},
+{"n":34,"q":"Who vetoes bills?","a":["the President"],"star":false,"qp":"হু ভিটোজ বিলস?","qbn":"বিলে ভেটো দেন (নাকচ করেন) কে?","sa":"the President","sp":"দ্য প্রেসিডেন্ট","sbn":"প্রেসিডেন্ট","au":[522.36,526.09,531.81,533.69]},
+{"n":35,"q":"What does the President's Cabinet do?","a":["advises the President === page 4 === -4- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"হোয়াট ডাজ দ্য প্রেসিডেন্টস ক্যাবিনেট ডু?","qbn":"প্রেসিডেন্টের মন্ত্রিসভা (ক্যাবিনেট) কী করে?","sa":"advises the President","sp":"অ্যাডভাইজেস দ্য প্রেসিডেন্ট","sbn":"প্রেসিডেন্টকে পরামর্শ দেয়","au":[535.92,540.51,546.24,548.67]},
+{"n":36,"q":"What are two Cabinet-level positions?","a":["Secretary of Agriculture","Secretary of Commerce","Secretary of Defense","Secretary of Education","Secretary of Energy","Secretary of Health and Human Services","Secretary of Homeland Security","Secretary of Housing and Urban Development","Secretary of the Interior","Secretary of Labor","Secretary of State","Secretary of Transportation","Secretary of the Treasury","Secretary of Veterans Affairs","Attorney General","Vice President"],"star":false,"qp":"হোয়াট আর টু ক্যাবিনেট-লেভেল পজিশনস?","qbn":"মন্ত্রিসভা পর্যায়ের দুটি পদের নাম বলুন।","sa":"Secretary of State, Attorney General","sp":"সেক্রেটারি অফ স্টেট, অ্যাটর্নি জেনারেল","sbn":"পররাষ্ট্রমন্ত্রী, প্রধান আইন কর্মকর্তা","au":[550.89,555.65,561.41,564.53]},
+{"n":37,"q":"What does the judicial branch do?","a":["reviews laws","explains laws","resolves disputes (disagreements)","decides if a law goes against the Constitution"],"star":false,"qp":"হোয়াট ডাজ দ্য জুডিশিয়াল ব্র্যাঞ্চ ডু?","qbn":"বিচার বিভাগ কী করে?","sa":"reviews laws","sp":"রিভিউজ লজ","sbn":"আইন পর্যালোচনা করে","au":[566.78,571.28,577.03,578.89],"alts":["review laws","explain laws"]},
+{"n":38,"q":"What is the highest court in the United States?","a":["the Supreme Court"],"star":false,"qp":"হোয়াট ইজ দ্য হাইয়েস্ট কোর্ট ইন দ্য ইউনাইটেড স্টেটস?","qbn":"যুক্তরাষ্ট্রের সর্বোচ্চ আদালত কোনটি?","sa":"the Supreme Court","sp":"দ্য সুপ্রিম কোর্ট","sbn":"সর্বোচ্চ আদালত","au":[581.13,586.13,591.89,593.96]},
+{"n":39,"q":"How many justices are on the Supreme Court?","a":["nine (9)"],"star":false,"qp":"হাউ মেনি জাস্টিসেস আর অন দ্য সুপ্রিম কোর্ট?","qbn":"সুপ্রিম কোর্টে কতজন বিচারপতি আছেন?","sa":"nine (9)","sp":"নাইন","sbn":"নয়","au":[596.18,601.59,607.32,608.96],"alts":["9"]},
+{"n":40,"q":"Who is the Chief Justice of the United States now?","a":["$chiefjustice"],"star":false,"qp":"হু ইজ দ্য চিফ জাস্টিস অফ দ্য ইউনাইটেড স্টেটস নাউ?","qbn":"এখন যুক্তরাষ্ট্রের প্রধান বিচারপতি কে?","sa":"John Roberts","sp":"জন রবার্টস","sbn":"বর্তমান প্রধান বিচারপতি","au":[611.18,617.0,622.73,624.61],"pk":"chiefjustice"},
+{"n":41,"q":"\u0007Under our Constitution, some powers belong to the federal government. What is one power of the federal government?","a":["to print money","to declare war","to create an army","to make treaties"],"star":false,"qp":"আন্ডার আওয়ার কনস্টিটিউশন, সাম পাওয়ারস বিলং টু দ্য ফেডারেল গভর্নমেন্ট। হোয়াট ইজ ওয়ান পাওয়ার অফ দ্য ফেডারেল গভর্নমেন্ট?","qbn":"আমাদের সংবিধান অনুযায়ী কিছু ক্ষমতা ফেডারেল (জাতীয়) সরকারের। ফেডারেল সরকারের একটি ক্ষমতা কী?","sa":"to print money","sp":"টু প্রিন্ট মানি","sbn":"টাকা ছাপানো","au":[626.85,636.7,642.45,644.36]},
+{"n":42,"q":"\u0007Under our Constitution, some powers belong to the states. What is one power of the states?","a":["provide schooling and education","provide protection (police)","provide safety (fire departments)","give a driver's license","approve zoning and land use === page 5 === -5- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"আন্ডার আওয়ার কনস্টিটিউশন, সাম পাওয়ারস বিলং টু দ্য স্টেটস। হোয়াট ইজ ওয়ান পাওয়ার অফ দ্য স্টেটস?","qbn":"আমাদের সংবিধান অনুযায়ী কিছু ক্ষমতা অঙ্গরাজ্যগুলোর। অঙ্গরাজ্যের একটি ক্ষমতা কী?","sa":"give a driver's license","sp":"গিভ আ ড্রাইভার্স লাইসেন্স","sbn":"ড্রাইভিং লাইসেন্স দেওয়া","au":[646.58,655.37,661.1,663.51]},
+{"n":43,"q":"Who is the Governor of your state now?","a":["$governor"],"star":false,"qp":"হু ইজ দ্য গভর্নর অফ ইয়োর স্টেট নাউ?","qbn":"এখন আপনার অঙ্গরাজ্যের গভর্নর কে?","sa":"Kathy Hochul","sp":"ক্যাথি হোকুল","sbn":"নিউ ইয়র্কের গভর্নর","au":[665.76,670.47,676.2,678.17],"pk":"governor"},
+{"n":44,"q":"What is the capital of your state?","a":["$capital"],"star":true,"qp":"হোয়াট ইজ দ্য ক্যাপিটাল অফ ইয়োর স্টেট?","qbn":"আপনার অঙ্গরাজ্যের রাজধানী কোথায়?","sa":"Albany","sp":"অলবানি","sbn":"নিউ ইয়র্কের রাজধানী","au":[680.42,684.77,690.5,692.29],"pk":"capital"},
+{"n":45,"q":"What are the two major political parties in the United States?","a":["Democratic and Republican"],"star":true,"qp":"হোয়াট আর দ্য টু মেইজর পলিটিক্যাল পার্টিজ ইন দ্য ইউনাইটেড স্টেটস?","qbn":"যুক্তরাষ্ট্রের প্রধান দুটি রাজনৈতিক দল কী কী?","sa":"Democratic and Republican","sp":"ডেমোক্র্যাটিক অ্যান্ড রিপাবলিকান","sbn":"ডেমোক্র্যাটিক দল ও রিপাবলিকান দল","au":[694.51,700.81,706.53,709.16]},
+{"n":46,"q":"What is the political party of the President now?","a":["$party"],"star":false,"qp":"হোয়াট ইজ দ্য পলিটিক্যাল পার্টি অফ দ্য প্রেসিডেন্ট নাউ?","qbn":"এখন প্রেসিডেন্ট কোন রাজনৈতিক দলের?","sa":"Republican","sp":"রিপাবলিকান","sbn":"রিপাবলিকান দল","au":[711.41,717.03,722.78,724.59],"pk":"party"},
+{"n":47,"q":"What is the name of the Speaker of the House of Representatives now?","a":["$speaker"],"star":false,"qp":"হোয়াট ইজ দ্য নেইম অফ দ্য স্পিকার অফ দ্য হাউস অফ রেপ্রিজেন্টেটিভস নাউ?","qbn":"এখন প্রতিনিধি পরিষদের স্পিকারের নাম কী?","sa":"Mike Johnson","sp":"মাইক জনসন","sbn":"বর্তমান স্পিকার","au":[726.84,733.57,739.29,741.15],"pk":"speaker"},
+{"n":48,"q":"There are four amendments to the Constitution about who can vote. Describe one of them.","a":["Citizens eighteen (18) and older (can vote).","You don't have to pay (a poll tax) to vote.","Any citizen can vote. (Women and men can vote.)","A male citizen of any race (can vote)."],"star":false,"qp":"দেয়ার আর ফোর অ্যামেন্ডমেন্টস টু দ্য কনস্টিটিউশন অ্যাবাউট হু ক্যান ভোট। ডিস্ক্রাইব ওয়ান অফ দেম।","qbn":"কারা ভোট দিতে পারবে, তা নিয়ে সংবিধানে চারটি সংশোধনী আছে। একটির কথা বলুন।","sa":"Citizens eighteen (18) and older can vote.","sp":"সিটিজেনস এইটিন অ্যান্ড ওল্ডার ক্যান ভোট","sbn":"আঠারো বা তার বেশি বয়সী নাগরিকরা ভোট দিতে পারেন","au":[743.4,751.47,757.22,760.42],"alts":[["women can vote",2]]},
+{"n":49,"q":"What is one responsibility that is only for United States citizens?","a":["serve on a jury","vote in a federal election"],"star":true,"qp":"হোয়াট ইজ ওয়ান রেসপন্সিবিলিটি দ্যাট ইজ ওনলি ফর ইউনাইটেড স্টেটস সিটিজেনস?","qbn":"শুধু মার্কিন নাগরিকদের জন্য একটি দায়িত্ব কী?","sa":"vote in a federal election","sp":"ভোট ইন আ ফেডারেল ইলেকশন","sbn":"জাতীয় (ফেডারেল) নির্বাচনে ভোট দেওয়া","au":[762.67,769.81,775.53,778.09]},
+{"n":50,"q":"Name one right only for United States citizens.","a":["vote in a federal election","run for federal office"],"star":false,"qp":"নেইম ওয়ান রাইট ওনলি ফর ইউনাইটেড স্টেটস সিটিজেনস।","qbn":"শুধু মার্কিন নাগরিকদের একটি অধিকারের নাম বলুন।","sa":"vote in a federal election","sp":"ভোট ইন আ ফেডারেল ইলেকশন","sbn":"জাতীয় (ফেডারেল) নির্বাচনে ভোট দেওয়া","au":[780.33,786.08,791.81,794.36]},
+{"n":51,"q":"What are two rights of everyone living in the United States?","a":["freedom of expression","freedom of speech","freedom of assembly","freedom to petition the government","freedom of religion","the right to bear arms"],"star":false,"qp":"হোয়াট আর টু রাইটস অফ এভরিওয়ান লিভিং ইন দ্য ইউনাইটেড স্টেটস?","qbn":"যুক্তরাষ্ট্রে বসবাসকারী সবার দুটি অধিকার কী?","sa":"freedom of speech, freedom of religion","sp":"ফ্রিডম অফ স্পিচ, ফ্রিডম অফ রিলিজিয়ন","sbn":"কথা বলার স্বাধীনতা, ধর্মের স্বাধীনতা","au":[796.58,802.49,808.25,811.52]},
+{"n":52,"q":"What do we show loyalty to when we say the Pledge of Allegiance?","a":["the United States","the flag"],"star":false,"qp":"হোয়াট ডু উই শো লয়্যালটি টু হোয়েন উই সেই দ্য প্লেজ অফ অ্যালিজেন্স?","qbn":"আনুগত্যের শপথ (প্লেজ অফ অ্যালিজেন্স) বলার সময় আমরা কিসের প্রতি আনুগত্য দেখাই?","sa":"the United States","sp":"দ্য ইউনাইটেড স্টেটস","sbn":"যুক্তরাষ্ট্র","au":[813.74,820.3,826.03,828.15]},
+{"n":53,"q":"What is one promise you make when you become a United States citizen?","a":["give up loyalty to other countries","defend the Constitution and laws of the United States","obey the laws of the United States","serve in the U.S. military (if needed)","serve (do important work for) the nation (if needed)","be loyal to the United States === page 6 === -6- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"হোয়াট ইজ ওয়ান প্রমিস ইউ মেইক হোয়েন ইউ বিকাম আ ইউনাইটেড স্টেটস সিটিজেন?","qbn":"মার্কিন নাগরিক হওয়ার সময় আপনি যে প্রতিজ্ঞা করেন, তার একটি বলুন।","sa":"be loyal to the United States","sp":"বি লয়্যাল টু দ্য ইউনাইটেড স্টেটস","sbn":"যুক্তরাষ্ট্রের প্রতি অনুগত থাকা","au":[830.4,837.34,843.09,845.79]},
+{"n":54,"q":"How old do citizens have to be to vote for President?","a":["eighteen (18) and older"],"star":true,"qp":"হাউ ওল্ড ডু সিটিজেনস হ্যাভ টু বি টু ভোট ফর প্রেসিডেন্ট?","qbn":"প্রেসিডেন্ট নির্বাচনে ভোট দিতে নাগরিকদের বয়স কত হতে হয়?","sa":"eighteen (18) and older","sp":"এইটিন অ্যান্ড ওল্ডার","sbn":"আঠারো বছর বা তার বেশি","au":[848.01,854.0,859.75,861.89],"alts":["18"]},
+{"n":55,"q":"What are two ways that Americans can participate in their democracy?","a":["vote","join a political party","help with a campaign","join a civic group","join a community group","give an elected official your opinion on an issue","call Senators and Representatives","publicly support or oppose an issue or policy","run for office","write to a newspaper"],"star":false,"qp":"হোয়াট আর টু ওয়েজ দ্যাট আমেরিকানস ক্যান পার্টিসিপেট ইন দেয়ার ডেমোক্রেসি?","qbn":"আমেরিকানরা তাদের গণতন্ত্রে অংশ নিতে পারে এমন দুটি উপায় কী?","sa":"vote, join a political party","sp":"ভোট, জয়েন আ পলিটিক্যাল পার্টি","sbn":"ভোট দেওয়া, রাজনৈতিক দলে যোগ দেওয়া","au":[864.12,870.89,876.62,879.61]},
+{"n":56,"q":"When is the last day you can send in federal income tax forms?","a":["April 15"],"star":true,"qp":"হোয়েন ইজ দ্য লাস্ট ডে ইউ ক্যান সেন্ড ইন ফেডারেল ইনকাম ট্যাক্স ফর্মস?","qbn":"ফেডারেল আয়কর ফর্ম জমা দেওয়ার শেষ দিন কবে?","sa":"April 15","sp":"এপ্রিল ফিফটিন্থ","sbn":"১৫ এপ্রিল","au":[881.85,888.34,894.07,896.09]},
+{"n":57,"q":"When must all men register for the Selective Service?","a":["at age eighteen (18)","between eighteen (18) and twenty-six (26)"],"star":false,"qp":"হোয়েন মাস্ট অল মেন রেজিস্টার ফর দ্য সিলেক্টিভ সার্ভিস?","qbn":"সব পুরুষকে কখন সিলেক্টিভ সার্ভিসে (সামরিক তালিকায়) নিবন্ধন করতে হয়?","sa":"at age eighteen (18)","sp":"অ্যাট এইজ এইটিন","sbn":"আঠারো বছর বয়সে","au":[898.32,904.35,910.1,912.15],"alts":["18"]},
+{"n":58,"q":"What is one reason colonists came to America?","a":["freedom","political liberty","religious freedom","economic opportunity","practice their religion","escape persecution"],"star":false,"qp":"হোয়াট ইজ ওয়ান রিজন কলোনিস্টস কেইম টু আমেরিকা?","qbn":"উপনিবেশবাসীরা (কলোনিস্টরা) আমেরিকায় আসার একটি কারণ কী?","sa":"freedom","sp":"ফ্রিডম","sbn":"স্বাধীনতা","au":[914.4,919.83,925.58,927.29]},
+{"n":59,"q":"Who lived in America before the Europeans arrived?","a":["American Indians","Native Americans"],"star":false,"qp":"হু লিভড ইন আমেরিকা বিফোর দ্য ইউরোপিয়ানস অ্যারাইভড?","qbn":"ইউরোপীয়রা আসার আগে আমেরিকায় কারা বাস করত?","sa":"Native Americans","sp":"নেটিভ আমেরিকানস","sbn":"আমেরিকার আদিবাসীরা","au":[929.52,935.26,941.01,943.16]},
+{"n":60,"q":"What group of people was taken to America and sold as slaves?","a":["Africans","people from Africa"],"star":false,"qp":"হোয়াট গ্রুপ অফ পিপল ওয়াজ টেইকেন টু আমেরিকা অ্যান্ড সোল্ড অ্যাজ স্লেইভস?","qbn":"কোন জনগোষ্ঠীকে আমেরিকায় এনে দাস হিসেবে বিক্রি করা হয়েছিল?","sa":"Africans","sp":"আফ্রিকানস","sbn":"আফ্রিকার মানুষ","au":[945.41,951.92,957.67,959.43]},
+{"n":61,"q":"Why did the colonists fight the British?","a":["because of high taxes (taxation without representation)","because the British army stayed in their houses (boarding, quartering)","because they didn't have self-government === page 7 === -7- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"হোয়াই ডিড দ্য কলোনিস্টস ফাইট দ্য ব্রিটিশ?","qbn":"উপনিবেশবাসীরা কেন ব্রিটিশদের বিরুদ্ধে যুদ্ধ করেছিল?","sa":"because of high taxes","sp":"বিকজ অফ হাই ট্যাক্সেস","sbn":"বেশি করের (ট্যাক্সের) কারণে","au":[961.65,966.44,972.17,974.5],"alts":[["taxation without representation",0]]},
+{"n":62,"q":"Who wrote the Declaration of Independence?","a":["(Thomas) Jefferson"],"star":false,"qp":"হু রোট দ্য ডেক্লারেশন অফ ইন্ডিপেন্ডেন্স?","qbn":"স্বাধীনতার ঘোষণাপত্র কে লিখেছিলেন?","sa":"Thomas Jefferson","sp":"টমাস জেফারসন","sbn":"ঘোষণাপত্রের লেখক","au":[976.75,981.8,987.55,989.6]},
+{"n":63,"q":"When was the Declaration of Independence adopted?","a":["July 4, 1776"],"star":false,"qp":"হোয়েন ওয়াজ দ্য ডেক্লারেশন অফ ইন্ডিপেন্ডেন্স অ্যাডপ্টেড?","qbn":"স্বাধীনতার ঘোষণাপত্র কবে গৃহীত হয়েছিল?","sa":"July 4, 1776","sp":"জুলাই ফোর্থ, সেভেনটিন সেভেনটি-সিক্স","sbn":"৪ জুলাই, ১৭৭৬ সাল","au":[991.85,997.59,1003.34,1006.88],"alts":["July 4th 1776"]},
+{"n":64,"q":"There were 13 original states. Name three.","a":["New Hampshire","Massachusetts","Rhode Island","Connecticut","New York","New Jersey","Pennsylvania","Delaware","Maryland","Virginia","North Carolina","South Carolina","Georgia"],"star":false,"qp":"দেয়ার ওয়্যার থার্টিন অরিজিনাল স্টেটস। নেইম থ্রি।","qbn":"শুরুতে ১৩টি অঙ্গরাজ্য ছিল। তিনটির নাম বলুন।","sa":"New York, New Jersey, Virginia","sp":"নিউ ইয়র্ক, নিউ জার্সি, ভার্জিনিয়া","sbn":"শুরুর তিনটি অঙ্গরাজ্য","au":[1009.13,1014.77,1020.53,1023.49]},
+{"n":65,"q":"What happened at the Constitutional Convention?","a":["The Constitution was written.","The Founding Fathers wrote the Constitution."],"star":false,"qp":"হোয়াট হ্যাপেন্ড অ্যাট দ্য কনস্টিটিউশনাল কনভেনশন?","qbn":"সাংবিধানিক সম্মেলনে (কনস্টিটিউশনাল কনভেনশন) কী হয়েছিল?","sa":"The Constitution was written.","sp":"দ্য কনস্টিটিউশন ওয়াজ রিটেন","sbn":"সংবিধান লেখা হয়েছিল","au":[1025.71,1031.12,1036.85,1039.42]},
+{"n":66,"q":"When was the Constitution written?","a":["1787"],"star":false,"qp":"হোয়েন ওয়াজ দ্য কনস্টিটিউশন রিটেন?","qbn":"সংবিধান কবে লেখা হয়েছিল?","sa":"1787","sp":"সেভেনটিন এইটি-সেভেন","sbn":"১৭৮৭ সাল","au":[1041.67,1046.17,1051.92,1054.25]},
+{"n":67,"q":"The Federalist Papers supported the passage of the U.S. Constitution. Name one of the writers.","a":["(James) Madison","(Alexander) Hamilton","(John) Jay","Publius"],"star":false,"qp":"দ্য ফেডারেলিস্ট পেপারস সাপোর্টেড দ্য প্যাসেজ অফ দ্য ইউ এস কনস্টিটিউশন। নেইম ওয়ান অফ দ্য রাইটারস।","qbn":"ফেডারেলিস্ট পেপারস মার্কিন সংবিধান পাস হওয়াকে সমর্থন করেছিল। এর একজন লেখকের নাম বলুন।","sa":"James Madison","sp":"জেমস ম্যাডিসন","sbn":"ফেডারেলিস্ট পেপারসের একজন লেখক","au":[1056.5,1065.7,1071.43,1073.57]},
+{"n":68,"q":"What is one thing Benjamin Franklin is famous for?","a":["U.S. diplomat","oldest member of the Constitutional Convention","first Postmaster General of the United States","writer of “Poor Richard's Almanac”","started the first free libraries"],"star":false,"qp":"হোয়াট ইজ ওয়ান থিং বেঞ্জামিন ফ্র্যাংকলিন ইজ ফেইমাস ফর?","qbn":"বেঞ্জামিন ফ্র্যাংকলিন যেসব কারণে বিখ্যাত, তার একটি বলুন।","sa":"U.S. diplomat","sp":"ইউ এস ডিপ্লোম্যাট","sbn":"মার্কিন কূটনীতিক","au":[1075.82,1081.57,1087.32,1089.63]},
+{"n":69,"q":"Who is the \"Father of Our Country\"?","a":["(George) Washington"],"star":false,"qp":"হু ইজ দ্য \"ফাদার অফ আওয়ার কান্ট্রি\"?","qbn":"\"আমাদের দেশের জনক\" কে?","sa":"George Washington","sp":"জর্জ ওয়াশিংটন","sbn":"দেশের জনক","au":[1091.88,1096.54,1102.29,1104.46]},
+{"n":70,"q":"Who was the first President?","a":["(George) Washington === page 8 === -8- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":true,"qp":"হু ওয়াজ দ্য ফার্স্ট প্রেসিডেন্ট?","qbn":"প্রথম প্রেসিডেন্ট কে ছিলেন?","sa":"George Washington","sp":"জর্জ ওয়াশিংটন","sbn":"প্রথম প্রেসিডেন্ট","au":[1106.69,1110.8,1116.53,1118.69]},
+{"n":71,"q":"What territory did the United States buy from France in 1803?","a":["the Louisiana Territory","Louisiana"],"star":false,"qp":"হোয়াট টেরিটরি ডিড দ্য ইউনাইটেড স্টেটস বাই ফ্রম ফ্রান্স ইন এইটিন-ও-থ্রি?","qbn":"১৮০৩ সালে যুক্তরাষ্ট্র ফ্রান্সের কাছ থেকে কোন অঞ্চল কিনেছিল?","sa":"Louisiana","sp":"লুইজিয়ানা","sbn":"লুইজিয়ানা অঞ্চল","au":[1120.92,1128.2,1133.93,1135.81]},
+{"n":72,"q":"Name one war fought by the United States in the 1800s.","a":["War of 1812","Mexican-American War","Civil War","Spanish-American War"],"star":false,"qp":"নেইম ওয়ান ওয়ার ফট বাই দ্য ইউনাইটেড স্টেটস ইন দ্য এইটিন হান্ড্রেডস।","qbn":"১৮০০ থেকে ১৮৯৯ সালের মধ্যে (উনিশ শতকে) যুক্তরাষ্ট্রের লড়া একটি যুদ্ধের নাম বলুন।","sa":"the Civil War","sp":"দ্য সিভিল ওয়ার","sbn":"গৃহযুদ্ধ","au":[1138.03,1144.73,1150.46,1152.46]},
+{"n":73,"q":"Name the U.S. war between the North and the South.","a":["the Civil War","the War between the States"],"star":false,"qp":"নেইম দ্য ইউ এস ওয়ার বিটুইন দ্য নর্থ অ্যান্ড দ্য সাউথ।","qbn":"উত্তর ও দক্ষিণের মধ্যে হওয়া মার্কিন যুদ্ধের নাম বলুন।","sa":"the Civil War","sp":"দ্য সিভিল ওয়ার","sbn":"গৃহযুদ্ধ","au":[1154.71,1160.84,1166.57,1168.57]},
+{"n":74,"q":"Name one problem that led to the Civil War.","a":["slavery","economic reasons","states' rights"],"star":false,"qp":"নেইম ওয়ান প্রবলেম দ্যাট লেড টু দ্য সিভিল ওয়ার।","qbn":"গৃহযুদ্ধের কারণ হয়েছিল এমন একটি সমস্যার নাম বলুন।","sa":"slavery","sp":"স্লেভারি","sbn":"দাসপ্রথা","au":[1170.79,1176.39,1182.12,1183.88]},
+{"n":75,"q":"What was one important thing that Abraham Lincoln did?","a":["freed the slaves (Emancipation Proclamation)","saved (or preserved) the Union","led the United States during the Civil War"],"star":true,"qp":"হোয়াট ওয়াজ ওয়ান ইমপর্ট্যান্ট থিং দ্যাট এইব্রাহাম লিংকন ডিড?","qbn":"আব্রাহাম লিংকনের একটি গুরুত্বপূর্ণ কাজ কী ছিল?","sa":"freed the slaves","sp":"ফ্রিড দ্য স্লেইভস","sbn":"দাসদের মুক্ত করেছিলেন","au":[1186.1,1191.99,1197.72,1199.74]},
+{"n":76,"q":"What did the Emancipation Proclamation do?","a":["freed the slaves","freed slaves in the Confederacy","freed slaves in the Confederate states","freed slaves in most Southern states"],"star":false,"qp":"হোয়াট ডিড দ্য ইম্যান্সিপেশন প্রক্লামেশন ডু?","qbn":"মুক্তির ঘোষণা (ইম্যানসিপেশন প্রোক্লামেশন) কী করেছিল?","sa":"freed the slaves","sp":"ফ্রিড দ্য স্লেইভস","sbn":"দাসদের মুক্ত করেছিল","au":[1201.97,1207.33,1213.05,1215.08]},
+{"n":77,"q":"What did Susan B. Anthony do?","a":["fought for women's rights","fought for civil rights"],"star":false,"qp":"হোয়াট ডিড সুজান বি অ্যান্থনি ডু?","qbn":"সুজান বি. অ্যান্থনি কী করেছিলেন?","sa":"fought for women's rights","sp":"ফট ফর উইমেন্স রাইটস","sbn":"নারীর অধিকারের জন্য লড়াই করেছিলেন","au":[1217.3,1221.99,1227.72,1230.01]},
+{"n":78,"q":"Name one war fought by the United States in the 1900s.","a":["World War I","World War II","Korean War","Vietnam War","(Persian) Gulf War"],"star":true,"qp":"নেইম ওয়ান ওয়ার ফট বাই দ্য ইউনাইটেড স্টেটস ইন দ্য নাইনটিন হান্ড্রেডস।","qbn":"১৯০০ থেকে ১৯৯৯ সালের মধ্যে (বিশ শতকে) যুক্তরাষ্ট্রের লড়া একটি যুদ্ধের নাম বলুন।","sa":"World War II","sp":"ওয়ার্ল্ড ওয়ার টু","sbn":"দ্বিতীয় বিশ্বযুদ্ধ","au":[1232.23,1239.08,1244.83,1246.78],"alts":[["World War 1",0],["World War 2",1],["first world war",0],["second world war",1]]},
+{"n":79,"q":"Who was President during World War I?","a":["(Woodrow) Wilson"],"star":false,"qp":"হু ওয়াজ প্রেসিডেন্ট ডিউরিং ওয়ার্ল্ড ওয়ার ওয়ান?","qbn":"প্রথম বিশ্বযুদ্ধের সময় প্রেসিডেন্ট কে ছিলেন?","sa":"Woodrow Wilson","sp":"উড্রো উইলসন","sbn":"প্রথম বিশ্বযুদ্ধের সময়ের প্রেসিডেন্ট","au":[1249.03,1253.93,1259.69,1261.66]},
+{"n":80,"q":"Who was President during the Great Depression and World War II?","a":["(Franklin) Roosevelt === page 9 === -9- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"হু ওয়াজ প্রেসিডেন্ট ডিউরিং দ্য গ্রেইট ডিপ্রেশন অ্যান্ড ওয়ার্ল্ড ওয়ার টু?","qbn":"মহামন্দা (গ্রেট ডিপ্রেশন) ও দ্বিতীয় বিশ্বযুদ্ধের সময় প্রেসিডেন্ট কে ছিলেন?","sa":"Franklin Roosevelt","sp":"ফ্র্যাংকলিন রোজভেল্ট","sbn":"মহামন্দা ও দ্বিতীয় বিশ্বযুদ্ধের সময়ের প্রেসিডেন্ট","au":[1263.91,1269.68,1275.41,1277.6]},
+{"n":81,"q":"Who did the United States fight in World War II?","a":["Japan, Germany, and Italy"],"star":false,"qp":"হু ডিড দ্য ইউনাইটেড স্টেটস ফাইট ইন ওয়ার্ল্ড ওয়ার টু?","qbn":"দ্বিতীয় বিশ্বযুদ্ধে যুক্তরাষ্ট্র কাদের বিরুদ্ধে যুদ্ধ করেছিল?","sa":"Japan, Germany, and Italy","sp":"জাপান, জার্মানি, অ্যান্ড ইটালি","sbn":"জাপান, জার্মানি ও ইতালি","au":[1279.85,1285.13,1290.86,1293.65]},
+{"n":82,"q":"Before he was President, Eisenhower was a general. What war was he in?","a":["World War II"],"star":false,"qp":"বিফোর হি ওয়াজ প্রেসিডেন্ট, আইজেনহাওয়ার ওয়াজ আ জেনারেল। হোয়াট ওয়ার ওয়াজ হি ইন?","qbn":"প্রেসিডেন্ট হওয়ার আগে আইজেনহাওয়ার একজন জেনারেল ছিলেন। তিনি কোন যুদ্ধে ছিলেন?","sa":"World War II","sp":"ওয়ার্ল্ড ওয়ার টু","sbn":"দ্বিতীয় বিশ্বযুদ্ধ","au":[1295.88,1303.09,1308.81,1310.79]},
+{"n":83,"q":"During the Cold War, what was the main concern of the United States?","a":["Communism"],"star":false,"qp":"ডিউরিং দ্য কোল্ড ওয়ার, হোয়াট ওয়াজ দ্য মেইন কনসার্ন অফ দ্য ইউনাইটেড স্টেটস?","qbn":"স্নায়ুযুদ্ধের (কোল্ড ওয়ার) সময় যুক্তরাষ্ট্রের প্রধান দুশ্চিন্তা কী ছিল?","sa":"Communism","sp":"কমিউনিজম","sbn":"সাম্যবাদ (কমিউনিজম)","au":[1313.04,1319.77,1325.52,1327.45]},
+{"n":84,"q":"What movement tried to end racial discrimination?","a":["civil rights (movement)"],"star":false,"qp":"হোয়াট মুভমেন্ট ট্রাইড টু এন্ড রেইশিয়াল ডিস্ক্রিমিনেশন?","qbn":"কোন আন্দোলন বর্ণবৈষম্য দূর করার চেষ্টা করেছিল?","sa":"the civil rights movement","sp":"দ্য সিভিল রাইটস মুভমেন্ট","sbn":"নাগরিক অধিকার আন্দোলন","au":[1329.67,1335.29,1341.02,1343.45]},
+{"n":85,"q":"What did Martin Luther King, Jr. do?","a":["fought for civil rights","worked for equality for all Americans"],"star":true,"qp":"হোয়াট ডিড মার্টিন লুথার কিং জুনিয়র ডু?","qbn":"মার্টিন লুথার কিং জুনিয়র কী করেছিলেন?","sa":"fought for civil rights","sp":"ফট ফর সিভিল রাইটস","sbn":"নাগরিক অধিকারের জন্য লড়াই করেছিলেন","au":[1345.7,1350.46,1356.21,1358.43]},
+{"n":86,"q":"What major event happened on September 11, 2001, in the United States?","a":["Terrorists attacked the United States."],"star":false,"qp":"হোয়াট মেইজর ইভেন্ট হ্যাপেন্ড অন সেপ্টেম্বার ইলেভেন্থ, টু থাউজ্যান্ড ওয়ান, ইন দ্য ইউনাইটেড স্টেটস?","qbn":"২০০১ সালের ১১ সেপ্টেম্বর যুক্তরাষ্ট্রে কোন বড় ঘটনা ঘটেছিল?","sa":"Terrorists attacked the United States.","sp":"টেররিস্টস অ্যাটাকড দ্য ইউনাইটেড স্টেটস","sbn":"সন্ত্রাসীরা যুক্তরাষ্ট্রে হামলা করেছিল","au":[1360.65,1369.25,1375.01,1377.99]},
+{"n":87,"q":"Name one American Indian tribe in the United States.","a":["Cherokee","Navajo","Sioux","Chippewa","Choctaw","Pueblo","Apache","Iroquois","Creek","Blackfeet","Seminole","Cheyenne","Arawak","Shawnee","Mohegan","Huron","Oneida","Lakota","Crow","Teton","Hopi","Inuit === page 10 === -10- * \u0007If you are 65 years old or older and have been a legal permanent resident of the United States for 20 or more years, you may study just the questions that have been marked with an asterisk. www.uscis.gov"],"star":false,"qp":"নেইম ওয়ান আমেরিকান ইন্ডিয়ান ট্রাইব ইন দ্য ইউনাইটেড স্টেটস।","qbn":"যুক্তরাষ্ট্রের একটি আদিবাসী (আমেরিকান ইন্ডিয়ান) গোত্রের নাম বলুন।","sa":"Cherokee","sp":"চেরোকি","sbn":"একটি আদিবাসী গোত্র","au":[1380.21,1386.49,1392.21,1393.97]},
+{"n":88,"q":"Name one of the two longest rivers in the United States.","a":["Missouri (River)","Mississippi (River)"],"star":false,"qp":"নেইম ওয়ান অফ দ্য টু লংগেস্ট রিভারস ইন দ্য ইউনাইটেড স্টেটস।","qbn":"যুক্তরাষ্ট্রের সবচেয়ে দীর্ঘ দুটি নদীর একটির নাম বলুন।","sa":"Mississippi River","sp":"মিসিসিপি রিভার","sbn":"মিসিসিপি নদী","au":[1396.2,1402.18,1407.93,1410.05],"alts":["Missouri","Mississippi"]},
+{"n":89,"q":"What ocean is on the West Coast of the United States?","a":["Pacific (Ocean)"],"star":false,"qp":"হোয়াট ওশান ইজ অন দ্য ওয়েস্ট কোস্ট অফ দ্য ইউনাইটেড স্টেটস?","qbn":"যুক্তরাষ্ট্রের পশ্চিম উপকূলে কোন মহাসাগর আছে?","sa":"Pacific Ocean","sp":"প্যাসিফিক ওশান","sbn":"প্রশান্ত মহাসাগর","au":[1412.28,1417.81,1423.53,1425.49]},
+{"n":90,"q":"What ocean is on the East Coast of the United States?","a":["Atlantic (Ocean)"],"star":false,"qp":"হোয়াট ওশান ইজ অন দ্য ইস্ট কোস্ট অফ দ্য ইউনাইটেড স্টেটস?","qbn":"যুক্তরাষ্ট্রের পূর্ব উপকূলে কোন মহাসাগর আছে?","sa":"Atlantic Ocean","sp":"অ্যাটলান্টিক ওশান","sbn":"আটলান্টিক মহাসাগর","au":[1427.73,1433.24,1438.97,1441.09]},
+{"n":91,"q":"Name one U.S. territory.","a":["Puerto Rico","U.S. Virgin Islands","American Samoa","Northern Mariana Islands","Guam"],"star":false,"qp":"নেইম ওয়ান ইউ এস টেরিটরি।","qbn":"যুক্তরাষ্ট্রের একটি টেরিটরির (অধীন অঞ্চলের) নাম বলুন।","sa":"Puerto Rico","sp":"পুয়ের্তো রিকো","sbn":"যুক্তরাষ্ট্রের একটি অধীন অঞ্চল","au":[1443.33,1448.0,1453.73,1455.7]},
+{"n":92,"q":"Name one state that borders Canada.","a":["Maine","New Hampshire","Vermont","New York","Pennsylvania","Ohio","Michigan","Minnesota","North Dakota","Montana","Idaho","Washington","Alaska"],"star":false,"qp":"নেইম ওয়ান স্টেট দ্যাট বর্ডারস ক্যানাডা।","qbn":"কানাডার সাথে সীমান্ত আছে এমন একটি অঙ্গরাজ্যের নাম বলুন।","sa":"New York","sp":"নিউ ইয়র্ক","sbn":"নিউ ইয়র্ক অঙ্গরাজ্য","au":[1457.93,1462.85,1468.61,1470.41]},
+{"n":93,"q":"Name one state that borders Mexico.","a":["California","Arizona","New Mexico","Texas"],"star":false,"qp":"নেইম ওয়ান স্টেট দ্যাট বর্ডারস মেক্সিকো।","qbn":"মেক্সিকোর সাথে সীমান্ত আছে এমন একটি অঙ্গরাজ্যের নাম বলুন।","sa":"Texas","sp":"টেক্সাস","sbn":"টেক্সাস অঙ্গরাজ্য","au":[1472.66,1477.85,1483.61,1485.29]},
+{"n":94,"q":"What is the capital of the United States?","a":["Washington, D.C."],"star":true,"qp":"হোয়াট ইজ দ্য ক্যাপিটাল অফ দ্য ইউনাইটেড স্টেটস?","qbn":"যুক্তরাষ্ট্রের রাজধানী কোথায়?","sa":"Washington, D.C.","sp":"ওয়াশিংটন ডি সি","sbn":"যুক্তরাষ্ট্রের রাজধানী","au":[1487.52,1492.45,1498.17,1500.41]},
+{"n":95,"q":"Where is the Statue of Liberty?","a":["New York (Harbor)","Liberty Island"],"star":true,"qp":"হোয়্যার ইজ দ্য স্ট্যাচু অফ লিবার্টি?","qbn":"স্ট্যাচু অফ লিবার্টি কোথায়?","sa":"New York Harbor","sp":"নিউ ইয়র্ক হারবার","sbn":"নিউ ইয়র্ক বন্দর","au":[1502.64,1507.09,1512.81,1514.86],"alts":[["New Jersey",1],["Hudson River",1]]},
+{"n":96,"q":"Why does the flag have 13 stripes?","a":["because there were 13 original colonies","because the stripes represent the original colonies"],"star":false,"qp":"হোয়াই ডাজ দ্য ফ্ল্যাগ হ্যাভ থার্টিন স্ট্রাইপস?","qbn":"পতাকায় ১৩টি ডোরা (স্ট্রাইপ) কেন?","sa":"because there were 13 original colonies","sp":"বিকজ দেয়ার ওয়্যার থার্টিন অরিজিনাল কলোনিজ","sbn":"কারণ শুরুতে ১৩টি উপনিবেশ ছিল","au":[1517.09,1521.92,1527.65,1531.16]},
+{"n":97,"q":"Why does the flag have 50 stars?","a":["because there is one star for each state","because each star represents a state","because there are 50 states"],"star":true,"qp":"হোয়াই ডাজ দ্য ফ্ল্যাগ হ্যাভ ফিফটি স্টারস?","qbn":"পতাকায় ৫০টি তারা কেন?","sa":"because there are 50 states","sp":"বিকজ দেয়ার আর ফিফটি স্টেটস","sbn":"কারণ ৫০টি অঙ্গরাজ্য আছে","au":[1533.38,1538.29,1544.01,1546.52]},
+{"n":98,"q":"What is the name of the national anthem?","a":["The Star-Spangled Banner"],"star":false,"qp":"হোয়াট ইজ দ্য নেইম অফ দ্য ন্যাশনাল অ্যান্থেম?","qbn":"জাতীয় সংগীতের নাম কী?","sa":"The Star-Spangled Banner","sp":"দ্য স্টার-স্প্যাঙ্গলড ব্যানার","sbn":"যুক্তরাষ্ট্রের জাতীয় সংগীত","au":[1548.74,1553.53,1559.25,1561.69]},
+{"n":99,"q":"When do we celebrate Independence Day?","a":["July 4"],"star":true,"qp":"হোয়েন ডু উই সেলিব্রেইট ইন্ডিপেন্ডেন্স ডে?","qbn":"আমরা স্বাধীনতা দিবস কবে পালন করি?","sa":"July 4","sp":"জুলাই ফোর্থ","sbn":"৪ জুলাই","au":[1563.93,1568.96,1574.71,1576.61],"alts":["fourth of July"]},
+{"n":100,"q":"Name two national U.S. holidays.","a":["New Year's Day","Martin Luther King, Jr. Day","Presidents' Day","Memorial Day","Independence Day","Labor Day","Columbus Day","Veterans Day","Thanksgiving","Christmas"],"star":false,"qp":"নেইম টু ন্যাশনাল ইউ এস হলিডেজ।","qbn":"যুক্তরাষ্ট্রের দুটি জাতীয় ছুটির দিনের নাম বলুন।","sa":"Thanksgiving, Christmas","sp":"থ্যাংকসগিভিং, ক্রিসমাস","sbn":"থ্যাংকসগিভিং, বড়দিন","au":[1578.84,1583.96,1589.69,1591.97],"alts":[["MLK Day",1],["Fourth of July",4],["Presidents Day",2]]}];
+const NEED08 = {9:2,36:2,51:2,55:2,64:3,100:2};
+
 // ---------- Settings (kept on this phone only) ----------
-const DEFAULTS = {testType:"standard", rate:0.85, president:"Donald Trump", vicepresident:"JD Vance", speaker:"Mike Johnson", chiefjustice:"John Roberts",
-  senator1:"Chuck Schumer", senator2:"Kirsten Gillibrand", representative:"Hakeem Jeffries", governor:"Kathy Hochul", capital:"Albany"};
+const DEFAULTS = {version:"2008", senior:false, rate:0.85, recording:true, interview:"2026-12-01",
+  president:"Donald Trump", vicepresident:"JD Vance", party:"Republican", speaker:"Mike Johnson", chiefjustice:"John Roberts",
+  senator1:"Chuck Schumer", senator2:"Kirsten Gillibrand", representative:"Nydia Velázquez", governor:"Kathy Hochul", capital:"Albany"};
 let settings = {...DEFAULTS};
-try{ const s = JSON.parse(localStorage.getItem("civics-coach-settings-ny")||"null"); if(s){ settings = {...DEFAULTS, ...s}; for(const k in DEFAULTS){ if(settings[k]==="" && DEFAULTS[k]) settings[k]=DEFAULTS[k]; } } }catch(e){}
-function saveSettings(){ try{ localStorage.setItem("civics-coach-settings-ny", JSON.stringify(settings)); }catch(e){} }
+try{ const s = JSON.parse(localStorage.getItem("civics-coach-v3")||"null"); if(s){ settings = {...DEFAULTS, ...s}; for(const k in DEFAULTS){ if(settings[k]==="" && DEFAULTS[k]) settings[k]=DEFAULTS[k]; } } }catch(e){}
+function saveSettings(){ try{ localStorage.setItem("civics-coach-v3", JSON.stringify(settings)); }catch(e){} }
+// What each official was on the printed study sheet, so the recording is only used while the name still matches.
+const SHEET = {president:"Donald Trump", vicepresident:"JD Vance", party:"Republican", speaker:"Mike Johnson", chiefjustice:"John Roberts",
+  senator1:"Chuck Schumer", senator2:"Kirsten Gillibrand", representative:"Nydia Velázquez", governor:"Kathy Hochul", capital:"Albany"};
 // ---------- Matching what she says against the accepted answers ----------
 const STOP = new Set("the a an of to and or in on for is are was were be it its they that this by with from their as at all because there have has do does did if so them s u".split(" "));
 const WEAK = new Set("united states us america american americans branch government day".split(" "));
@@ -414,7 +543,7 @@ const ONES = {zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nin
   first:1,second:2,third:3,fourth:4,fifth:5,sixth:6,seventh:7,eighth:8,ninth:9,tenth:10,eleventh:11,twelfth:12,thirteenth:13,fourteenth:14,fifteenth:15,sixteenth:16,seventeenth:17,eighteenth:18,nineteenth:19,twentieth:20,thirtieth:30};
 const TENS = {twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
 function tokens(s){
-  s = String(s).toLowerCase().replace(/[’'`]/g,"").replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").replace(/\b(\d+)(st|nd|rd|th)\b/g,"$1");
+  s = String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[’'`]/g,"").replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").replace(/\b(\d+)(st|nd|rd|th)\b/g,"$1");
   const t = s.split(" ").filter(Boolean), out=[]; let cur=null;
   const flush=()=>{ if(cur!==null){ out.push(String(cur)); cur=null; } };
   for(let i=0;i<t.length;i++){
@@ -456,40 +585,75 @@ function countMatches(q, text){
 }
 
 
-// ---------- Build the question list with today's settings ----------
+// ---------- Build the question list for the chosen test version ----------
+const V = () => settings.version==="2025" ? "2025" : "2008";
 function lastName(n){ const p=n.trim().split(/\s+/); return p.length>1?p[p.length-1]:null; }
-function allQs(){
-  const out=[];
-  for(const [n,text,answers,alts] of QS){
-    let ans=[], bnAns=[]; let dynamic=false;
-    const bnList = BN[n] && BN[n][1];
-    answers.forEach((a,i)=>{
-      if(a.startsWith("$")){ dynamic=true; const v=(settings[a.slice(1)]||"").trim(); if(v){ ans.push(v); bnAns.push(null); } }
-      else { ans.push(a); bnAns.push(bnList ? bnList[i] : null); }
-    });
-    if(dynamic && !ans.length) continue; // not filled in yet
-    const groups = ans.map((a,i)=>({i, display:a, forms:[keywordsOf(a)]}));
-    if(dynamic) groups.forEach(g=>{ const ln=lastName(g.display); if(ln) g.forms.push(keywordsOf(ln)); });
-    (alts||[]).forEach(al=>{ const [t,idx] = Array.isArray(al)?al:[al,0]; if(groups[idx]) groups[idx].forms.push(keywordsOf(t)); });
-    out.push({n,text,bn:BN[n]?BN[n][0]:"",answers:ans,bnAns,groups,need:NEED[n]||1,dynamic,star:STARRED.has(n)});
-  }
-  return out;
+function resolve(list){ const out=[]; let dynamic=false;
+  list.forEach((a,i)=>{ if(a.startsWith("$")){ dynamic=true; const v=(settings[a.slice(1)]||"").trim(); if(v) out.push({a:v,i}); } else out.push({a,i}); });
+  return {out, dynamic}; }
+function makeGroups(ans, alts, dynamic){
+  const groups = ans.map((a,i)=>({i, forms:[keywordsOf(a)]}));
+  if(dynamic) groups.forEach((g,i)=>{ const ln=lastName(ans[i]); if(ln) g.forms.push(keywordsOf(ln)); });
+  (alts||[]).forEach(al=>{ const [t,idx] = Array.isArray(al)?al:[al,0]; if(groups[idx]) groups[idx].forms.push(keywordsOf(t)); });
+  return groups;
 }
+let _qsCache=null, _qsKey="";
+function allQs(){
+  const key = JSON.stringify(settings);
+  if(_qsCache && _qsKey===key) return _qsCache;
+  const out=[];
+  if(V()==="2008"){
+    for(const c of Q08){
+      const {out:res, dynamic} = resolve(c.a);
+      if(!res.length) continue;
+      const ans = res.map(r=>r.a);
+      // The short answer she memorized from the study sheet; for officials it follows the family settings.
+      let sa=c.sa, sp=c.sp, fromSheet=true;
+      if(c.pk){ const v=(settings[c.pk]||"").trim(); if(v && v!==SHEET[c.pk]){ sa=v; sp=""; fromSheet=false; } }
+      const need = NEED08[c.n]||1;
+      const groups = makeGroups(ans, c.alts, dynamic);
+      if(need===1 && !dynamic){ groups[0].forms.push(keywordsOf(sa)); }
+      out.push({v:"2008", n:c.n, text:c.q, bn:c.qbn, pron:c.qp, answers:ans, bnAns:ans.map(()=>null), short:{en:sa, pron:sp, bn:c.sbn}, groups, need, dynamic, star:c.star, au:c.au, sheetAnswer:fromSheet});
+    }
+  } else {
+    for(const [n,text,answers,alts] of QS){
+      const {out:res, dynamic} = resolve(answers);
+      if(dynamic && !res.length) continue;
+      const bnList = BN[n] && BN[n][1];
+      const ans = res.map(r=>r.a), bnAns = res.map(r=> answers[r.i].startsWith("$") ? null : (bnList?bnList[r.i]:null));
+      out.push({v:"2025", n, text, bn:BN[n]?BN[n][0]:"", pron:"", answers:ans, bnAns, short:null, groups:makeGroups(ans, alts, dynamic), need:NEED[n]||1, dynamic, star:STARRED.has(n)});
+    }
+  }
+  _qsCache=out; _qsKey=key; return out;
+}
+function poolQs(){ const all=allQs(); return settings.senior ? all.filter(q=>q.star) : all; }
 function missingStateFields(){ return ["senator1","representative","governor","capital"].filter(k=>!(settings[k]||"").trim()).length; }
-const PART = n => n<=72 ? "gov" : n<=118 ? "hist" : "sym";
+const PART = (q) => q.v==="2008" ? (q.n<=57?"gov":q.n<=87?"hist":"geo") : (q.n<=72 ? "gov" : q.n<=118 ? "hist" : "sym");
 const bnNum = n => String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
+function testSpec(){
+  if(V()==="2008") return {total:10, pass:6, label: settings.senior?"৬৫/২০ পরীক্ষা":"আসল পরীক্ষা"};
+  return settings.senior ? {total:10, pass:6, label:"৬৫/২০ পরীক্ষা"} : {total:20, pass:12, label:"আসল পরীক্ষা"};
+}
 
-// ---------- Mistakes to practice again (kept on this phone) ----------
-let missedSet = new Set();
-try{ missedSet = new Set(JSON.parse(localStorage.getItem("civics-coach-missed")||"[]")); }catch(e){}
-function markMissed(n, wrong){ if(wrong) missedSet.add(n); else missedSet.delete(n); try{ localStorage.setItem("civics-coach-missed", JSON.stringify([...missedSet])); }catch(e){} }
+// ---------- Progress kept on this phone: mistakes and memorized questions ----------
+function loadSet(k){ try{ return new Set(JSON.parse(localStorage.getItem(k)||"[]")); }catch(e){ return new Set(); } }
+function saveSet(k,s){ try{ localStorage.setItem(k, JSON.stringify([...s])); }catch(e){} }
+const sets = {};
+function setOf(kind){ const k="civics-"+kind+"-"+V(); if(!sets[k]) sets[k]=loadSet(k); return [k, sets[k]]; }
+function markMissed(n, wrong){ const [k,s]=setOf("missed"); if(wrong) s.add(n); else s.delete(n); saveSet(k,s); }
+function markLearned(n, knew){ const [k,s]=setOf("learned"); if(knew) s.add(n); else s.delete(n); saveSet(k,s); }
+function missedNums(){ const ok=new Set(poolQs().map(q=>q.n)); return [...setOf("missed")[1]].filter(n=>ok.has(n)); }
+function learnedCount(){ const ok=new Set(poolQs().map(q=>q.n)); return [...setOf("learned")[1]].filter(n=>ok.has(n)).length; }
+function daysLeft(){ const d=settings.interview; if(!d) return null; const t=new Date(d+"T00:00:00"), now=new Date(); now.setHours(0,0,0,0); const n=Math.round((t-now)/86400000); return isNaN(n)?null:n; }
+const BN_MONTHS=["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"];
+function bnDate(iso){ const [y,m,d]=iso.split("-").map(Number); return `${bnNum(d)} ${BN_MONTHS[m-1]}`; }
 
-// ---------- Voice: read aloud ----------
+// ---------- Voice: device or Claude voice ----------
 let tts=null, ttsOff=false, dict=null, bnTtsOk=true;
 const synth = window.speechSynthesis || null;
 function clean(a){ return a.replace(/\[[^\]]*\]/g,"").replace(/[()“”]/g,"").replace(/\s+/g," ").trim(); }
-function stopSpeaking(){ try{ tts && tts.stop(); }catch(e){} try{ synth && synth.cancel(); }catch(e){} }
-function voiceFor(prefix){ try{ return (synth.getVoices()||[]).find(v=>v.lang && v.lang.toLowerCase().startsWith(prefix)); }catch(e){ return null; } }
+function stopSpeaking(){ try{ tts && tts.stop(); }catch(e){} try{ synth && synth.cancel(); }catch(e){} stopClip(); }
+function voiceFor(prefix){ try{ return (synth.getVoices()||[]).find(v=>v.lang && v.lang.toLowerCase().replace("_","-").startsWith(prefix)); }catch(e){ return null; } }
 function speak(text, lang){
   lang = lang || "en";
   stopSpeaking();
@@ -509,15 +673,63 @@ function speak(text, lang){
 }
 function canSpeakBn(){ return (tts && !ttsOff && bnTtsOk) || (!tts && !!voiceFor("bn")); }
 
+// ---------- Recorded voice (2008 list): plays one question or answer out of audio.mp3 ----------
+let audioEl=null, audioBroken=false, clipTimer=null, clipRaf=null;
+function getAudio(){
+  if(audioBroken) return null;
+  if(!audioEl){ audioEl=new Audio("audio.mp3"); audioEl.preload="metadata"; audioEl.addEventListener("error",()=>{ audioBroken=true; }); }
+  return audioEl;
+}
+// iPhones only allow audio that a tap started, so a Learn/Test tap starts it silently once.
+let audioUnlocked=false;
+function unlockAudio(){ if(audioUnlocked || V()!=="2008" || !settings.recording) return; const a=getAudio(); if(!a) return; audioUnlocked=true;
+  try{ a.muted=true; const p=a.play(); if(p) p.then(()=>{ if(a.currentTime<1){ a.pause(); } a.muted=false; }).catch(()=>{ a.muted=false; }); }catch(e){ a.muted=false; } }
+function stopClip(){ clearTimeout(clipTimer); cancelAnimationFrame(clipRaf); if(audioEl && !audioEl.paused){ try{ audioEl.pause(); }catch(e){} } }
+function playClip(s,e){
+  const a=getAudio(); if(!a) return Promise.reject();
+  return new Promise((res,rej)=>{
+    const go=()=>{
+      try{ a.currentTime=s; }catch(err){ return rej(err); }
+      a.playbackRate = Math.min(1.1, Math.max(0.8, settings.rate/0.85));
+      a.play().then(()=>{
+        // If the server can't jump to the clip, playback starts at 0: stop and use the phone's voice instead.
+        if(Math.abs(a.currentTime - s) > 1.5){ a.pause(); audioBroken=true; return rej(new Error("cannot seek")); }
+        const tick=()=>{ if(a.currentTime>=e || a.paused){ if(!a.paused) a.pause(); res(); } else clipRaf=requestAnimationFrame(tick); };
+        clipRaf=requestAnimationFrame(tick);
+        clipTimer=setTimeout(()=>{ if(!a.paused) a.pause(); res(); }, ((e-s)/a.playbackRate)*1000+600);
+      }).catch(rej);
+    };
+    a.addEventListener("error", ()=>rej(new Error("no audio")), {once:true});
+    if(a.readyState>=1) go(); else { a.addEventListener("loadedmetadata", go, {once:true}); try{ a.load(); }catch(err){} setTimeout(()=>{ if(a.readyState<1) rej(new Error("slow")); }, 8000); }
+  });
+}
+function useRecording(q){ return q.v==="2008" && settings.recording && !audioBroken && q.au; }
+function sayQuestion(q, prefix){
+  stopSpeaking();
+  if(useRecording(q)) return playClip(q.au[0], q.au[1]).catch(()=>speak((prefix||"")+q.text));
+  return speak((prefix||"")+q.text);
+}
+function sayAnswer(q){
+  stopSpeaking();
+  if(useRecording(q) && q.sheetAnswer) return playClip(q.au[2], q.au[3]).catch(()=>speak("Answer: "+shortEn(q)));
+  return speak("Answer: "+shortEn(q));
+}
+function shortEn(q){ return q.short ? clean(q.short.en) : q.answers.slice(0, Math.max(1,q.need)).map(clean).join(", and "); }
+async function sayThreeTimes(q){
+  const t=shortEn(q);
+  for(let i=0;i<3;i++){ if(S.screen!=="learn") return; await speak(t); await new Promise(r=>setTimeout(r,1400)); }
+}
+
 // ---------- Voice: hear her answer ----------
 const NativeSR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
 let nativeBroken=false, rec=null;
 const mic = {listening:false, finalText:"", partial:"", wantCheck:false};
 function canListen(){ return !!dict || (!!NativeSR && !nativeBroken); }
+const NO_MIC = "মাইক্রোফোন চালু নেই। নিচের উত্তরগুলো থেকে বেছে নিন।";
 function setupNative(){
   rec = new NativeSR(); rec.lang="en-US"; rec.interimResults=true; rec.continuous=true;
   rec.onresult = e=>{ let f="",p=""; for(const r of e.results){ if(r.isFinal) f+=r[0].transcript+" "; else p+=r[0].transcript; } mic.finalText=f; mic.partial=p; renderHeard(); };
-  rec.onerror = e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){ nativeBroken=true; S.inputMode="choices"; S.choices=S.choices||makeChoices(cur()); S.notice="মাইক্রোফোন চালু নেই। নিচের উত্তরগুলো থেকে বেছে নিন।"; } };
+  rec.onerror = e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){ nativeBroken=true; S.inputMode="choices"; S.choices=S.choices||makeChoices(cur()); S.notice=NO_MIC; } };
   rec.onend = ()=>{ mic.listening=false; if(mic.wantCheck){ mic.wantCheck=false; submit(heardText()); } else render(); };
 }
 function heardText(){ return (mic.finalText+" "+mic.partial).trim(); }
@@ -529,7 +741,7 @@ function startListening(){
     mic.listening=true; render();
     dict.start({language:"en"}).catch(e=>{
       mic.listening=false;
-      if(e && (e.code==="not_granted"||e.code==="unavailable")){ dict=null; if(!canListen()){ S.inputMode="choices"; S.choices=S.choices||makeChoices(cur()); S.notice="মাইক্রোফোন চালু নেই। নিচের উত্তরগুলো থেকে বেছে নিন।"; } }
+      if(e && (e.code==="not_granted"||e.code==="unavailable")){ dict=null; if(!canListen()){ S.inputMode="choices"; S.choices=S.choices||makeChoices(cur()); S.notice=NO_MIC; } }
       render();
     });
     return;
@@ -549,44 +761,52 @@ async function stopAndCheck(){
 let S = {screen:"home", inputMode:null, notice:""};
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function wake(){ try{ navigator.wakeLock && navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){} }
-function testSpec(){ return settings.testType==="senior" ? {total:10, pass:6, label:"৬৫/২০ পরীক্ষা"} : {total:20, pass:12, label:"আসল পরীক্ষা"}; }
 function startQuiz(onlyNums){
+  unlockAudio();
   const spec = testSpec();
-  let pool = allQs();
-  if(settings.testType==="senior" && !onlyNums) pool = pool.filter(q=>q.star);
-  if(onlyNums) pool = pool.filter(q=>onlyNums.includes(q.n));
+  let pool = onlyNums ? allQs().filter(q=>onlyNums.includes(q.n)) : poolQs();
   const queue = shuffle(pool).slice(0, onlyNums ? pool.length : spec.total);
   if(!queue.length) return;
   S = {screen:"quiz", practice:!!onlyNums, spec, queue, idx:0, results:[], phase:"ask",
        inputMode: canListen() ? "voice" : "choices", notice:"", choices:null, typed:""};
   wake(); askCurrent();
 }
+// Learn: the next 10 questions not yet memorized, in order (the study sheet's "10 a day").
 function startLearn(){
-  let pool = allQs(); if(settings.testType==="senior") pool = pool.filter(q=>q.star);
-  S = {screen:"learn", queue:shuffle(pool), idx:0, revealed:false, knew:0};
-  wake(); render(); speak(cur().text);
+  unlockAudio();
+  const pool = poolQs(); const learned=setOf("learned")[1];
+  let queue = pool.filter(q=>!learned.has(q.n)).slice(0,10);
+  let review=false;
+  if(!queue.length){ queue = shuffle(pool).slice(0,10); review=true; }
+  S = {screen:"learn", queue, idx:0, revealed:false, knew:0, review};
+  wake(); render(); sayQuestion(cur());
 }
 function cur(){ return S.queue[S.idx]; }
 function askCurrent(){
   S.phase="ask"; S.choices=null; S.typed=""; S.notice=""; mic.finalText=""; mic.partial="";
   if(S.inputMode==="choices") S.choices=makeChoices(cur());
   render();
-  speak("Question " + (S.idx+1) + ". " + cur().text);
+  sayQuestion(cur(), "Question " + (S.idx+1) + ". ");
 }
+function choiceOf(q){ return q.short ? {en:clean(q.short.en), bn:clean(q.short.bn||"")} : null; }
 function makeChoices(q){
-  const ri = Math.floor(Math.random()*q.answers.length);
-  const right = {en:clean(q.answers[ri]), bn:q.bnAns[ri]?clean(q.bnAns[ri]):""};
+  let right = choiceOf(q);
+  if(!right){ const ri=Math.floor(Math.random()*q.answers.length); right={en:clean(q.answers[ri]), bn:q.bnAns[ri]?clean(q.bnAns[ri]):""}; }
   let pool;
   if(q.dynamic){
-    const names=[settings.president,settings.vicepresident,settings.speaker,settings.chiefjustice,"George Washington","Abraham Lincoln","Thomas Jefferson","Benjamin Franklin"];
-    pool = (q.n===62 ? ["Albany","Sacramento","Austin","Tallahassee","Springfield","Columbus","Denver","Atlanta"] : names).filter(Boolean).map(en=>({en,bn:""}));
+    const names=[settings.president,settings.vicepresident,settings.speaker,settings.chiefjustice,settings.governor,"George Washington","Abraham Lincoln","Thomas Jefferson","Benjamin Franklin"];
+    const caps=["Albany","Sacramento","Austin","Tallahassee","Springfield","Columbus","Denver","Atlanta"];
+    const isCap = (q.v==="2008"&&q.n===44)||(q.v==="2025"&&q.n===62), isParty=(q.v==="2008"&&q.n===46);
+    pool = (isCap?caps : isParty?["Democratic","Republican","Green","Libertarian"] : names).filter(Boolean).map(en=>({en,bn:""}));
+  } else if(q.v==="2008"){
+    pool = allQs().filter(o=>!o.dynamic && o.n!==q.n && PART(o)===PART(q)).map(choiceOf);
   } else {
-    pool = allQs().filter(o=>!o.dynamic && o.n!==q.n && PART(o.n)===PART(q.n)).flatMap(o=>o.answers.map((a,i)=>({en:clean(a), bn:o.bnAns[i]?clean(o.bnAns[i]):""})));
+    pool = allQs().filter(o=>!o.dynamic && o.n!==q.n && PART(o)===PART(q)).flatMap(o=>o.answers.map((a,i)=>({en:clean(a), bn:o.bnAns[i]?clean(o.bnAns[i]):""})));
   }
   const picks=[]; const seen=new Set([right.en.toLowerCase()]);
   for(const c of shuffle(pool)){
     if(picks.length>=3) break;
-    if(!c.en || seen.has(c.en.toLowerCase())) continue;
+    if(!c || !c.en || seen.has(c.en.toLowerCase())) continue;
     if(countMatches(q,c.en).size) continue;
     seen.add(c.en.toLowerCase()); picks.push(c);
   }
@@ -599,10 +819,9 @@ function submit(text){
   S.results.push({q, said:text, ok, got:hits.size});
   markMissed(q.n, !ok);
   S.phase="feedback"; render();
-  const examples = q.answers.slice(0, q.need).map(clean);
   if(ok) speak("Correct!");
-  else if(hits.size>0 && q.need>1) speak(`You need ${q.need} answers. For example: ${examples.join(", and ")}.`);
-  else speak((q.need>1 ? `Correct answers: ${examples.join(", and ")}.` : `The answer is: ${examples[0]}.`));
+  else if(hits.size>0 && q.need>1) speak(`You need ${q.need} answers. For example: ${shortEn(q)}.`);
+  else sayAnswer(q);
 }
 function override(){ const r=S.results[S.results.length-1]; r.ok=!r.ok; r.overridden=true; markMissed(r.q.n, !r.ok); render(); }
 function tally(){ const ok=S.results.filter(r=>r.ok).length; return {ok, no:S.results.length-ok}; }
@@ -621,6 +840,7 @@ function goHome(){ stopSpeaking(); stopMicQuietly(); S={screen:"home"}; render()
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ICON = {
   speaker:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>',
+  repeat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>',
   mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg>',
   stop:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
   ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5"/></svg>',
@@ -638,53 +858,64 @@ function render(){
 }
 function field(id,label,ph){ return `<div class="field"><label for="${id}">${label}</label><input type="text" id="${id}" data-set="${id}" value="${esc(settings[id]||"")}" placeholder="${esc(ph||"")}" autocomplete="off"></div>`; }
 function renderHome(){
-  const miss = missingStateFields(), spec=testSpec(), nMissed=missedSet.size;
+  const miss = missingStateFields(), spec=testSpec(), nMissed=missedNums().length, total=poolQs().length, learned=learnedCount(), dl=daysLeft();
+  const pct = total ? Math.round(learned/total*100) : 0;
   app.innerHTML = `
   <header style="display:flex;flex-direction:column;gap:4px">
-    <div class="eyebrow">আমেরিকার নাগরিকত্ব পরীক্ষা</div>
+    <div class="eyebrow">আমেরিকার নাগরিকত্ব পরীক্ষা · ${V()==="2008"?"২০০৮ সংস্করণ":"২০২৫ সংস্করণ"}</div>
     <h1 class="bn">সিভিক্স প্রশ্নের অনুশীলন</h1>
-    <div class="en-sub">U.S. citizenship civics test practice</div>
+    <div class="en-sub">U.S. citizenship civics test practice (${V()} version)</div>
   </header>
+  ${dl!==null && dl>=0 ? `<section class="countdown"><div><b class="bn">${dl===0?"আজ ইন্টারভিউ!":`ইন্টারভিউ আর ${bnNum(dl)} দিন পর`}</b><span class="bn">${bnDate(settings.interview)}</span></div><div class="ring" style="--p:${pct}"><span>${bnNum(pct)}%</span></div></section>`:""}
+  <section class="progress"><div class="bar"><span style="width:${pct}%"></span></div><div class="bn small">মুখস্থ হয়েছে: ${bnNum(learned)} / ${bnNum(total)}টি প্রশ্ন${learned<total?` · প্রতিদিন ১০টি করে পড়ুন`:``}</div></section>
   <section class="tiles">
-    <button class="tile" id="learn"><span class="ic">${ICON.book}</span><span><b>শিখুন</b><span class="m">প্রশ্ন আর উত্তর দেখুন ও শুনুন</span><span class="e">Learn the answers</span></span></button>
+    <button class="tile" id="learn"><span class="ic">${ICON.book}</span><span><b>${learned<total?"আজকের ১০টি শিখুন":"আবার দেখুন"}</b><span class="m">${learned<total?"প্রশ্ন, উচ্চারণ আর উত্তর দেখুন ও শুনুন":"সব মুখস্থ! এলোমেলো ১০টি আবার দেখুন"}</span><span class="e">Learn 10 questions</span></span></button>
     <button class="tile primary" id="go"><span class="ic">${ICON.clip}</span><span><b>পরীক্ষা দিন</b><span class="m">আসল পরীক্ষার মতো ${bnNum(spec.total)}টি প্রশ্ন, পাস ${bnNum(spec.pass)}টিতে</span><span class="e">Take the test</span></span></button>
     ${nMissed?`<button class="tile" id="redo"><span class="ic">${ICON.redo}</span><span><b>ভুলগুলো আবার</b><span class="m">যে ${bnNum(nMissed)}টি প্রশ্ন ভুল হয়েছিল</span><span class="e">Practice my mistakes</span></span></button>`:""}
   </section>
-  <p class="note bn" style="margin:0">প্রশ্ন ইংরেজিতে পড়ে শোনানো হবে, ঠিক যেমন অফিসার জিজ্ঞেস করবেন। নিচে বাংলা অর্থও থাকবে। উত্তর ইংরেজিতে বলুন।</p>
+  <p class="note bn" style="margin:0">প্রশ্ন ইংরেজিতে পড়ে শোনানো হবে, ঠিক যেমন অফিসার জিজ্ঞেস করবেন। নিচে উচ্চারণ আর বাংলা অর্থ থাকবে। উত্তর ইংরেজিতে বলুন।</p>
   ${miss ? `<p class="note" style="margin:0">Family: ${miss===1?"1 state question is":miss+" state questions are"} skipped until you fill in <b>Her state</b> below.</p>`:""}
   <details>
     <summary>Family settings (English)</summary>
     <div class="field"><label>Which test</label></div>
-    <label class="radio"><input type="radio" name="tt" value="standard" ${settings.testType!=="senior"?"checked":""}><span><b>Standard 2025 test</b><br><span class="note">20 random questions, pass with 12.</span></span></label>
-    <label class="radio"><input type="radio" name="tt" value="senior" ${settings.testType==="senior"?"checked":""}><span><b>65/20 test</b><br><span class="note">Only for age 65+ with 20+ years as a green card holder. 10 of the 20 starred questions, pass with 6.</span></span></label>
+    <label class="radio"><input type="radio" name="ver" value="2008" ${V()==="2008"?"checked":""}><span><b>2008 version (100 questions)</b><br><span class="note">For applications filed before Oct 20, 2025. Up to 10 questions, pass with 6. This matches her study sheet and recording.</span></span></label>
+    <label class="radio"><input type="radio" name="ver" value="2025" ${V()==="2025"?"checked":""}><span><b>2025 version (128 questions)</b><br><span class="note">For applications filed on or after Oct 20, 2025. Up to 20 questions, pass with 12.</span></span></label>
+    <label class="radio"><input type="checkbox" id="senior" ${settings.senior?"checked":""}><span><b>65/20 special consideration</b><br><span class="note">Only for age 65+ with 20+ years as a green card holder: study just the 20 starred questions.</span></span></label>
+    <div class="field"><label for="interview">Interview date</label><input type="date" id="interview" value="${esc(settings.interview||"")}"></div>
+    <label class="radio"><input type="checkbox" id="recording" ${settings.recording?"checked":""}><span><b>Use the recorded voice</b><br><span class="note">2008 version only. Plays the recording for each question and answer; turn off to use the phone's voice.</span></span></label>
     <h2 style="margin-top:18px;font-size:1rem">Her state (New York)</h2>
     <div class="grid2">${field("senator1","Senator 1")}${field("senator2","Senator 2")}</div>
-    ${field("representative","U.S. representative (ZIP 11208)","Look up with her ZIP at house.gov")}
+    ${field("representative","U.S. representative","Look up with her address at house.gov")}
     <div class="grid2">${field("governor","Governor")}${field("capital","State capital")}</div>
     <h2 style="margin-top:18px;font-size:1rem">Current officials</h2>
     <p class="note" style="margin:4px 0 0">These change with elections. Check them at <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener">uscis.gov/citizenship/testupdates</a> before her interview.</p>
     <div class="grid2">${field("president","President")}${field("vicepresident","Vice President")}</div>
-    <div class="grid2">${field("speaker","Speaker of the House")}${field("chiefjustice","Chief Justice")}</div>
+    <div class="grid2">${field("party","President's party")}${field("speaker","Speaker of the House")}</div>
+    ${field("chiefjustice","Chief Justice")}
     <div class="field"><label for="rate">Reading speed: <span id="rateval">${settings.rate.toFixed(2)}×</span></label>
     <input type="range" id="rate" min="0.7" max="1.3" step="0.05" value="${settings.rate}"></div>
-    <div class="row" style="margin-top:12px"><button class="btn ghost" id="testvoice"><span class="en" style="font-size:1rem;opacity:1">Try the voice</span></button>${nMissed?`<button class="btn ghost" id="clearmissed"><span class="en" style="font-size:1rem;opacity:1">Clear mistakes list</span></button>`:""}</div>
+    <div class="row" style="margin-top:12px"><button class="btn ghost" id="testvoice"><span class="en" style="font-size:1rem;opacity:1">Try the voice</span></button><button class="btn ghost" id="resetprog"><span class="en" style="font-size:1rem;opacity:1">Reset progress</span></button></div>
   </details>
-  <p class="note" style="margin:0">Questions and answers are from the official USCIS list (form M-1778, 2025 version).</p>`;
+  <p class="note" style="margin:0">Questions and answers are from the official USCIS lists. Bangla pronunciation and meanings for the 2008 list are from her printed study sheet.</p>`;
   const $=id=>document.getElementById(id);
   $("learn").onclick=startLearn;
   $("go").onclick=()=>startQuiz();
-  $("redo") && ($("redo").onclick=()=>startQuiz([...missedSet]));
-  app.querySelectorAll('input[name="tt"]').forEach(r=>r.onchange=()=>{ settings.testType=r.value; saveSettings(); keepOpen(renderHome); });
+  $("redo") && ($("redo").onclick=()=>startQuiz(missedNums()));
+  app.querySelectorAll('input[name="ver"]').forEach(r=>r.onchange=()=>{ settings.version=r.value; saveSettings(); keepOpen(renderHome); });
+  $("senior").onchange=e=>{ settings.senior=e.target.checked; saveSettings(); keepOpen(renderHome); };
+  $("recording").onchange=e=>{ settings.recording=e.target.checked; saveSettings(); };
+  $("interview").onchange=e=>{ settings.interview=e.target.value; saveSettings(); keepOpen(renderHome); };
   app.querySelectorAll("[data-set]").forEach(i=>{ i.oninput=()=>{ settings[i.dataset.set]=i.value; saveSettings(); }; i.onchange=()=>keepOpen(renderHome); });
   const r=$("rate"); r.oninput=()=>{ settings.rate=parseFloat(r.value); $("rateval").textContent=settings.rate.toFixed(2)+"×"; saveSettings(); };
-  $("testvoice").onclick=()=>speak("What is the supreme law of the land?");
-  $("clearmissed") && ($("clearmissed").onclick=()=>{ missedSet.forEach(n=>markMissed(n,false)); keepOpen(renderHome); });
+  $("testvoice").onclick=()=>{ const q=allQs()[0]; sayQuestion(q); };
+  $("resetprog").onclick=()=>{ if($("resetprog").dataset.sure){ ["missed","learned"].forEach(k=>{ const [key,s]=setOf(k); s.clear(); saveSet(key,s); }); keepOpen(renderHome); } else { $("resetprog").dataset.sure="1"; $("resetprog").querySelector(".en").textContent="Tap again to reset"; } };
 }
 function keepOpen(fn){ const open=[...app.querySelectorAll("details")].map(d=>d.open); fn(); app.querySelectorAll("details").forEach((d,k)=>d.open=!!open[k]); }
 function questionCard(q, numLabel){
   return `<section class="card">
       <div class="qchip">${numLabel} · প্রশ্ন নং ${bnNum(q.n)}${q.star?' <span class="star" title="65/20">★</span>':""}</div>
       <div class="qtext" lang="en">${esc(q.text)}</div>
+      ${q.pron?`<div class="pron" lang="bn"><small>উচ্চারণ</small>${esc(q.pron)}</div>`:""}
       ${q.bn?`<div class="qbn" lang="bn"><small>বাংলা অর্থ</small>${esc(q.bn)}</div>`:""}
       <div class="hearrow">
         <button class="hear" id="hear">${ICON.speaker} আবার শুনুন</button>
@@ -693,37 +924,80 @@ function questionCard(q, numLabel){
     </section>`;
 }
 function bindQuestionCard(q){
-  document.getElementById("hear").onclick=()=>speak(q.text);
+  document.getElementById("hear").onclick=()=>sayQuestion(q);
   const b=document.getElementById("hearbn"); if(b) b.onclick=()=>speak(q.bn,"bn");
+}
+// The green box: the one short answer to memorize, with how to say it and what it means.
+function shortBox(q){
+  if(!q.short) return "";
+  return `<div class="green"><div class="glabel">এই উত্তরটি মুখস্থ করুন <span>Say this answer</span></div>
+    <b lang="en">${esc(clean(q.short.en))}</b>
+    ${q.short.pron?`<div class="gpron" lang="bn">উচ্চারণ: ${esc(q.short.pron)}</div>`:""}
+    ${q.short.bn?`<div class="gbn" lang="bn">অর্থ: ${esc(q.short.bn)}</div>`:""}
+    <div class="hearrow"><button class="hear" id="hearans">${ICON.speaker} উত্তর শুনুন</button><button class="hear" id="hear3">${ICON.repeat} ৩ বার শুনুন</button></div>
+  </div>`;
+}
+function otherAnswers(q){
+  const sa = q.short ? clean(q.short.en).toLowerCase() : "";
+  const rest = q.answers.map(clean).filter(a=>a.toLowerCase()!==sa);
+  if(!q.short || !rest.length) return "";
+  return `<details class="others"><summary class="bn">অন্য সঠিক উত্তরও আছে (${bnNum(rest.length)}টি) <span class="en-sub">Other correct answers</span></summary><div class="small" lang="en">${rest.map(esc).join(" · ")}</div></details>`;
 }
 function answerRows(q, limit){
   const idx = q.answers.map((_,i)=>i).slice(0, limit);
   return `<div class="anslist">${idx.map(i=>`<div class="ans"><div class="t"><b lang="en">${esc(clean(q.answers[i]))}</b>${q.bnAns[i]?`<span lang="bn">${esc(q.bnAns[i])}</span>`:""}</div><button class="say" data-say="${i}" aria-label="Hear this answer">${ICON.speaker}</button></div>`).join("")}</div>`;
 }
-function bindAnswerRows(q){ app.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(clean(q.answers[+b.dataset.say]))); }
+function answerBlock(q){
+  if(q.short) return shortBox(q) + otherAnswers(q);
+  const limit = q.answers.length<=4 ? 4 : 3;
+  return `<div class="label">${howMany(q)}</div>${answerRows(q, limit)}${q.answers.length>limit?`<div class="note">+ ${q.answers.length-limit} more correct answers</div>`:""}`;
+}
+function bindAnswerBlock(q){
+  app.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(clean(q.answers[+b.dataset.say])));
+  const a=document.getElementById("hearans"); if(a) a.onclick=()=>sayAnswer(q);
+  const t=document.getElementById("hear3"); if(t) t.onclick=()=>sayThreeTimes(q);
+}
 function howMany(q){ return q.need>1 ? `যেকোনো ${bnNum(q.need)}টি বলতে হবে <span>Name any ${q.need}</span>` : q.answers.length>1 ? `যেকোনো একটি বললেই হবে <span>Any one is correct</span>` : `উত্তর <span>Answer</span>`; }
 function renderLearn(){
+  if(S.done){
+    const learned=learnedCount(), total=poolQs().length;
+    app.innerHTML = `
+      <section class="card" style="text-align:center;align-items:center">
+        <div class="big result-ok">${bnNum(S.knew)} / ${bnNum(S.queue.length)}</div>
+        <h2 class="bn">আজকের পড়া শেষ! শাবাশ!</h2>
+        <div class="en-sub">Today's 10 are done</div>
+        <p class="note bn" style="margin:0">মোট মুখস্থ: ${bnNum(learned)} / ${bnNum(total)}টি প্রশ্ন</p>
+      </section>
+      <div class="row">
+        <button class="btn" id="more"><span class="bn">আরও ১০টি</span><span class="en">10 more</span></button>
+        <button class="btn ghost" id="home"><span class="bn">শুরুতে ফিরুন</span><span class="en">Back to start</span></button>
+      </div>`;
+    document.getElementById("more").onclick=startLearn;
+    document.getElementById("home").onclick=goHome;
+    return;
+  }
   const q=cur(), total=S.queue.length;
-  const limit = q.answers.length<=4 ? 4 : 3;
   app.innerHTML = `
-    <div class="topbar"><button class="link" id="quit" style="padding-left:0">← বন্ধ করুন</button><span class="count">শিখুন · ${bnNum(S.idx+1)} / ${bnNum(total)}</span></div>
+    <div class="topbar"><button class="link" id="quit" style="padding-left:0">← বন্ধ করুন</button><span class="count">${S.review?"আবার দেখা":"আজকের পড়া"} · ${bnNum(S.idx+1)} / ${bnNum(total)}</span></div>
     ${questionCard(q,"শিখুন")}
-    ${!S.revealed ? `<button class="btn" id="reveal"><span class="bn">উত্তর দেখুন</span><span class="en">Show the answer</span></button>` : `
+    ${!S.revealed ? `<button class="btn" id="reveal"><span class="bn">উত্তর দেখুন</span><span class="en">Show the answer</span></button>
+      ${q.pron?`<p class="note bn" style="margin:0">উচ্চারণ দেখে ইংরেজি প্রশ্নটি জোরে পড়ুন, যাতে অফিসার জিজ্ঞেস করলে চিনতে পারেন।</p>`:""}` : `
     <section class="card">
-      <div class="label">${howMany(q)}</div>
-      ${answerRows(q, limit)}
-      ${q.answers.length>limit?`<div class="note">+ ${q.answers.length-limit} more correct answers</div>`:""}
+      ${answerBlock(q)}
+      ${q.short?`<p class="note bn" style="margin:0">উত্তরটি জোরে জোরে ৩ বার বলুন। “স” মানে ইংরেজি “s” (শ নয়)। “ভ” মানে ইংরেজি “v”: উপরের দাঁত নিচের ঠোঁটে লাগিয়ে বলুন।</p>`:""}
     </section>
     <div class="row">
-      <button class="btn yes" id="knew"><span class="bn">পেরেছি</span><span class="en">I knew it</span></button>
-      <button class="btn no" id="didnt"><span class="bn">পারিনি</span><span class="en">I didn't know</span></button>
+      <button class="btn yes" id="knew"><span class="bn">মুখস্থ হয়েছে</span><span class="en">I know it</span></button>
+      <button class="btn no" id="didnt"><span class="bn">আরও পড়তে হবে</span><span class="en">Not yet</span></button>
     </div>`}`;
   const $=id=>document.getElementById(id);
   $("quit").onclick=goHome;
   bindQuestionCard(q);
-  $("reveal") && ($("reveal").onclick=()=>{ S.revealed=true; render(); speak("Answer: " + q.answers.slice(0, Math.max(1,q.need)).map(clean).join(", and ")); });
-  bindAnswerRows(q);
-  const go=(knew)=>{ markMissed(q.n,!knew); if(S.idx+1>=total){ goHome(); return; } S.idx++; S.revealed=false; render(); speak(cur().text); };
+  $("reveal") && ($("reveal").onclick=()=>{ S.revealed=true; render(); sayAnswer(q); });
+  bindAnswerBlock(q);
+  const go=(knew)=>{ markLearned(q.n,knew); if(!knew) markMissed(q.n,true); if(knew) S.knew++;
+    if(S.idx+1>=total){ stopSpeaking(); S.done=true; render(); speak("Well done!"); return; }
+    S.idx++; S.revealed=false; render(); sayQuestion(cur()); };
   $("knew") && ($("knew").onclick=()=>go(true));
   $("didnt") && ($("didnt").onclick=()=>go(false));
 }
@@ -753,12 +1027,10 @@ function renderQuiz(){
     if(S.notice) body = `<p class="note bn" style="margin:0">${esc(S.notice)}</p>` + body;
   } else {
     const r=S.results[S.results.length-1];
-    const limit = q.answers.length<=4 ? 4 : 3;
     body = `
       <div class="verdict ${r.ok?"ok":"no"}" role="status">${r.ok?ICON.ok:ICON.no}<div><b>${r.ok?"সঠিক!":(r.got>0&&q.need>1?`${bnNum(r.got)}টি হয়েছে, ${bnNum(q.need)}টি লাগবে`:"হয়নি")}</b><span>${r.ok?"Correct":"Not quite"}${r.overridden?" · changed by hand":""}</span></div></div>
       <div class="said"><span class="bn">আপনি বলেছেন:</span> ${r.said?`“${esc(r.said)}”`:`<span class="bn muted">কোনো উত্তর নেই</span>`}</div>
-      <div class="label">${howMany(q)}</div>
-      ${answerRows(q, limit)}
+      ${answerBlock(q)}
       <button class="btn" id="next"><span class="bn">${isDone()?"ফলাফল দেখুন":"পরের প্রশ্ন →"}</span><span class="en">${isDone()?"See results":"Next question"}</span></button>
       <button class="link override" id="override">${r.ok?"আসলে ভুল ছিল (count as wrong)":"উত্তরটা ঠিক ছিল (count as right)"}</button>`;
   }
@@ -782,7 +1054,7 @@ function renderQuiz(){
   $("idk") && ($("idk").onclick=()=>{ stopMicQuietly(); submit(""); });
   $("next") && ($("next").onclick=next);
   $("override") && ($("override").onclick=override);
-  bindAnswerRows(q);
+  bindAnswerBlock(q);
 }
 function heardHTML(){ const t=heardText(); return t?esc(t):`<i>আপনার উত্তর এখানে দেখা যাবে</i>`; }
 function renderHeard(){ const h=document.getElementById("heard"); if(h) h.innerHTML=heardHTML(); }
@@ -797,7 +1069,7 @@ function renderResult(){
       <div class="en-sub">${graded?(passed?"Passed!":"Not yet — keep practicing"):"Round finished"}</div>
       ${graded?`<p class="note bn" style="margin:0">${passed?`${bnNum(S.spec.pass)}টি ঠিক হলেই অফিসার পরীক্ষা থামিয়ে দেন।`:`পাস করতে ${bnNum(S.spec.pass)}টি ঠিক উত্তর লাগে।`}</p>`:""}
     </section>
-    ${missed.length?`<section class="card"><h2 class="bn">যেগুলো আবার দেখবেন</h2><div class="missed">${missed.map(r=>`<div class="item"><b lang="en">${esc(r.q.text)}</b>${r.q.bn?`<span class="bn muted">${esc(r.q.bn)}</span>`:""}<div><span class="bn">উত্তর:</span> <b lang="en">${r.q.answers.slice(0,Math.max(2,r.q.need)).map(a=>esc(clean(a))).join(" · ")}</b></div></div>`).join("")}</div></section>`:""}
+    ${missed.length?`<section class="card"><h2 class="bn">যেগুলো আবার দেখবেন</h2><div class="missed">${missed.map(r=>`<div class="item"><b lang="en">${esc(r.q.text)}</b>${r.q.bn?`<span class="bn muted">${esc(r.q.bn)}</span>`:""}<div><span class="bn">উত্তর:</span> <b lang="en">${esc(shortEn(r.q))}</b>${r.q.short&&r.q.short.pron?` <span class="bn muted">(${esc(r.q.short.pron)})</span>`:""}</div></div>`).join("")}</div></section>`:""}
     <div class="row">
       ${missed.length?`<button class="btn" id="redo"><span class="bn">এই ${bnNum(missed.length)}টি আবার</span><span class="en">Practice these again</span></button>`:""}
       <button class="btn ${missed.length?"ghost":""}" id="again"><span class="bn">নতুন পরীক্ষা</span><span class="en">New test</span></button>
