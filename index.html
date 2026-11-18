@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Civics Coach">
+<meta name="mobile-web-app-capable" content="yes">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Civics Test Coach</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Hind+Siliguri:wght@400;600;700&family=Public+Sans:wght@700;800&display=swap">
+<style>
+/* Layout: one calm column for a phone — Bangla first, very large type and tap targets, one task per screen. */
+:root{
+  --paper:#F4F6FA; --card:#FFFFFF; --ink:#14213D; --muted:#525C75; --line:#D5DBE7;
+  --btn:#1D3A6B; --btn-fg:#FFFFFF; --accent:#A8323A; --soft:#E6EBF5;
+  --good:#17703F; --good-bg:#E1F2E6; --bad:#A92A22; --bad-bg:#FBE6E3;
+  --f-head:"Public Sans","Hind Siliguri",system-ui,sans-serif; --f-body:"Atkinson Hyperlegible","Hind Siliguri",system-ui,sans-serif; --f-bn:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1422; --card:#172034; --ink:#E9EDF5; --muted:#A3AEC3; --line:#2B3650;
+  --btn:#8FB2F2; --btn-fg:#0E1422; --accent:#E9777C; --soft:#212C45;
+  --good:#63CF92; --good-bg:#16301F; --bad:#F38B80; --bad-bg:#3A1C1A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1422; --card:#172034; --ink:#E9EDF5; --muted:#A3AEC3; --line:#2B3650;
+  --btn:#8FB2F2; --btn-fg:#0E1422; --accent:#E9777C; --soft:#212C45;
+  --good:#63CF92; --good-bg:#16301F; --bad:#F38B80; --bad-bg:#3A1C1A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:20px;line-height:1.5;margin:0}
+.wrap{max-width:560px;margin:0 auto;padding-block:18px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+h1,h2{font-family:var(--f-head);text-wrap:balance;margin:0;line-height:1.25}
+.bn{font-family:var(--f-bn)}
+h1.bn{font-size:2rem;font-weight:700}
+h2{font-size:1.3rem;font-weight:700}
+.en-sub{font-size:.85rem;color:var(--muted);font-family:var(--f-body)}
+.eyebrow{font-family:var(--f-bn);font-size:.9rem;color:var(--accent);font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+button{font:inherit;cursor:pointer;border-radius:14px;border:0}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{background:var(--btn);color:var(--btn-fg);font-weight:700;font-size:1.2rem;padding:16px 20px;min-height:64px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1.25}
+.btn .bn{font-size:1.3rem}
+.btn .en{font-size:.85rem;font-weight:400;opacity:.85}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.yes{background:var(--good-bg);color:var(--good);border:2px solid var(--good)}
+.btn.no{background:var(--bad-bg);color:var(--bad);border:2px solid var(--bad)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row>*{flex:1 1 140px}
+.link{background:none;color:var(--btn);text-decoration:underline;padding:10px 6px;font-size:1rem}
+.tiles{display:flex;flex-direction:column;gap:14px}
+.tile{display:flex;gap:16px;align-items:center;text-align:left;background:var(--card);border:2px solid var(--line);color:var(--ink);padding:18px;min-height:96px}
+.tile:hover{border-color:var(--btn)}
+.tile .ic{flex:none;width:56px;height:56px;border-radius:14px;background:var(--soft);color:var(--btn);display:grid;place-items:center}
+.tile .ic svg{width:30px;height:30px}
+.tile.primary{background:var(--btn);border-color:var(--btn);color:var(--btn-fg)}
+.tile.primary .ic{background:rgba(255,255,255,.18);color:var(--btn-fg)}
+.tile b{font-family:var(--f-bn);font-size:1.45rem;display:block;line-height:1.2}
+.tile span.m{font-family:var(--f-bn);font-size:1rem;opacity:.85;display:block}
+.tile span.e{font-size:.8rem;opacity:.75;display:block}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 18px;font-size:.95rem}
+summary{font-family:var(--f-head);font-weight:700;padding:12px 0;cursor:pointer}
+details[open]{padding-bottom:18px}
+.field{display:flex;flex-direction:column;gap:4px;margin-top:12px}
+.field label{font-weight:700;font-size:.9rem}
+input[type=text]{font:inherit;font-size:1rem;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);width:100%}
+input[type=range]{width:100%;accent-color:var(--btn)}
+.radio{display:flex;gap:10px;align-items:flex-start;margin-top:10px}
+.radio input{width:22px;height:22px;margin-top:3px;accent-color:var(--btn)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media (max-width:420px){.grid2{grid-template-columns:1fr}}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.topbar .count{font-family:var(--f-bn);font-size:1rem;text-align:right}
+.pips{display:flex;gap:5px;flex-wrap:wrap}
+.pip{width:14px;height:14px;border-radius:4px;background:var(--line)}
+.pip.ok{background:var(--good)} .pip.no{background:var(--bad)} .pip.now{background:var(--btn)}
+.qchip{font-family:var(--f-bn);font-size:.95rem;color:var(--muted)}
+.qtext{font-family:var(--f-head);font-weight:800;font-size:1.55rem;line-height:1.3;text-wrap:balance}
+.qbn{font-family:var(--f-bn);font-size:1.3rem;line-height:1.5;padding-top:12px;border-top:1px dashed var(--line)}
+.qbn small{display:block;font-size:.85rem;color:var(--muted)}
+.hearrow{display:flex;gap:10px;flex-wrap:wrap}
+.hear{display:inline-flex;align-items:center;gap:8px;background:var(--soft);color:var(--ink);padding:12px 16px;font-weight:700;font-family:var(--f-bn);font-size:1.05rem;min-height:52px}
+.hear svg{width:22px;height:22px;flex:none}
+.mic{width:140px;height:140px;border-radius:50%;background:var(--btn);color:var(--btn-fg);display:grid;place-items:center;margin:4px auto 0;position:relative}
+.mic svg{width:56px;height:56px}
+.mic.on{background:var(--accent)}
+.mic.on::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--accent);animation:pulse 1.4s ease-out infinite}
+@keyframes pulse{from{opacity:.9;transform:scale(.95)}to{opacity:0;transform:scale(1.18)}}
+@media (prefers-reduced-motion:reduce){.mic.on::before{animation:none}}
+.miclabel{text-align:center;font-family:var(--f-bn);font-weight:700;font-size:1.2rem;line-height:1.3}
+.miclabel span{display:block;font-family:var(--f-body);font-weight:400;font-size:.85rem;color:var(--muted)}
+.heard{min-height:3em;background:var(--paper);border:1px dashed var(--line);border-radius:10px;padding:12px;font-size:1.15rem}
+.heard i{color:var(--muted);font-family:var(--f-bn);font-style:normal}
+.alts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.alt{background:var(--soft);color:var(--ink);padding:10px 6px;font-family:var(--f-bn);font-size:1rem;line-height:1.2;min-height:60px}
+.alt span{display:block;font-family:var(--f-body);font-size:.75rem;color:var(--muted)}
+.choice{background:var(--card);color:var(--ink);border:2px solid var(--line);text-align:left;padding:14px 16px;font-size:1.15rem;min-height:64px;width:100%;display:flex;flex-direction:column;gap:2px}
+.choice:hover{border-color:var(--btn)}
+.choice b{font-weight:700}
+.choice span{font-family:var(--f-bn);font-size:1.05rem;color:var(--muted)}
+.choices{display:flex;flex-direction:column;gap:10px}
+.verdict{border-radius:14px;padding:16px;display:flex;gap:14px;align-items:center}
+.verdict svg{flex:none;width:44px;height:44px}
+.verdict b{font-family:var(--f-bn);font-size:1.8rem;display:block;line-height:1.1}
+.verdict span{font-size:.95rem}
+.verdict.ok{background:var(--good-bg);color:var(--good)}
+.verdict.no{background:var(--bad-bg);color:var(--bad)}
+.said{font-size:1.05rem}
+.said .bn{color:var(--muted)}
+.anslist{display:flex;flex-direction:column;gap:10px}
+.ans{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:12px;background:var(--paper)}
+.ans .t{flex:1;min-width:0}
+.ans b{display:block;font-size:1.2rem}
+.ans span{display:block;font-family:var(--f-bn);font-size:1.1rem;color:var(--muted)}
+.ans .say{flex:none;width:48px;height:48px;background:var(--soft);color:var(--btn);display:grid;place-items:center}
+.ans .say svg{width:22px;height:22px}
+.label{font-family:var(--f-bn);font-weight:700;font-size:1.1rem}
+.label span{font-family:var(--f-body);font-weight:400;font-size:.85rem;color:var(--muted)}
+.override{align-self:center;font-family:var(--f-bn)}
+.big{font-family:var(--f-head);font-weight:800;font-size:3.2rem;line-height:1;font-variant-numeric:tabular-nums}
+.result-ok{color:var(--good)} .result-no{color:var(--bad)}
+.missed{display:flex;flex-direction:column;gap:14px}
+.missed .item{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
+.note{font-size:.9rem;color:var(--muted)}
+.note.bn{font-size:1rem}
+.star{color:var(--accent)}
+a{color:var(--btn)}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+// ---------- Official USCIS 2025 civics test (M-1778, 09/25): 128 questions ----------
+// [number, question, [accepted answers], extra spoken forms that also count]
+const QS = [
+[1,"What is the form of government of the United States?",["Republic","Constitution-based federal republic","Representative democracy"]],
+[2,"What is the supreme law of the land?",["(U.S.) Constitution"]],
+[3,"Name one thing the U.S. Constitution does.",["Forms the government","Defines powers of government","Defines the parts of government","Protects the rights of the people"]],
+[4,"The U.S. Constitution starts with the words “We the People.” What does “We the People” mean?",["Self-government","Popular sovereignty","Consent of the governed","People should govern themselves","(Example of) social contract"]],
+[5,"How are changes made to the U.S. Constitution?",["Amendments","The amendment process"]],
+[6,"What does the Bill of Rights protect?",["(The basic) rights of Americans","(The basic) rights of people living in the United States"]],
+[7,"How many amendments does the U.S. Constitution have?",["Twenty-seven (27)"]],
+[8,"Why is the Declaration of Independence important?",["It says America is free from British control.","It says all people are created equal.","It identifies inherent rights.","It identifies individual freedoms."]],
+[9,"What founding document said the American colonies were free from Britain?",["Declaration of Independence"]],
+[10,"Name two important ideas from the Declaration of Independence and the U.S. Constitution.",["Equality","Liberty","Social contract","Natural rights","Limited government","Self-government"]],
+[11,"The words “Life, Liberty, and the pursuit of Happiness” are in what founding document?",["Declaration of Independence"]],
+[12,"What is the economic system of the United States?",["Capitalism","Free market economy"]],
+[13,"What is the rule of law?",["Everyone must follow the law.","Leaders must obey the law.","Government must obey the law.","No one is above the law."],["nobody is above the law"]],
+[14,"Many documents influenced the U.S. Constitution. Name one.",["Declaration of Independence","Articles of Confederation","Federalist Papers","Anti-Federalist Papers","Virginia Declaration of Rights","Fundamental Orders of Connecticut","Mayflower Compact","Iroquois Great Law of Peace"]],
+[15,"There are three branches of government. Why?",["So one part does not become too powerful","Checks and balances","Separation of powers"]],
+[16,"Name the three branches of government.",["Legislative, executive, and judicial","Congress, president, and the courts"]],
+[17,"The President of the United States is in charge of which branch of government?",["Executive branch"]],
+[18,"What part of the federal government writes laws?",["(U.S.) Congress","(U.S. or national) legislature","Legislative branch"]],
+[19,"What are the two parts of the U.S. Congress?",["Senate and House (of Representatives)"]],
+[20,"Name one power of the U.S. Congress.",["Writes laws","Declares war","Makes the federal budget"],["makes laws"]],
+[21,"How many U.S. senators are there?",["One hundred (100)"]],
+[22,"How long is a term for a U.S. senator?",["Six (6) years"],["6"]],
+[23,"Who is one of your state’s U.S. senators now?",["$senator1","$senator2"]],
+[24,"How many voting members are in the House of Representatives?",["Four hundred thirty-five (435)"]],
+[25,"How long is a term for a member of the House of Representatives?",["Two (2) years"],["2"]],
+[26,"Why do U.S. representatives serve shorter terms than U.S. senators?",["To more closely follow public opinion"]],
+[27,"How many senators does each state have?",["Two (2)"]],
+[28,"Why does each state have two senators?",["Equal representation (for small states)","The Great Compromise (Connecticut Compromise)"]],
+[29,"Name your U.S. representative.",["$representative"]],
+[30,"What is the name of the Speaker of the House of Representatives now?",["$speaker"]],
+[31,"Who does a U.S. senator represent?",["Citizens of their state","People of their state"]],
+[32,"Who elects U.S. senators?",["Citizens from their state"]],
+[33,"Who does a member of the House of Representatives represent?",["Citizens in their (congressional) district","Citizens in their district","People from their (congressional) district","People in their district"]],
+[34,"Who elects members of the House of Representatives?",["Citizens from their (congressional) district"]],
+[35,"Some states have more representatives than other states. Why?",["(Because of) the state’s population","(Because) they have more people","(Because) some states have more people"]],
+[36,"The President of the United States is elected for how many years?",["Four (4) years"],["4"]],
+[37,"The President of the United States can serve only two terms. Why?",["(Because of) the 22nd Amendment","To keep the president from becoming too powerful"]],
+[38,"What is the name of the President of the United States now?",["$president"]],
+[39,"What is the name of the Vice President of the United States now?",["$vicepresident"]],
+[40,"If the president can no longer serve, who becomes president?",["The Vice President (of the United States)"]],
+[41,"Name one power of the president.",["Signs bills into law","Vetoes bills","Enforces laws","Commander in Chief (of the military)","Chief diplomat","Appoints federal judges"]],
+[42,"Who is Commander in Chief of the U.S. military?",["The President (of the United States)"]],
+[43,"Who signs bills to become laws?",["The President (of the United States)"]],
+[44,"Who vetoes bills?",["The President (of the United States)"]],
+[45,"Who appoints federal judges?",["The President (of the United States)"]],
+[46,"The executive branch has many parts. Name one.",["President (of the United States)","Cabinet","Federal departments and agencies"]],
+[47,"What does the President’s Cabinet do?",["Advises the President (of the United States)"]],
+[48,"What are two Cabinet-level positions?",["Attorney General","Secretary of Agriculture","Secretary of Commerce","Secretary of Education","Secretary of Energy","Secretary of Health and Human Services","Secretary of Homeland Security","Secretary of Housing and Urban Development","Secretary of the Interior","Secretary of Labor","Secretary of State","Secretary of Transportation","Secretary of the Treasury","Secretary of Veterans Affairs","Secretary of War (Defense)","Vice-President","Administrator of the Environmental Protection Agency","Administrator of the Small Business Administration","Director of the Central Intelligence Agency","Director of the Office of Management and Budget","Director of National Intelligence","United States Trade Representative"],[["Secretary of Defense",14]]],
+[49,"Why is the Electoral College important?",["It decides who is elected president.","It provides a compromise between the popular election of the president and congressional selection."]],
+[50,"What is one part of the judicial branch?",["Supreme Court","Federal Courts"]],
+[51,"What does the judicial branch do?",["Reviews laws","Explains laws","Resolves disputes (disagreements) about the law","Decides if a law goes against the (U.S.) Constitution"]],
+[52,"What is the highest court in the United States?",["Supreme Court"]],
+[53,"How many seats are on the Supreme Court?",["Nine (9)"]],
+[54,"How many Supreme Court justices are usually needed to decide a case?",["Five (5)"]],
+[55,"How long do Supreme Court justices serve?",["(For) life","Lifetime appointment","(Until) retirement"]],
+[56,"Supreme Court justices serve for life. Why?",["To be independent (of politics)","To limit outside (political) influence"]],
+[57,"Who is the Chief Justice of the United States now?",["$chiefjustice"]],
+[58,"Name one power that is only for the federal government.",["Print paper money","Mint coins","Declare war","Create an army","Make treaties","Set foreign policy"]],
+[59,"Name one power that is only for the states.",["Provide schooling and education","Provide protection (police)","Provide safety (fire departments)","Give a driver’s license","Approve zoning and land use"]],
+[60,"What is the purpose of the 10th Amendment?",["(It states that the) powers not given to the federal government belong to the states or to the people."]],
+[61,"Who is the governor of your state now?",["$governor"]],
+[62,"What is the capital of your state?",["$capital"]],
+[63,"There are four amendments to the U.S. Constitution about who can vote. Describe one of them.",["Citizens eighteen (18) and older (can vote).","You don’t have to pay (a poll tax) to vote.","Any citizen can vote. (Women and men can vote.)","A male citizen of any race (can vote)."],[["women can vote",2]]],
+[64,"Who can vote in federal elections, run for federal office, and serve on a jury in the United States?",["Citizens","Citizens of the United States","U.S. citizens"]],
+[65,"What are three rights of everyone living in the United States?",["Freedom of expression","Freedom of speech","Freedom of assembly","Freedom to petition the government","Freedom of religion","The right to bear arms"]],
+[66,"What do we show loyalty to when we say the Pledge of Allegiance?",["The United States","The flag"]],
+[67,"Name two promises that new citizens make in the Oath of Allegiance.",["Give up loyalty to other countries","Defend the (U.S.) Constitution","Obey the laws of the United States","Serve in the military (if needed)","Serve (help, do important work for) the nation (if needed)","Be loyal to the United States"]],
+[68,"How can people become United States citizens?",["Be born in the United States, under the conditions set by the 14th Amendment","Naturalize","Derive citizenship (under conditions set by Congress)"],[["born in the United States",0]]],
+[69,"What are two examples of civic participation in the United States?",["Vote","Run for office","Join a political party","Help with a campaign","Join a civic group","Join a community group","Give an elected official your opinion (on an issue)","Contact elected officials","Support or oppose an issue or policy","Write to a newspaper"]],
+[70,"What is one way Americans can serve their country?",["Vote","Pay taxes","Obey the law","Serve in the military","Run for office","Work for local, state, or federal government"]],
+[71,"Why is it important to pay federal taxes?",["Required by law","All people pay to fund the federal government","Required by the (U.S.) Constitution (16th Amendment)","Civic duty"]],
+[72,"It is important for all men age 18 through 25 to register for the Selective Service. Name one reason why.",["Required by law","Civic duty","Makes the draft fair, if needed"]],
+[73,"The colonists came to America for many reasons. Name one.",["Freedom","Political liberty","Religious freedom","Economic opportunity","Escape persecution"]],
+[74,"Who lived in America before the Europeans arrived?",["American Indians","Native Americans"]],
+[75,"What group of people was taken and sold as slaves?",["Africans","People from Africa"]],
+[76,"What war did the Americans fight to win independence from Britain?",["American Revolution","The (American) Revolutionary War","War for (American) Independence"]],
+[77,"Name one reason why the Americans declared independence from Britain.",["High taxes","Taxation without representation","British soldiers stayed in Americans’ houses (boarding, quartering)","They did not have self-government","Boston Massacre","Boston Tea Party (Tea Act)","Stamp Act","Sugar Act","Townshend Acts","Intolerable (Coercive) Acts"]],
+[78,"Who wrote the Declaration of Independence?",["(Thomas) Jefferson"]],
+[79,"When was the Declaration of Independence adopted?",["July 4, 1776"]],
+[80,"The American Revolution had many important events. Name one.",["(Battle of) Bunker Hill","Declaration of Independence","Washington Crossing the Delaware (Battle of Trenton)","(Battle of) Saratoga","Valley Forge (Encampment)","(Battle of) Yorktown (British surrender at Yorktown)"]],
+[81,"There were 13 original states. Name five.",["New Hampshire","Massachusetts","Rhode Island","Connecticut","New York","New Jersey","Pennsylvania","Delaware","Maryland","Virginia","North Carolina","South Carolina","Georgia"]],
+[82,"What founding document was written in 1787?",["(U.S.) Constitution"]],
+[83,"The Federalist Papers supported the passage of the U.S. Constitution. Name one of the writers.",["(James) Madison","(Alexander) Hamilton","(John) Jay","Publius"]],
+[84,"Why were the Federalist Papers important?",["They helped people understand the (U.S.) Constitution.","They supported passing the (U.S.) Constitution."]],
+[85,"Benjamin Franklin is famous for many things. Name one.",["Founded the first free public libraries","First Postmaster General of the United States","Helped write the Declaration of Independence","Inventor","U.S. diplomat"]],
+[86,"George Washington is famous for many things. Name one.",["“Father of Our Country”","First president of the United States","General of the Continental Army","President of the Constitutional Convention"]],
+[87,"Thomas Jefferson is famous for many things. Name one.",["Writer of the Declaration of Independence","Third president of the United States","Doubled the size of the United States (Louisiana Purchase)","First Secretary of State","Founded the University of Virginia","Writer of the Virginia Statute on Religious Freedom"],[["Louisiana Purchase",2],["wrote the Declaration of Independence",0]]],
+[88,"James Madison is famous for many things. Name one.",["“Father of the Constitution”","Fourth president of the United States","President during the War of 1812","One of the writers of the Federalist Papers"]],
+[89,"Alexander Hamilton is famous for many things. Name one.",["First Secretary of the Treasury","One of the writers of the Federalist Papers","Helped establish the First Bank of the United States","Aide to General George Washington","Member of the Continental Congress"]],
+[90,"What territory did the United States buy from France in 1803?",["Louisiana Territory","Louisiana"]],
+[91,"Name one war fought by the United States in the 1800s.",["War of 1812","Mexican-American War","Civil War","Spanish-American War"]],
+[92,"Name the U.S. war between the North and the South.",["The Civil War"]],
+[93,"The Civil War had many important events. Name one.",["(Battle of) Fort Sumter","Emancipation Proclamation","(Battle of) Vicksburg","(Battle of) Gettysburg","Sherman’s March","(Surrender at) Appomattox","(Battle of) Antietam/Sharpsburg","Lincoln was assassinated."]],
+[94,"Abraham Lincoln is famous for many things. Name one.",["Freed the slaves (Emancipation Proclamation)","Saved (or preserved) the Union","Led the United States during the Civil War","16th president of the United States","Delivered the Gettysburg Address"],[["preserved the Union",1],["Emancipation Proclamation",0]]],
+[95,"What did the Emancipation Proclamation do?",["Freed the slaves","Freed slaves in the Confederacy","Freed slaves in the Confederate states","Freed slaves in most Southern states"]],
+[96,"What U.S. war ended slavery?",["The Civil War"]],
+[97,"What amendment says all persons born or naturalized in the United States, and subject to the jurisdiction thereof, are U.S. citizens?",["14th Amendment"]],
+[98,"When did all men get the right to vote?",["After the Civil War","During Reconstruction","(With the) 15th Amendment","1870"]],
+[99,"Name one leader of the women’s rights movement in the 1800s.",["Susan B. Anthony","Elizabeth Cady Stanton","Sojourner Truth","Harriet Tubman","Lucretia Mott","Lucy Stone"]],
+[100,"Name one war fought by the United States in the 1900s.",["World War I","World War II","Korean War","Vietnam War","(Persian) Gulf War"],[["World War 1",0],["World War 2",1],["first world war",0],["second world war",1]]],
+[101,"Why did the United States enter World War I?",["Because Germany attacked U.S. (civilian) ships","To support the Allied Powers (England, France, Italy, and Russia)","To oppose the Central Powers (Germany, Austria-Hungary, the Ottoman Empire, and Bulgaria)"]],
+[102,"When did all women get the right to vote?",["1920","After World War I","(With the) 19th Amendment"]],
+[103,"What was the Great Depression?",["Longest economic recession in modern history"]],
+[104,"When did the Great Depression start?",["The Great Crash (1929)","Stock market crash of 1929"],[["1929",0]]],
+[105,"Who was president during the Great Depression and World War II?",["(Franklin) Roosevelt"]],
+[106,"Why did the United States enter World War II?",["(Bombing of) Pearl Harbor","Japanese attacked Pearl Harbor","To support the Allied Powers (England, France, and Russia)","To oppose the Axis Powers (Germany, Italy, and Japan)"]],
+[107,"Dwight Eisenhower is famous for many things. Name one.",["General during World War II","President at the end of (during) the Korean War","34th president of the United States","Signed the Federal-Aid Highway Act of 1956 (Created the Interstate System)"],[["created the interstate highways",3]]],
+[108,"Who was the United States’ main rival during the Cold War?",["Soviet Union","USSR","Russia"]],
+[109,"During the Cold War, what was one main concern of the United States?",["Communism","Nuclear war"]],
+[110,"Why did the United States enter the Korean War?",["To stop the spread of communism"]],
+[111,"Why did the United States enter the Vietnam War?",["To stop the spread of communism"]],
+[112,"What did the civil rights movement do?",["Fought to end racial discrimination"]],
+[113,"Martin Luther King, Jr. is famous for many things. Name one.",["Fought for civil rights","Worked for equality for all Americans","Worked to ensure that people would “not be judged by the color of their skin, but by the content of their character”"]],
+[114,"Why did the United States enter the Persian Gulf War?",["To force the Iraqi military from Kuwait"]],
+[115,"What major event happened on September 11, 2001 in the United States?",["Terrorists attacked the United States","Terrorists took over two planes and crashed them into the World Trade Center in New York City","Terrorists took over a plane and crashed into the Pentagon in Arlington, Virginia","Terrorists took over a plane originally aimed at Washington, D.C., and crashed in a field in Pennsylvania"]],
+[116,"Name one U.S. military conflict after the September 11, 2001 attacks.",["(Global) War on Terror","War in Afghanistan","War in Iraq"]],
+[117,"Name one American Indian tribe in the United States.",["Apache","Blackfeet","Cayuga","Cherokee","Cheyenne","Chippewa","Choctaw","Creek","Crow","Hopi","Huron","Inupiat","Lakota","Mohawk","Mohegan","Navajo","Oneida","Onondaga","Pueblo","Seminole","Seneca","Shawnee","Sioux","Teton","Tuscarora"]],
+[118,"Name one example of an American innovation.",["Light bulb","Automobile (cars, internal combustion engine)","Skyscrapers","Airplane","Assembly line","Landing on the moon","Integrated circuit (IC)"],[["car",1]]],
+[119,"What is the capital of the United States?",["Washington, D.C."]],
+[120,"Where is the Statue of Liberty?",["New York (Harbor)","Liberty Island"],[["New Jersey",1],["Hudson River",1]]],
+[121,"Why does the flag have 13 stripes?",["(Because there were) 13 original colonies","(Because the stripes) represent the original colonies"]],
+[122,"Why does the flag have 50 stars?",["(Because there is) one star for each state","(Because) each star represents a state","(Because there are) 50 states"]],
+[123,"What is the name of the national anthem?",["The Star-Spangled Banner"]],
+[124,"The Nation’s first motto was “E Pluribus Unum.” What does that mean?",["Out of many, one","We all become one"]],
+[125,"What is Independence Day?",["A holiday to celebrate U.S. independence (from Britain)","The country’s birthday"]],
+[126,"Name three national U.S. holidays.",["New Year’s Day","Martin Luther King, Jr. Day","Presidents Day (Washington’s Birthday)","Memorial Day","Juneteenth","Independence Day","Labor Day","Columbus Day","Veterans Day","Thanksgiving Day","Christmas Day"],[["MLK Day",1],["Fourth of July",5],["July 4th",5],["Thanksgiving",9],["Christmas",10]]],
+[127,"What is Memorial Day?",["A holiday to honor soldiers who died in military service"]],
+[128,"What is Veterans Day?",["A holiday to honor people in the (U.S.) military","A holiday to honor people who have served (in the U.S. military)"]],
+];
+const STARRED = new Set([2,7,12,20,30,36,38,39,44,52,61,66,74,78,86,94,113,115,121,126]);
+const NEED = {10:2,48:2,65:3,67:2,69:2,81:5,126:3};
+
+// ---------- Bangla meaning of each question and its answers (same order as the English) ----------
+const BN = {
+1:["যুক্তরাষ্ট্রের সরকারের ধরন কী?",["প্রজাতন্ত্র","সংবিধান-ভিত্তিক যুক্তরাষ্ট্রীয় প্রজাতন্ত্র","প্রতিনিধিত্বমূলক গণতন্ত্র"]],
+2:["দেশের সর্বোচ্চ আইন কী?",["(মার্কিন) সংবিধান"]],
+3:["মার্কিন সংবিধান কী করে? একটি বলুন।",["সরকার গঠন করে","সরকারের ক্ষমতা ঠিক করে","সরকারের অংশগুলো ঠিক করে","জনগণের অধিকার রক্ষা করে"]],
+4:["মার্কিন সংবিধান “We the People” (আমরা জনগণ) কথা দিয়ে শুরু। এর মানে কী?",["স্বশাসন","জনগণের সার্বভৌমত্ব","শাসিতদের সম্মতি","জনগণ নিজেরাই নিজেদের শাসন করবে","সামাজিক চুক্তি (এর উদাহরণ)"]],
+5:["মার্কিন সংবিধানে পরিবর্তন কীভাবে করা হয়?",["সংশোধনী (অ্যামেন্ডমেন্ট)","সংশোধনী প্রক্রিয়া"]],
+6:["অধিকার বিল (Bill of Rights) কী রক্ষা করে?",["আমেরিকানদের (মৌলিক) অধিকার","যুক্তরাষ্ট্রে বসবাসকারী মানুষের (মৌলিক) অধিকার"]],
+7:["মার্কিন সংবিধানে কয়টি সংশোধনী আছে?",["সাতাশ (২৭)"]],
+8:["স্বাধীনতার ঘোষণাপত্র কেন গুরুত্বপূর্ণ?",["এটি বলে আমেরিকা ব্রিটিশ নিয়ন্ত্রণ থেকে মুক্ত।","এটি বলে সব মানুষ সমান হয়ে জন্মেছে।","এটি জন্মগত অধিকারগুলো চিহ্নিত করে।","এটি ব্যক্তিগত স্বাধীনতাগুলো চিহ্নিত করে।"]],
+9:["কোন মূল দলিল বলেছিল যে আমেরিকান উপনিবেশগুলো ব্রিটেন থেকে মুক্ত?",["স্বাধীনতার ঘোষণাপত্র"]],
+10:["স্বাধীনতার ঘোষণাপত্র ও মার্কিন সংবিধানের দুটি গুরুত্বপূর্ণ ধারণা বলুন।",["সমতা","স্বাধীনতা","সামাজিক চুক্তি","প্রাকৃতিক অধিকার","সীমিত সরকার","স্বশাসন"]],
+11:["“Life, Liberty, and the pursuit of Happiness” (জীবন, স্বাধীনতা ও সুখের সন্ধান) কথাগুলো কোন মূল দলিলে আছে?",["স্বাধীনতার ঘোষণাপত্র"]],
+12:["যুক্তরাষ্ট্রের অর্থনৈতিক ব্যবস্থা কী?",["পুঁজিবাদ","মুক্তবাজার অর্থনীতি"]],
+13:["আইনের শাসন কী?",["সবাইকে আইন মানতে হবে।","নেতাদের আইন মানতে হবে।","সরকারকে আইন মানতে হবে।","কেউ আইনের ঊর্ধ্বে নয়।"]],
+14:["অনেক দলিল মার্কিন সংবিধানকে প্রভাবিত করেছে। একটির নাম বলুন।",["স্বাধীনতার ঘোষণাপত্র","আর্টিকেলস অফ কনফেডারেশন","ফেডারেলিস্ট পেপারস","অ্যান্টি-ফেডারেলিস্ট পেপারস","ভার্জিনিয়ার অধিকার ঘোষণা","কানেকটিকাটের মৌলিক আদেশ","মেফ্লাওয়ার চুক্তি","ইরোকোয়াদের শান্তির মহান আইন"]],
+15:["সরকারের তিনটি শাখা আছে। কেন?",["যাতে কোনো এক অংশ বেশি ক্ষমতাশালী না হয়","পারস্পরিক নিয়ন্ত্রণ ও ভারসাম্য","ক্ষমতার পৃথকীকরণ"]],
+16:["সরকারের তিনটি শাখার নাম বলুন।",["আইন বিভাগ, নির্বাহী বিভাগ ও বিচার বিভাগ","কংগ্রেস, প্রেসিডেন্ট ও আদালত"]],
+17:["মার্কিন প্রেসিডেন্ট সরকারের কোন শাখার দায়িত্বে?",["নির্বাহী বিভাগ"]],
+18:["কেন্দ্রীয় সরকারের কোন অংশ আইন লেখে?",["(মার্কিন) কংগ্রেস","(জাতীয়) আইনসভা","আইন বিভাগ"]],
+19:["মার্কিন কংগ্রেসের দুটি অংশ কী?",["সিনেট ও হাউস (অফ রিপ্রেজেন্টেটিভস)"]],
+20:["মার্কিন কংগ্রেসের একটি ক্ষমতা বলুন।",["আইন লেখে","যুদ্ধ ঘোষণা করে","কেন্দ্রীয় বাজেট তৈরি করে"]],
+21:["মার্কিন সিনেটর মোট কতজন?",["একশো (১০০)"]],
+22:["একজন মার্কিন সিনেটরের মেয়াদ কত বছর?",["ছয় (৬) বছর"]],
+23:["এখন আপনার রাজ্যের একজন মার্কিন সিনেটর কে?",null],
+24:["হাউস অফ রিপ্রেজেন্টেটিভসে ভোট দেওয়ার সদস্য কতজন?",["চারশো পঁয়ত্রিশ (৪৩৫)"]],
+25:["হাউস অফ রিপ্রেজেন্টেটিভসের একজন সদস্যের মেয়াদ কত বছর?",["দুই (২) বছর"]],
+26:["মার্কিন প্রতিনিধিদের মেয়াদ সিনেটরদের চেয়ে কম কেন?",["জনমত আরও কাছ থেকে মেনে চলার জন্য"]],
+27:["প্রতিটি রাজ্যে কতজন সিনেটর?",["দুই (২)"]],
+28:["প্রতিটি রাজ্যে দুজন সিনেটর কেন?",["সমান প্রতিনিধিত্ব (ছোট রাজ্যগুলোর জন্য)","গ্রেট কম্প্রোমাইজ (কানেকটিকাট আপস)"]],
+29:["আপনার মার্কিন প্রতিনিধির (রিপ্রেজেন্টেটিভ) নাম বলুন।",null],
+30:["এখন হাউস অফ রিপ্রেজেন্টেটিভসের স্পিকারের নাম কী?",null],
+31:["একজন মার্কিন সিনেটর কাদের প্রতিনিধিত্ব করেন?",["তাঁর রাজ্যের নাগরিকদের","তাঁর রাজ্যের মানুষদের"]],
+32:["মার্কিন সিনেটরদের কারা নির্বাচিত করে?",["তাঁদের রাজ্যের নাগরিকরা"]],
+33:["হাউস অফ রিপ্রেজেন্টেটিভসের একজন সদস্য কাদের প্রতিনিধিত্ব করেন?",["তাঁর (কংগ্রেশনাল) জেলার নাগরিকদের","তাঁর জেলার নাগরিকদের","তাঁর (কংগ্রেশনাল) জেলার মানুষদের","তাঁর জেলার মানুষদের"]],
+34:["হাউস অফ রিপ্রেজেন্টেটিভসের সদস্যদের কারা নির্বাচিত করে?",["তাঁদের (কংগ্রেশনাল) জেলার নাগরিকরা"]],
+35:["কিছু রাজ্যে অন্য রাজ্যের চেয়ে বেশি প্রতিনিধি কেন?",["রাজ্যের জনসংখ্যার কারণে","কারণ সেখানে মানুষ বেশি","কারণ কিছু রাজ্যে মানুষ বেশি"]],
+36:["মার্কিন প্রেসিডেন্ট কত বছরের জন্য নির্বাচিত হন?",["চার (৪) বছর"]],
+37:["মার্কিন প্রেসিডেন্ট শুধু দুই মেয়াদ থাকতে পারেন। কেন?",["২২তম সংশোধনীর কারণে","প্রেসিডেন্ট যেন বেশি ক্ষমতাশালী না হন"]],
+38:["এখন যুক্তরাষ্ট্রের প্রেসিডেন্টের নাম কী?",null],
+39:["এখন যুক্তরাষ্ট্রের ভাইস প্রেসিডেন্টের নাম কী?",null],
+40:["প্রেসিডেন্ট দায়িত্ব পালন করতে না পারলে কে প্রেসিডেন্ট হন?",["ভাইস প্রেসিডেন্ট"]],
+41:["প্রেসিডেন্টের একটি ক্ষমতা বলুন।",["বিলে সই করে আইন বানান","বিলে ভেটো দেন","আইন কার্যকর করেন","(সেনাবাহিনীর) প্রধান সেনাপতি","প্রধান কূটনীতিক","কেন্দ্রীয় বিচারক নিয়োগ দেন"]],
+42:["মার্কিন সেনাবাহিনীর প্রধান সেনাপতি (Commander in Chief) কে?",["প্রেসিডেন্ট"]],
+43:["বিলে সই করে কে আইন বানান?",["প্রেসিডেন্ট"]],
+44:["বিলে কে ভেটো দেন?",["প্রেসিডেন্ট"]],
+45:["কেন্দ্রীয় বিচারকদের কে নিয়োগ দেন?",["প্রেসিডেন্ট"]],
+46:["নির্বাহী বিভাগের অনেক অংশ আছে। একটির নাম বলুন।",["প্রেসিডেন্ট","মন্ত্রিসভা (ক্যাবিনেট)","কেন্দ্রীয় দপ্তর ও সংস্থা"]],
+47:["প্রেসিডেন্টের মন্ত্রিসভা (ক্যাবিনেট) কী করে?",["প্রেসিডেন্টকে পরামর্শ দেয়"]],
+48:["মন্ত্রিসভা-স্তরের দুটি পদের নাম বলুন।",["অ্যাটর্নি জেনারেল","কৃষি সচিব","বাণিজ্য সচিব","শিক্ষা সচিব","জ্বালানি সচিব","স্বাস্থ্য ও মানবসেবা সচিব","হোমল্যান্ড সিকিউরিটি সচিব","আবাসন ও নগর উন্নয়ন সচিব","অভ্যন্তরীণ বিষয়ক সচিব","শ্রম সচিব","পররাষ্ট্র সচিব","পরিবহন সচিব","অর্থ (ট্রেজারি) সচিব","প্রবীণ সৈনিক (ভেটেরানস) বিষয়ক সচিব","যুদ্ধ (প্রতিরক্ষা) সচিব","ভাইস প্রেসিডেন্ট","পরিবেশ সুরক্ষা সংস্থার প্রশাসক","ক্ষুদ্র ব্যবসা প্রশাসনের প্রশাসক","সিআইএ-র পরিচালক","ব্যবস্থাপনা ও বাজেট দপ্তরের পরিচালক","জাতীয় গোয়েন্দা পরিচালক","মার্কিন বাণিজ্য প্রতিনিধি"]],
+49:["ইলেক্টোরাল কলেজ কেন গুরুত্বপূর্ণ?",["এটি ঠিক করে কে প্রেসিডেন্ট নির্বাচিত হবেন।","এটি জনগণের ভোট আর কংগ্রেসের বাছাইয়ের মধ্যে একটি আপস।"]],
+50:["বিচার বিভাগের একটি অংশ কী?",["সুপ্রিম কোর্ট","কেন্দ্রীয় আদালত"]],
+51:["বিচার বিভাগ কী করে?",["আইন পর্যালোচনা করে","আইন ব্যাখ্যা করে","আইন নিয়ে বিরোধ মীমাংসা করে","কোনো আইন সংবিধানবিরোধী কি না তা ঠিক করে"]],
+52:["যুক্তরাষ্ট্রের সর্বোচ্চ আদালত কোনটি?",["সুপ্রিম কোর্ট"]],
+53:["সুপ্রিম কোর্টে কয়টি আসন?",["নয় (৯)"]],
+54:["একটি মামলার রায় দিতে সাধারণত কতজন বিচারপতি লাগে?",["পাঁচ (৫)"]],
+55:["সুপ্রিম কোর্টের বিচারপতিরা কতদিন দায়িত্বে থাকেন?",["আজীবন","আজীবন নিয়োগ","অবসর পর্যন্ত"]],
+56:["সুপ্রিম কোর্টের বিচারপতিরা আজীবন থাকেন। কেন?",["(রাজনীতি থেকে) স্বাধীন থাকার জন্য","বাইরের (রাজনৈতিক) প্রভাব কমানোর জন্য"]],
+57:["এখন যুক্তরাষ্ট্রের প্রধান বিচারপতি কে?",null],
+58:["শুধু কেন্দ্রীয় সরকারের একটি ক্ষমতা বলুন।",["কাগজের টাকা ছাপানো","কয়েন তৈরি","যুদ্ধ ঘোষণা","সেনাবাহিনী গঠন","চুক্তি করা","পররাষ্ট্রনীতি ঠিক করা"]],
+59:["শুধু রাজ্যের একটি ক্ষমতা বলুন।",["স্কুল ও শিক্ষার ব্যবস্থা","নিরাপত্তা (পুলিশ)","সুরক্ষা (ফায়ার সার্ভিস)","ড্রাইভিং লাইসেন্স দেওয়া","জমি ব্যবহার ও জোনিং অনুমোদন"]],
+60:["দশম সংশোধনীর উদ্দেশ্য কী?",["যে ক্ষমতা কেন্দ্রীয় সরকারকে দেওয়া হয়নি, তা রাজ্য বা জনগণের।"]],
+61:["এখন আপনার রাজ্যের গভর্নর কে?",null],
+62:["আপনার রাজ্যের রাজধানী কী?",null],
+63:["কারা ভোট দিতে পারবে, তা নিয়ে সংবিধানে চারটি সংশোধনী আছে। একটি বর্ণনা করুন।",["আঠারো (১৮) বছর বা বেশি বয়সী নাগরিকরা (ভোট দিতে পারে)।","ভোট দিতে কোনো (ভোট কর) দিতে হয় না।","যেকোনো নাগরিক ভোট দিতে পারে। (নারী ও পুরুষ ভোট দিতে পারে।)","যেকোনো জাতির পুরুষ নাগরিক (ভোট দিতে পারে)।"]],
+64:["কারা কেন্দ্রীয় নির্বাচনে ভোট দিতে, কেন্দ্রীয় পদে প্রার্থী হতে এবং জুরিতে বসতে পারে?",["নাগরিকরা","যুক্তরাষ্ট্রের নাগরিকরা","মার্কিন নাগরিকরা"]],
+65:["যুক্তরাষ্ট্রে বসবাসকারী সবার তিনটি অধিকার বলুন।",["মত প্রকাশের স্বাধীনতা","বাকস্বাধীনতা","সমাবেশের স্বাধীনতা","সরকারের কাছে আবেদনের স্বাধীনতা","ধর্মের স্বাধীনতা","অস্ত্র রাখার অধিকার"]],
+66:["আনুগত্যের অঙ্গীকার (Pledge of Allegiance) বলার সময় আমরা কিসের প্রতি আনুগত্য দেখাই?",["যুক্তরাষ্ট্র","পতাকা"]],
+67:["নতুন নাগরিকরা আনুগত্যের শপথে (Oath of Allegiance) যে প্রতিজ্ঞা করে, তার দুটি বলুন।",["অন্য দেশের প্রতি আনুগত্য ত্যাগ করা","(মার্কিন) সংবিধান রক্ষা করা","যুক্তরাষ্ট্রের আইন মানা","(প্রয়োজনে) সেনাবাহিনীতে কাজ করা","(প্রয়োজনে) দেশের সেবা করা","যুক্তরাষ্ট্রের প্রতি অনুগত থাকা"]],
+68:["মানুষ কীভাবে যুক্তরাষ্ট্রের নাগরিক হতে পারে?",["১৪তম সংশোধনীর শর্ত অনুযায়ী যুক্তরাষ্ট্রে জন্ম নিয়ে","ন্যাচারালাইজেশন (নাগরিকত্বের আবেদন) করে","(কংগ্রেসের শর্ত অনুযায়ী) বাবা-মায়ের সূত্রে নাগরিকত্ব পেয়ে"]],
+69:["যুক্তরাষ্ট্রে নাগরিক অংশগ্রহণের দুটি উদাহরণ দিন।",["ভোট দেওয়া","নির্বাচনে প্রার্থী হওয়া","রাজনৈতিক দলে যোগ দেওয়া","নির্বাচনী প্রচারে সাহায্য করা","নাগরিক সংগঠনে যোগ দেওয়া","কমিউনিটি সংগঠনে যোগ দেওয়া","নির্বাচিত প্রতিনিধিকে (কোনো বিষয়ে) মতামত জানানো","নির্বাচিত প্রতিনিধির সঙ্গে যোগাযোগ করা","কোনো বিষয় বা নীতির পক্ষে বা বিপক্ষে থাকা","পত্রিকায় লেখা"]],
+70:["আমেরিকানরা দেশের সেবা করতে পারে এমন একটি উপায় বলুন।",["ভোট দেওয়া","কর দেওয়া","আইন মানা","সেনাবাহিনীতে কাজ করা","নির্বাচনে প্রার্থী হওয়া","স্থানীয়, রাজ্য বা কেন্দ্রীয় সরকারে কাজ করা"]],
+71:["কেন্দ্রীয় কর দেওয়া কেন গুরুত্বপূর্ণ?",["আইন অনুযায়ী বাধ্যতামূলক","সবাই মিলে কেন্দ্রীয় সরকারের খরচ জোগায়","(মার্কিন) সংবিধান অনুযায়ী বাধ্যতামূলক (১৬তম সংশোধনী)","নাগরিক দায়িত্ব"]],
+72:["১৮ থেকে ২৫ বছর বয়সী সব পুরুষের সিলেক্টিভ সার্ভিসে নাম লেখানো জরুরি। একটি কারণ বলুন।",["আইন অনুযায়ী বাধ্যতামূলক","নাগরিক দায়িত্ব","প্রয়োজনে সেনাভর্তি (ড্রাফট) ন্যায্য করে"]],
+73:["উপনিবেশবাসীরা অনেক কারণে আমেরিকায় এসেছিল। একটি বলুন।",["স্বাধীনতা","রাজনৈতিক স্বাধীনতা","ধর্মীয় স্বাধীনতা","অর্থনৈতিক সুযোগ","নির্যাতন থেকে পালানো"]],
+74:["ইউরোপীয়রা আসার আগে আমেরিকায় কারা থাকত?",["আমেরিকান ইন্ডিয়ানরা","নেটিভ আমেরিকানরা (আদিবাসী)"]],
+75:["কোন মানুষদের ধরে এনে দাস হিসেবে বিক্রি করা হতো?",["আফ্রিকানরা","আফ্রিকার মানুষ"]],
+76:["ব্রিটেন থেকে স্বাধীনতা পেতে আমেরিকানরা কোন যুদ্ধ করেছিল?",["আমেরিকান বিপ্লব","(আমেরিকান) বিপ্লবী যুদ্ধ","(আমেরিকার) স্বাধীনতা যুদ্ধ"]],
+77:["আমেরিকানরা কেন ব্রিটেন থেকে স্বাধীনতা ঘোষণা করেছিল? একটি কারণ বলুন।",["বেশি কর","প্রতিনিধিত্ব ছাড়া কর","ব্রিটিশ সৈন্যরা আমেরিকানদের বাড়িতে থাকত","তাদের স্বশাসন ছিল না","বোস্টন হত্যাকাণ্ড","বোস্টন টি পার্টি (চা আইন)","স্ট্যাম্প আইন","চিনি আইন","টাউনশেন্ড আইন","অসহনীয় (দমনমূলক) আইন"]],
+78:["স্বাধীনতার ঘোষণাপত্র কে লিখেছিলেন?",["(টমাস) জেফারসন"]],
+79:["স্বাধীনতার ঘোষণাপত্র কবে গৃহীত হয়েছিল?",["৪ জুলাই, ১৭৭৬"]],
+80:["আমেরিকান বিপ্লবের একটি গুরুত্বপূর্ণ ঘটনা বলুন।",["বাংকার হিলের যুদ্ধ","স্বাধীনতার ঘোষণাপত্র","ওয়াশিংটনের ডেলাওয়্যার নদী পার হওয়া (ট্রেন্টনের যুদ্ধ)","সারাটোগার যুদ্ধ","ভ্যালি ফোর্জ (শিবির)","ইয়র্কটাউনের যুদ্ধ (ইয়র্কটাউনে ব্রিটিশদের আত্মসমর্পণ)"]],
+81:["শুরুতে ১৩টি রাজ্য ছিল। পাঁচটির নাম বলুন।",["নিউ হ্যাম্পশায়ার","ম্যাসাচুসেটস","রোড আইল্যান্ড","কানেকটিকাট","নিউ ইয়র্ক","নিউ জার্সি","পেনসিলভেনিয়া","ডেলাওয়্যার","মেরিল্যান্ড","ভার্জিনিয়া","নর্থ ক্যারোলাইনা","সাউথ ক্যারোলাইনা","জর্জিয়া"]],
+82:["কোন মূল দলিল ১৭৮৭ সালে লেখা হয়েছিল?",["(মার্কিন) সংবিধান"]],
+83:["ফেডারেলিস্ট পেপারস মার্কিন সংবিধান পাস হওয়াকে সমর্থন করেছিল। এর একজন লেখকের নাম বলুন।",["(জেমস) ম্যাডিসন","(আলেকজান্ডার) হ্যামিলটন","(জন) জে","পাবলিয়াস"]],
+84:["ফেডারেলিস্ট পেপারস কেন গুরুত্বপূর্ণ ছিল?",["মানুষকে (মার্কিন) সংবিধান বুঝতে সাহায্য করেছিল।","(মার্কিন) সংবিধান পাস হওয়াকে সমর্থন করেছিল।"]],
+85:["বেঞ্জামিন ফ্র্যাংকলিন অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["প্রথম বিনামূল্যের পাবলিক লাইব্রেরি প্রতিষ্ঠা করেন","যুক্তরাষ্ট্রের প্রথম পোস্টমাস্টার জেনারেল","স্বাধীনতার ঘোষণাপত্র লিখতে সাহায্য করেন","আবিষ্কারক","মার্কিন কূটনীতিক"]],
+86:["জর্জ ওয়াশিংটন অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["“জাতির পিতা”","যুক্তরাষ্ট্রের প্রথম প্রেসিডেন্ট","কন্টিনেন্টাল সেনাবাহিনীর জেনারেল","সাংবিধানিক সম্মেলনের সভাপতি"]],
+87:["টমাস জেফারসন অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["স্বাধীনতার ঘোষণাপত্রের লেখক","যুক্তরাষ্ট্রের তৃতীয় প্রেসিডেন্ট","যুক্তরাষ্ট্রের আয়তন দ্বিগুণ করেন (লুইজিয়ানা ক্রয়)","প্রথম পররাষ্ট্র সচিব","ভার্জিনিয়া বিশ্ববিদ্যালয় প্রতিষ্ঠা করেন","ধর্মীয় স্বাধীনতা নিয়ে ভার্জিনিয়ার আইনের লেখক"]],
+88:["জেমস ম্যাডিসন অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["“সংবিধানের জনক”","যুক্তরাষ্ট্রের চতুর্থ প্রেসিডেন্ট","১৮১২ সালের যুদ্ধের সময় প্রেসিডেন্ট","ফেডারেলিস্ট পেপারসের একজন লেখক"]],
+89:["আলেকজান্ডার হ্যামিলটন অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["প্রথম অর্থ (ট্রেজারি) সচিব","ফেডারেলিস্ট পেপারসের একজন লেখক","যুক্তরাষ্ট্রের প্রথম ব্যাংক প্রতিষ্ঠায় সাহায্য করেন","জেনারেল জর্জ ওয়াশিংটনের সহকারী","কন্টিনেন্টাল কংগ্রেসের সদস্য"]],
+90:["১৮০৩ সালে যুক্তরাষ্ট্র ফ্রান্সের কাছ থেকে কোন এলাকা কিনেছিল?",["লুইজিয়ানা অঞ্চল","লুইজিয়ানা"]],
+91:["১৮০০-এর দশকে যুক্তরাষ্ট্রের একটি যুদ্ধের নাম বলুন।",["১৮১২ সালের যুদ্ধ","মেক্সিকো-আমেরিকা যুদ্ধ","গৃহযুদ্ধ (সিভিল ওয়ার)","স্পেন-আমেরিকা যুদ্ধ"]],
+92:["উত্তর ও দক্ষিণের মধ্যে যুক্তরাষ্ট্রের যুদ্ধের নাম বলুন।",["গৃহযুদ্ধ (সিভিল ওয়ার)"]],
+93:["গৃহযুদ্ধের একটি গুরুত্বপূর্ণ ঘটনা বলুন।",["ফোর্ট সামটারের যুদ্ধ","মুক্তির ঘোষণা (ইমানসিপেশন প্রোক্লেমেশন)","ভিকসবার্গের যুদ্ধ","গেটিসবার্গের যুদ্ধ","শেরম্যানের অভিযান","অ্যাপোম্যাটক্সে আত্মসমর্পণ","অ্যান্টিয়েটাম/শার্পসবার্গের যুদ্ধ","লিংকনকে হত্যা করা হয়।"]],
+94:["আব্রাহাম লিংকন অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["দাসদের মুক্ত করেন (মুক্তির ঘোষণা)","ইউনিয়ন (দেশের ঐক্য) রক্ষা করেন","গৃহযুদ্ধের সময় যুক্তরাষ্ট্রকে নেতৃত্ব দেন","যুক্তরাষ্ট্রের ১৬তম প্রেসিডেন্ট","গেটিসবার্গ ভাষণ দেন"]],
+95:["মুক্তির ঘোষণা (Emancipation Proclamation) কী করেছিল?",["দাসদের মুক্ত করেছিল","কনফেডারেসির দাসদের মুক্ত করেছিল","কনফেডারেট রাজ্যগুলোর দাসদের মুক্ত করেছিল","দক্ষিণের বেশিরভাগ রাজ্যের দাসদের মুক্ত করেছিল"]],
+96:["যুক্তরাষ্ট্রের কোন যুদ্ধ দাসপ্রথা শেষ করেছিল?",["গৃহযুদ্ধ (সিভিল ওয়ার)"]],
+97:["কোন সংশোধনী বলে যে যুক্তরাষ্ট্রে জন্ম নেওয়া বা নাগরিকত্ব পাওয়া এবং এর আইনের অধীন সবাই মার্কিন নাগরিক?",["১৪তম সংশোধনী"]],
+98:["সব পুরুষ কবে ভোটের অধিকার পেয়েছিল?",["গৃহযুদ্ধের পরে","পুনর্গঠনের (রিকনস্ট্রাকশন) সময়","১৫তম সংশোধনীর মাধ্যমে","১৮৭০"]],
+99:["১৮০০-এর দশকে নারী অধিকার আন্দোলনের একজন নেত্রীর নাম বলুন।",["সুজান বি. অ্যান্থনি","এলিজাবেথ ক্যাডি স্ট্যান্টন","সোজার্নার ট্রুথ","হ্যারিয়েট টাবম্যান","লুক্রেশিয়া মট","লুসি স্টোন"]],
+100:["১৯০০-এর দশকে যুক্তরাষ্ট্রের একটি যুদ্ধের নাম বলুন।",["প্রথম বিশ্বযুদ্ধ","দ্বিতীয় বিশ্বযুদ্ধ","কোরিয়া যুদ্ধ","ভিয়েতনাম যুদ্ধ","(পারস্য) উপসাগরীয় যুদ্ধ"]],
+101:["যুক্তরাষ্ট্র কেন প্রথম বিশ্বযুদ্ধে যোগ দিয়েছিল?",["কারণ জার্মানি মার্কিন (বেসামরিক) জাহাজে হামলা করেছিল","মিত্রশক্তিকে (ইংল্যান্ড, ফ্রান্স, ইতালি ও রাশিয়া) সমর্থন করতে","কেন্দ্রীয় শক্তির (জার্মানি, অস্ট্রিয়া-হাঙ্গেরি, অটোমান সাম্রাজ্য ও বুলগেরিয়া) বিরোধিতা করতে"]],
+102:["সব নারী কবে ভোটের অধিকার পেয়েছিল?",["১৯২০","প্রথম বিশ্বযুদ্ধের পরে","১৯তম সংশোধনীর মাধ্যমে"]],
+103:["মহামন্দা (Great Depression) কী ছিল?",["আধুনিক ইতিহাসের সবচেয়ে দীর্ঘ অর্থনৈতিক মন্দা"]],
+104:["মহামন্দা কবে শুরু হয়েছিল?",["মহা পতন (১৯২৯)","১৯২৯ সালের শেয়ারবাজার ধস"]],
+105:["মহামন্দা ও দ্বিতীয় বিশ্বযুদ্ধের সময় প্রেসিডেন্ট কে ছিলেন?",["(ফ্র্যাংকলিন) রুজভেল্ট"]],
+106:["যুক্তরাষ্ট্র কেন দ্বিতীয় বিশ্বযুদ্ধে যোগ দিয়েছিল?",["পার্ল হারবারে বোমা হামলা","জাপান পার্ল হারবারে হামলা করেছিল","মিত্রশক্তিকে (ইংল্যান্ড, ফ্রান্স ও রাশিয়া) সমর্থন করতে","অক্ষশক্তির (জার্মানি, ইতালি ও জাপান) বিরোধিতা করতে"]],
+107:["ডোয়াইট আইজেনহাওয়ার অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["দ্বিতীয় বিশ্বযুদ্ধের সময় জেনারেল","কোরিয়া যুদ্ধের শেষে (সময়ে) প্রেসিডেন্ট","যুক্তরাষ্ট্রের ৩৪তম প্রেসিডেন্ট","১৯৫৬ সালের ফেডারেল হাইওয়ে আইনে সই করেন (আন্তঃরাজ্য মহাসড়ক তৈরি)"]],
+108:["স্নায়ুযুদ্ধের (Cold War) সময় যুক্তরাষ্ট্রের প্রধান প্রতিদ্বন্দ্বী কে ছিল?",["সোভিয়েত ইউনিয়ন","ইউএসএসআর","রাশিয়া"]],
+109:["স্নায়ুযুদ্ধের সময় যুক্তরাষ্ট্রের একটি প্রধান দুশ্চিন্তা কী ছিল?",["সাম্যবাদ (কমিউনিজম)","পারমাণবিক যুদ্ধ"]],
+110:["যুক্তরাষ্ট্র কেন কোরিয়া যুদ্ধে যোগ দিয়েছিল?",["সাম্যবাদের (কমিউনিজম) বিস্তার থামাতে"]],
+111:["যুক্তরাষ্ট্র কেন ভিয়েতনাম যুদ্ধে যোগ দিয়েছিল?",["সাম্যবাদের (কমিউনিজম) বিস্তার থামাতে"]],
+112:["নাগরিক অধিকার আন্দোলন কী করেছিল?",["বর্ণবৈষম্য দূর করতে লড়াই করেছিল"]],
+113:["মার্টিন লুথার কিং জুনিয়র অনেক কিছুর জন্য বিখ্যাত। একটি বলুন।",["নাগরিক অধিকারের জন্য লড়াই করেছেন","সব আমেরিকানের সমতার জন্য কাজ করেছেন","কাজ করেছেন যেন মানুষকে “গায়ের রং দিয়ে নয়, চরিত্র দিয়ে” বিচার করা হয়"]],
+114:["যুক্তরাষ্ট্র কেন পারস্য উপসাগরীয় যুদ্ধে যোগ দিয়েছিল?",["ইরাকি সেনাবাহিনীকে কুয়েত থেকে সরাতে"]],
+115:["১১ সেপ্টেম্বর ২০০১ তারিখে যুক্তরাষ্ট্রে কোন বড় ঘটনা ঘটেছিল?",["সন্ত্রাসীরা যুক্তরাষ্ট্রে হামলা করেছিল","সন্ত্রাসীরা দুটি বিমান দখল করে নিউ ইয়র্কের ওয়ার্ল্ড ট্রেড সেন্টারে আঘাত করেছিল","সন্ত্রাসীরা একটি বিমান দখল করে ভার্জিনিয়ার আর্লিংটনে পেন্টাগনে আঘাত করেছিল","সন্ত্রাসীরা ওয়াশিংটন ডি.সি.-র দিকে যাওয়া একটি বিমান দখল করেছিল; সেটি পেনসিলভেনিয়ার একটি মাঠে বিধ্বস্ত হয়"]],
+116:["১১ সেপ্টেম্বর ২০০১-এর হামলার পর যুক্তরাষ্ট্রের একটি সামরিক সংঘাতের নাম বলুন।",["(বিশ্বব্যাপী) সন্ত্রাসবিরোধী যুদ্ধ","আফগানিস্তান যুদ্ধ","ইরাক যুদ্ধ"]],
+117:["যুক্তরাষ্ট্রের একটি আমেরিকান ইন্ডিয়ান গোষ্ঠীর (ট্রাইব) নাম বলুন।",null],
+118:["আমেরিকান উদ্ভাবনের একটি উদাহরণ দিন।",["বৈদ্যুতিক বাল্ব","গাড়ি (মোটরগাড়ি, ইঞ্জিন)","আকাশচুম্বী ভবন","উড়োজাহাজ","অ্যাসেম্বলি লাইন (কারখানার উৎপাদন লাইন)","চাঁদে অবতরণ","ইন্টিগ্রেটেড সার্কিট (IC)"]],
+119:["যুক্তরাষ্ট্রের রাজধানী কী?",["ওয়াশিংটন, ডি.সি."]],
+120:["স্ট্যাচু অফ লিবার্টি কোথায়?",["নিউ ইয়র্ক (বন্দর)","লিবার্টি দ্বীপ"]],
+121:["পতাকায় ১৩টি ডোরা কেন?",["(কারণ) শুরুতে ১৩টি উপনিবেশ ছিল","(কারণ ডোরাগুলো) মূল উপনিবেশগুলোকে বোঝায়"]],
+122:["পতাকায় ৫০টি তারা কেন?",["প্রতিটি রাজ্যের জন্য একটি তারা","প্রতিটি তারা একটি রাজ্যকে বোঝায়","(কারণ) ৫০টি রাজ্য আছে"]],
+123:["জাতীয় সংগীতের নাম কী?",["দ্য স্টার-স্প্যাংগলড ব্যানার"]],
+124:["দেশের প্রথম মূলমন্ত্র ছিল “E Pluribus Unum”। এর মানে কী?",["অনেকের মধ্য থেকে এক","আমরা সবাই এক হই"]],
+125:["স্বাধীনতা দিবস (Independence Day) কী?",["(ব্রিটেন থেকে) মার্কিন স্বাধীনতা উদযাপনের ছুটির দিন","দেশের জন্মদিন"]],
+126:["যুক্তরাষ্ট্রের তিনটি জাতীয় ছুটির দিনের নাম বলুন।",["নববর্ষ দিবস","মার্টিন লুথার কিং জুনিয়র দিবস","প্রেসিডেন্টস ডে (ওয়াশিংটনের জন্মদিন)","মেমোরিয়াল ডে (স্মৃতি দিবস)","জুনটিনথ","স্বাধীনতা দিবস","লেবার ডে (শ্রমিক দিবস)","কলম্বাস ডে","ভেটেরানস ডে (প্রবীণ সৈনিক দিবস)","থ্যাংকসগিভিং ডে","ক্রিসমাস ডে (বড়দিন)"]],
+127:["মেমোরিয়াল ডে কী?",["সামরিক দায়িত্বে মারা যাওয়া সৈনিকদের সম্মান জানানোর ছুটির দিন"]],
+128:["ভেটেরানস ডে কী?",["(মার্কিন) সেনাবাহিনীর মানুষদের সম্মান জানানোর ছুটির দিন","যাঁরা (মার্কিন সেনাবাহিনীতে) কাজ করেছেন, তাঁদের সম্মান জানানোর ছুটির দিন"]],
+};
+
+// ---------- Settings (kept on this phone only) ----------
+const DEFAULTS = {testType:"standard", rate:0.85, president:"Donald Trump", vicepresident:"JD Vance", speaker:"Mike Johnson", chiefjustice:"John Roberts",
+  senator1:"Chuck Schumer", senator2:"Kirsten Gillibrand", representative:"Hakeem Jeffries", governor:"Kathy Hochul", capital:"Albany"};
+let settings = {...DEFAULTS};
+try{ const s = JSON.parse(localStorage.getItem("civics-coach-settings-ny")||"null"); if(s){ settings = {...DEFAULTS, ...s}; for(const k in DEFAULTS){ if(settings[k]==="" && DEFAULTS[k]) settings[k]=DEFAULTS[k]; } } }catch(e){}
+function saveSettings(){ try{ localStorage.setItem("civics-coach-settings-ny", JSON.stringify(settings)); }catch(e){} }
+// ---------- Matching what she says against the accepted answers ----------
+const STOP = new Set("the a an of to and or in on for is are was were be it its they that this by with from their as at all because there have has do does did if so them s u".split(" "));
+const WEAK = new Set("united states us america american americans branch government day".split(" "));
+const ONES = {zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,
+  first:1,second:2,third:3,fourth:4,fifth:5,sixth:6,seventh:7,eighth:8,ninth:9,tenth:10,eleventh:11,twelfth:12,thirteenth:13,fourteenth:14,fifteenth:15,sixteenth:16,seventeenth:17,eighteenth:18,nineteenth:19,twentieth:20,thirtieth:30};
+const TENS = {twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+function tokens(s){
+  s = String(s).toLowerCase().replace(/[’'`]/g,"").replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").replace(/\b(\d+)(st|nd|rd|th)\b/g,"$1");
+  const t = s.split(" ").filter(Boolean), out=[]; let cur=null;
+  const flush=()=>{ if(cur!==null){ out.push(String(cur)); cur=null; } };
+  for(let i=0;i<t.length;i++){
+    const w=t[i];
+    if(w in TENS){ if(cur!==null && cur%100!==0) flush(); cur=(cur||0)+TENS[w]; }
+    else if(w in ONES){ if(cur!==null && cur%10!==0) flush(); cur=(cur||0)+ONES[w]; }
+    else if(w==="hundred" && cur!==null){ cur*=100; }
+    else if(w==="thousand" && cur!==null){ cur*=1000; }
+    else if(w==="and" && cur!==null && (t[i+1] in ONES || t[i+1] in TENS)){ }
+    else { flush(); out.push(w); }
+  }
+  flush(); return out;
+}
+function lev(a,b){ const m=a.length,n=b.length; let p=Array.from({length:n+1},(_,i)=>i);
+  for(let i=1;i<=m;i++){ const c=[i]; for(let j=1;j<=n;j++) c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); p=c; } return p[n]; }
+function tokMatch(k,s){
+  if(k===s) return true;
+  if(/^\d+$/.test(k)||/^\d+$/.test(s)) return false;
+  if(k.length>=4 && s.length>=4 && (k.startsWith(s)||s.startsWith(k))) return true;
+  if(k.length>=5 && s.length>=4) return lev(k,s) <= (k.length>=8?2:1);
+  return false;
+}
+function keywordsOf(text){
+  const core = text.replace(/\[[^\]]*\]/g," ").replace(/\([^)]*\)/g," ");
+  let t = tokens(core).filter(w=>!STOP.has(w));
+  const strong = t.filter(w=>!WEAK.has(w));
+  if(strong.length) return strong;
+  if(t.length) return t;
+  return tokens(text.replace(/[()]/g," ")).filter(w=>!STOP.has(w));
+}
+function scoreKw(kw, said){ const hit = kw.filter(k=>said.some(s=>tokMatch(k,s))).length; return kw.length ? hit/kw.length : 0; }
+function needFor(k){ return k<=1?1 : k===2?2 : Math.ceil(k*0.6); }
+// Returns how many distinct accepted answers she gave.
+function countMatches(q, text){
+  const said = tokens(text);
+  const hit = new Set();
+  q.groups.forEach(g=>{ if(g.forms.some(kw=>{ const need=needFor(kw.length); return kw.filter(k=>said.some(s=>tokMatch(k,s))).length>=need; })) hit.add(g.i); });
+  return hit;
+}
+
+
+// ---------- Build the question list with today's settings ----------
+function lastName(n){ const p=n.trim().split(/\s+/); return p.length>1?p[p.length-1]:null; }
+function allQs(){
+  const out=[];
+  for(const [n,text,answers,alts] of QS){
+    let ans=[], bnAns=[]; let dynamic=false;
+    const bnList = BN[n] && BN[n][1];
+    answers.forEach((a,i)=>{
+      if(a.startsWith("$")){ dynamic=true; const v=(settings[a.slice(1)]||"").trim(); if(v){ ans.push(v); bnAns.push(null); } }
+      else { ans.push(a); bnAns.push(bnList ? bnList[i] : null); }
+    });
+    if(dynamic && !ans.length) continue; // not filled in yet
+    const groups = ans.map((a,i)=>({i, display:a, forms:[keywordsOf(a)]}));
+    if(dynamic) groups.forEach(g=>{ const ln=lastName(g.display); if(ln) g.forms.push(keywordsOf(ln)); });
+    (alts||[]).forEach(al=>{ const [t,idx] = Array.isArray(al)?al:[al,0]; if(groups[idx]) groups[idx].forms.push(keywordsOf(t)); });
+    out.push({n,text,bn:BN[n]?BN[n][0]:"",answers:ans,bnAns,groups,need:NEED[n]||1,dynamic,star:STARRED.has(n)});
+  }
+  return out;
+}
+function missingStateFields(){ return ["senator1","representative","governor","capital"].filter(k=>!(settings[k]||"").trim()).length; }
+const PART = n => n<=72 ? "gov" : n<=118 ? "hist" : "sym";
+const bnNum = n => String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
+
+// ---------- Mistakes to practice again (kept on this phone) ----------
+let missedSet = new Set();
+try{ missedSet = new Set(JSON.parse(localStorage.getItem("civics-coach-missed")||"[]")); }catch(e){}
+function markMissed(n, wrong){ if(wrong) missedSet.add(n); else missedSet.delete(n); try{ localStorage.setItem("civics-coach-missed", JSON.stringify([...missedSet])); }catch(e){} }
+
+// ---------- Voice: read aloud ----------
+let tts=null, ttsOff=false, dict=null, bnTtsOk=true;
+const synth = window.speechSynthesis || null;
+function clean(a){ return a.replace(/\[[^\]]*\]/g,"").replace(/[()“”]/g,"").replace(/\s+/g," ").trim(); }
+function stopSpeaking(){ try{ tts && tts.stop(); }catch(e){} try{ synth && synth.cancel(); }catch(e){} }
+function voiceFor(prefix){ try{ return (synth.getVoices()||[]).find(v=>v.lang && v.lang.toLowerCase().startsWith(prefix)); }catch(e){ return null; } }
+function speak(text, lang){
+  lang = lang || "en";
+  stopSpeaking();
+  if(tts && !ttsOff && (lang==="en" || bnTtsOk)){
+    return tts.speak(text,{rate:Math.min(1.5,Math.max(0.7,settings.rate)), language:lang}).catch(e=>{
+      if(e && e.code==="not_granted") ttsOff=true;
+      else if(lang==="bn" && e && (e.code==="unavailable"||e.code==="upstream_error")){ bnTtsOk=false; render(); }
+    });
+  }
+  if(ttsOff || !synth) return Promise.resolve();
+  const v = voiceFor(lang==="bn"?"bn":"en-us") || (lang==="en"?voiceFor("en"):null);
+  if(lang==="bn" && !v) return Promise.resolve();
+  return new Promise(res=>{
+    const u=new SpeechSynthesisUtterance(text); u.lang= lang==="bn" ? (v?v.lang:"bn-BD") : "en-US"; u.rate=settings.rate;
+    if(v) u.voice=v; u.onend=res; u.onerror=res; synth.speak(u);
+  });
+}
+function canSpeakBn(){ return (tts && !ttsOff && bnTtsOk) || (!tts && !!voiceFor("bn")); }
+
+// ---------- Voice: hear her answer ----------
+const NativeSR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+let nativeBroken=false, rec=null;
+const mic = {listening:false, finalText:"", partial:"", wantCheck:false};
+function canListen(){ return !!dict || (!!NativeSR && !nativeBroken); }
+function setupNative(){
+  rec = new NativeSR(); rec.lang="en-US"; rec.interimResults=true; rec.continuous=true;
+  rec.onresult = e=>{ let f="",p=""; for(const r of e.results){ if(r.isFinal) f+=r[0].transcript+" "; else p+=r[0].transcript; } mic.finalText=f; mic.partial=p; renderHeard(); };
+  rec.onerror = e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){ nativeBroken=true; S.inputMode="choices"; S.choices=S.choices||makeChoices(cur()); S.notice="মাইক্রোফোন চালু নেই। নিচের উত্তরগুলো থেকে বেছে নিন।"; } };
+  rec.onend = ()=>{ mic.listening=false; if(mic.wantCheck){ mic.wantCheck=false; submit(heardText()); } else render(); };
+}
+function heardText(){ return (mic.finalText+" "+mic.partial).trim(); }
+function stopMicQuietly(){ if(mic.listening){ try{ dict?dict.stop():rec&&rec.stop(); }catch(e){} mic.listening=false; mic.wantCheck=false; } }
+function startListening(){
+  stopSpeaking();
+  mic.finalText=""; mic.partial=""; mic.wantCheck=false;
+  if(dict){
+    mic.listening=true; render();
+    dict.start({language:"en"}).catch(e=>{
+      mic.listening=false;
+      if(e && (e.code==="not_granted"||e.code==="unavailable")){ dict=null; if(!canListen()){ S.inputMode="choices"; S.choices=S.choices||makeChoices(cur()); S.notice="মাইক্রোফোন চালু নেই। নিচের উত্তরগুলো থেকে বেছে নিন।"; } }
+      render();
+    });
+    return;
+  }
+  if(NativeSR){
+    if(!rec) setupNative();
+    try{ rec.start(); mic.listening=true; }catch(e){ nativeBroken=true; S.inputMode="choices"; S.choices=S.choices||makeChoices(cur()); }
+    render();
+  }
+}
+async function stopAndCheck(){
+  if(dict){ try{ await dict.stop(); }catch(e){} mic.listening=false; submit(heardText()); return; }
+  if(rec){ mic.wantCheck=true; try{ rec.stop(); }catch(e){ mic.wantCheck=false; submit(heardText()); } }
+}
+
+// ---------- Sessions ----------
+let S = {screen:"home", inputMode:null, notice:""};
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function wake(){ try{ navigator.wakeLock && navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){} }
+function testSpec(){ return settings.testType==="senior" ? {total:10, pass:6, label:"৬৫/২০ পরীক্ষা"} : {total:20, pass:12, label:"আসল পরীক্ষা"}; }
+function startQuiz(onlyNums){
+  const spec = testSpec();
+  let pool = allQs();
+  if(settings.testType==="senior" && !onlyNums) pool = pool.filter(q=>q.star);
+  if(onlyNums) pool = pool.filter(q=>onlyNums.includes(q.n));
+  const queue = shuffle(pool).slice(0, onlyNums ? pool.length : spec.total);
+  if(!queue.length) return;
+  S = {screen:"quiz", practice:!!onlyNums, spec, queue, idx:0, results:[], phase:"ask",
+       inputMode: canListen() ? "voice" : "choices", notice:"", choices:null, typed:""};
+  wake(); askCurrent();
+}
+function startLearn(){
+  let pool = allQs(); if(settings.testType==="senior") pool = pool.filter(q=>q.star);
+  S = {screen:"learn", queue:shuffle(pool), idx:0, revealed:false, knew:0};
+  wake(); render(); speak(cur().text);
+}
+function cur(){ return S.queue[S.idx]; }
+function askCurrent(){
+  S.phase="ask"; S.choices=null; S.typed=""; S.notice=""; mic.finalText=""; mic.partial="";
+  if(S.inputMode==="choices") S.choices=makeChoices(cur());
+  render();
+  speak("Question " + (S.idx+1) + ". " + cur().text);
+}
+function makeChoices(q){
+  const ri = Math.floor(Math.random()*q.answers.length);
+  const right = {en:clean(q.answers[ri]), bn:q.bnAns[ri]?clean(q.bnAns[ri]):""};
+  let pool;
+  if(q.dynamic){
+    const names=[settings.president,settings.vicepresident,settings.speaker,settings.chiefjustice,"George Washington","Abraham Lincoln","Thomas Jefferson","Benjamin Franklin"];
+    pool = (q.n===62 ? ["Albany","Sacramento","Austin","Tallahassee","Springfield","Columbus","Denver","Atlanta"] : names).filter(Boolean).map(en=>({en,bn:""}));
+  } else {
+    pool = allQs().filter(o=>!o.dynamic && o.n!==q.n && PART(o.n)===PART(q.n)).flatMap(o=>o.answers.map((a,i)=>({en:clean(a), bn:o.bnAns[i]?clean(o.bnAns[i]):""})));
+  }
+  const picks=[]; const seen=new Set([right.en.toLowerCase()]);
+  for(const c of shuffle(pool)){
+    if(picks.length>=3) break;
+    if(!c.en || seen.has(c.en.toLowerCase())) continue;
+    if(countMatches(q,c.en).size) continue;
+    seen.add(c.en.toLowerCase()); picks.push(c);
+  }
+  return shuffle([right,...picks]);
+}
+function submit(text){
+  const q=cur(); text=(text||"").trim();
+  const hits = text ? countMatches(q,text) : new Set();
+  const ok = hits.size >= q.need;
+  S.results.push({q, said:text, ok, got:hits.size});
+  markMissed(q.n, !ok);
+  S.phase="feedback"; render();
+  const examples = q.answers.slice(0, q.need).map(clean);
+  if(ok) speak("Correct!");
+  else if(hits.size>0 && q.need>1) speak(`You need ${q.need} answers. For example: ${examples.join(", and ")}.`);
+  else speak((q.need>1 ? `Correct answers: ${examples.join(", and ")}.` : `The answer is: ${examples[0]}.`));
+}
+function override(){ const r=S.results[S.results.length-1]; r.ok=!r.ok; r.overridden=true; markMissed(r.q.n, !r.ok); render(); }
+function tally(){ const ok=S.results.filter(r=>r.ok).length; return {ok, no:S.results.length-ok}; }
+function isDone(){ const {ok,no}=tally(), total=S.queue.length, graded=!S.practice; return S.idx+1>=total || (graded && (ok>=S.spec.pass || no > total-S.spec.pass)); }
+function next(){
+  if(isDone()){ S.screen="result"; render(); const {ok}=tally(); const passed=!S.practice && ok>=S.spec.pass;
+    speak(S.practice ? `All done. ${ok} right out of ${S.results.length}.` : passed ? `You passed! ${ok} right out of ${S.results.length}.` : `Not yet. ${ok} right out of ${S.results.length}. Keep practicing.`);
+    return; }
+  S.idx++; askCurrent();
+}
+function setInput(m){ stopMicQuietly(); S.inputMode=m; S.notice=""; if(m==="choices" && !S.choices) S.choices=makeChoices(cur()); render();
+  if(m==="type") setTimeout(()=>document.getElementById("typed")?.focus(),0); }
+function goHome(){ stopSpeaking(); stopMicQuietly(); S={screen:"home"}; render(); }
+
+// ---------- Rendering ----------
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ICON = {
+  speaker:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5"/></svg>',
+  no:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8.5 8.5 7 7M15.5 8.5l-7 7"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>',
+  clip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 2h6v4H9z"/><path d="m9 13 2 2 4-4"/></svg>',
+  redo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>',
+};
+const app = document.getElementById("app");
+function render(){
+  if(S.screen==="home") return renderHome();
+  if(S.screen==="learn") return renderLearn();
+  if(S.screen==="quiz") return renderQuiz();
+  if(S.screen==="result") return renderResult();
+}
+function field(id,label,ph){ return `<div class="field"><label for="${id}">${label}</label><input type="text" id="${id}" data-set="${id}" value="${esc(settings[id]||"")}" placeholder="${esc(ph||"")}" autocomplete="off"></div>`; }
+function renderHome(){
+  const miss = missingStateFields(), spec=testSpec(), nMissed=missedSet.size;
+  app.innerHTML = `
+  <header style="display:flex;flex-direction:column;gap:4px">
+    <div class="eyebrow">আমেরিকার নাগরিকত্ব পরীক্ষা</div>
+    <h1 class="bn">সিভিক্স প্রশ্নের অনুশীলন</h1>
+    <div class="en-sub">U.S. citizenship civics test practice</div>
+  </header>
+  <section class="tiles">
+    <button class="tile" id="learn"><span class="ic">${ICON.book}</span><span><b>শিখুন</b><span class="m">প্রশ্ন আর উত্তর দেখুন ও শুনুন</span><span class="e">Learn the answers</span></span></button>
+    <button class="tile primary" id="go"><span class="ic">${ICON.clip}</span><span><b>পরীক্ষা দিন</b><span class="m">আসল পরীক্ষার মতো ${bnNum(spec.total)}টি প্রশ্ন, পাস ${bnNum(spec.pass)}টিতে</span><span class="e">Take the test</span></span></button>
+    ${nMissed?`<button class="tile" id="redo"><span class="ic">${ICON.redo}</span><span><b>ভুলগুলো আবার</b><span class="m">যে ${bnNum(nMissed)}টি প্রশ্ন ভুল হয়েছিল</span><span class="e">Practice my mistakes</span></span></button>`:""}
+  </section>
+  <p class="note bn" style="margin:0">প্রশ্ন ইংরেজিতে পড়ে শোনানো হবে, ঠিক যেমন অফিসার জিজ্ঞেস করবেন। নিচে বাংলা অর্থও থাকবে। উত্তর ইংরেজিতে বলুন।</p>
+  ${miss ? `<p class="note" style="margin:0">Family: ${miss===1?"1 state question is":miss+" state questions are"} skipped until you fill in <b>Her state</b> below.</p>`:""}
+  <details>
+    <summary>Family settings (English)</summary>
+    <div class="field"><label>Which test</label></div>
+    <label class="radio"><input type="radio" name="tt" value="standard" ${settings.testType!=="senior"?"checked":""}><span><b>Standard 2025 test</b><br><span class="note">20 random questions, pass with 12.</span></span></label>
+    <label class="radio"><input type="radio" name="tt" value="senior" ${settings.testType==="senior"?"checked":""}><span><b>65/20 test</b><br><span class="note">Only for age 65+ with 20+ years as a green card holder. 10 of the 20 starred questions, pass with 6.</span></span></label>
+    <h2 style="margin-top:18px;font-size:1rem">Her state (New York)</h2>
+    <div class="grid2">${field("senator1","Senator 1")}${field("senator2","Senator 2")}</div>
+    ${field("representative","U.S. representative (ZIP 11208)","Look up with her ZIP at house.gov")}
+    <div class="grid2">${field("governor","Governor")}${field("capital","State capital")}</div>
+    <h2 style="margin-top:18px;font-size:1rem">Current officials</h2>
+    <p class="note" style="margin:4px 0 0">These change with elections. Check them at <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener">uscis.gov/citizenship/testupdates</a> before her interview.</p>
+    <div class="grid2">${field("president","President")}${field("vicepresident","Vice President")}</div>
+    <div class="grid2">${field("speaker","Speaker of the House")}${field("chiefjustice","Chief Justice")}</div>
+    <div class="field"><label for="rate">Reading speed: <span id="rateval">${settings.rate.toFixed(2)}×</span></label>
+    <input type="range" id="rate" min="0.7" max="1.3" step="0.05" value="${settings.rate}"></div>
+    <div class="row" style="margin-top:12px"><button class="btn ghost" id="testvoice"><span class="en" style="font-size:1rem;opacity:1">Try the voice</span></button>${nMissed?`<button class="btn ghost" id="clearmissed"><span class="en" style="font-size:1rem;opacity:1">Clear mistakes list</span></button>`:""}</div>
+  </details>
+  <p class="note" style="margin:0">Questions and answers are from the official USCIS list (form M-1778, 2025 version).</p>`;
+  const $=id=>document.getElementById(id);
+  $("learn").onclick=startLearn;
+  $("go").onclick=()=>startQuiz();
+  $("redo") && ($("redo").onclick=()=>startQuiz([...missedSet]));
+  app.querySelectorAll('input[name="tt"]').forEach(r=>r.onchange=()=>{ settings.testType=r.value; saveSettings(); keepOpen(renderHome); });
+  app.querySelectorAll("[data-set]").forEach(i=>{ i.oninput=()=>{ settings[i.dataset.set]=i.value; saveSettings(); }; i.onchange=()=>keepOpen(renderHome); });
+  const r=$("rate"); r.oninput=()=>{ settings.rate=parseFloat(r.value); $("rateval").textContent=settings.rate.toFixed(2)+"×"; saveSettings(); };
+  $("testvoice").onclick=()=>speak("What is the supreme law of the land?");
+  $("clearmissed") && ($("clearmissed").onclick=()=>{ missedSet.forEach(n=>markMissed(n,false)); keepOpen(renderHome); });
+}
+function keepOpen(fn){ const open=[...app.querySelectorAll("details")].map(d=>d.open); fn(); app.querySelectorAll("details").forEach((d,k)=>d.open=!!open[k]); }
+function questionCard(q, numLabel){
+  return `<section class="card">
+      <div class="qchip">${numLabel} · প্রশ্ন নং ${bnNum(q.n)}${q.star?' <span class="star" title="65/20">★</span>':""}</div>
+      <div class="qtext" lang="en">${esc(q.text)}</div>
+      ${q.bn?`<div class="qbn" lang="bn"><small>বাংলা অর্থ</small>${esc(q.bn)}</div>`:""}
+      <div class="hearrow">
+        <button class="hear" id="hear">${ICON.speaker} আবার শুনুন</button>
+        ${q.bn && canSpeakBn()?`<button class="hear" id="hearbn">${ICON.speaker} বাংলায় শুনুন</button>`:""}
+      </div>
+    </section>`;
+}
+function bindQuestionCard(q){
+  document.getElementById("hear").onclick=()=>speak(q.text);
+  const b=document.getElementById("hearbn"); if(b) b.onclick=()=>speak(q.bn,"bn");
+}
+function answerRows(q, limit){
+  const idx = q.answers.map((_,i)=>i).slice(0, limit);
+  return `<div class="anslist">${idx.map(i=>`<div class="ans"><div class="t"><b lang="en">${esc(clean(q.answers[i]))}</b>${q.bnAns[i]?`<span lang="bn">${esc(q.bnAns[i])}</span>`:""}</div><button class="say" data-say="${i}" aria-label="Hear this answer">${ICON.speaker}</button></div>`).join("")}</div>`;
+}
+function bindAnswerRows(q){ app.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(clean(q.answers[+b.dataset.say]))); }
+function howMany(q){ return q.need>1 ? `যেকোনো ${bnNum(q.need)}টি বলতে হবে <span>Name any ${q.need}</span>` : q.answers.length>1 ? `যেকোনো একটি বললেই হবে <span>Any one is correct</span>` : `উত্তর <span>Answer</span>`; }
+function renderLearn(){
+  const q=cur(), total=S.queue.length;
+  const limit = q.answers.length<=4 ? 4 : 3;
+  app.innerHTML = `
+    <div class="topbar"><button class="link" id="quit" style="padding-left:0">← বন্ধ করুন</button><span class="count">শিখুন · ${bnNum(S.idx+1)} / ${bnNum(total)}</span></div>
+    ${questionCard(q,"শিখুন")}
+    ${!S.revealed ? `<button class="btn" id="reveal"><span class="bn">উত্তর দেখুন</span><span class="en">Show the answer</span></button>` : `
+    <section class="card">
+      <div class="label">${howMany(q)}</div>
+      ${answerRows(q, limit)}
+      ${q.answers.length>limit?`<div class="note">+ ${q.answers.length-limit} more correct answers</div>`:""}
+    </section>
+    <div class="row">
+      <button class="btn yes" id="knew"><span class="bn">পেরেছি</span><span class="en">I knew it</span></button>
+      <button class="btn no" id="didnt"><span class="bn">পারিনি</span><span class="en">I didn't know</span></button>
+    </div>`}`;
+  const $=id=>document.getElementById(id);
+  $("quit").onclick=goHome;
+  bindQuestionCard(q);
+  $("reveal") && ($("reveal").onclick=()=>{ S.revealed=true; render(); speak("Answer: " + q.answers.slice(0, Math.max(1,q.need)).map(clean).join(", and ")); });
+  bindAnswerRows(q);
+  const go=(knew)=>{ markMissed(q.n,!knew); if(S.idx+1>=total){ goHome(); return; } S.idx++; S.revealed=false; render(); speak(cur().text); };
+  $("knew") && ($("knew").onclick=()=>go(true));
+  $("didnt") && ($("didnt").onclick=()=>go(false));
+}
+function renderQuiz(){
+  const q=cur(), {ok,no}=tally(), total=S.queue.length;
+  const pips = total<=20 ? `<div class="pips" aria-hidden="true">${S.queue.map((_,i)=>{ const r=S.results[i]; return `<span class="pip ${r?(r.ok?"ok":"no"):(i===S.idx?"now":"")}"></span>`; }).join("")}</div>` : "";
+  let body="";
+  if(S.phase==="ask"){
+    if(S.inputMode==="voice"){
+      body = `
+        <button class="mic ${mic.listening?"on":""}" id="micbtn" aria-label="${mic.listening?"Done answering":"Tap and answer out loud"}">${mic.listening?ICON.stop:ICON.mic}</button>
+        <div class="miclabel">${mic.listening?`শুনছি… বলা শেষ হলে চাপুন<span>Listening — tap when done</span>`:`চাপুন, তারপর ইংরেজিতে উত্তর বলুন<span>Tap, then say the answer in English</span>`}</div>
+        <div class="heard" id="heard" aria-live="polite">${heardHTML()}</div>`;
+    } else if(S.inputMode==="type"){
+      body = `<form id="typeform" class="row" style="align-items:stretch"><input type="text" id="typed" placeholder="Type the answer" autocomplete="off" value="${esc(S.typed)}" style="flex:2 1 200px"><button class="btn" type="submit" style="flex:1 1 100px;min-height:52px"><span class="bn" style="font-size:1.1rem">দেখুন</span></button></form>`;
+    } else {
+      body = `<div class="label">সঠিক উত্তরটি বেছে নিন <span>Pick the correct answer</span></div>
+        <div class="choices">${S.choices.map((c,i)=>`<button class="choice" data-choice="${i}"><b lang="en">${esc(c.en)}</b>${c.bn?`<span lang="bn">${esc(c.bn)}</span>`:""}</button>`).join("")}</div>
+        <button class="hear" id="hearchoices">${ICON.speaker} উত্তরগুলো শুনুন</button>`;
+    }
+    const opts = [];
+    if(S.inputMode!=="voice" && canListen()) opts.push(`<button class="alt" data-input="voice">মুখে বলুন<span>Speak</span></button>`);
+    if(S.inputMode!=="choices") opts.push(`<button class="alt" data-input="choices">বেছে নিন<span>Choices</span></button>`);
+    if(S.inputMode!=="type") opts.push(`<button class="alt" data-input="type">লিখুন<span>Type</span></button>`);
+    opts.push(`<button class="alt" id="idk">জানি না<span>I don't know</span></button>`);
+    body += `<div class="alts">${opts.join("")}</div>`;
+    if(S.notice) body = `<p class="note bn" style="margin:0">${esc(S.notice)}</p>` + body;
+  } else {
+    const r=S.results[S.results.length-1];
+    const limit = q.answers.length<=4 ? 4 : 3;
+    body = `
+      <div class="verdict ${r.ok?"ok":"no"}" role="status">${r.ok?ICON.ok:ICON.no}<div><b>${r.ok?"সঠিক!":(r.got>0&&q.need>1?`${bnNum(r.got)}টি হয়েছে, ${bnNum(q.need)}টি লাগবে`:"হয়নি")}</b><span>${r.ok?"Correct":"Not quite"}${r.overridden?" · changed by hand":""}</span></div></div>
+      <div class="said"><span class="bn">আপনি বলেছেন:</span> ${r.said?`“${esc(r.said)}”`:`<span class="bn muted">কোনো উত্তর নেই</span>`}</div>
+      <div class="label">${howMany(q)}</div>
+      ${answerRows(q, limit)}
+      <button class="btn" id="next"><span class="bn">${isDone()?"ফলাফল দেখুন":"পরের প্রশ্ন →"}</span><span class="en">${isDone()?"See results":"Next question"}</span></button>
+      <button class="link override" id="override">${r.ok?"আসলে ভুল ছিল (count as wrong)":"উত্তরটা ঠিক ছিল (count as right)"}</button>`;
+  }
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="link" id="quit" style="padding-left:0">← বন্ধ করুন</button>
+      <span class="count">${bnNum(S.idx+1)} / ${bnNum(total)} · <span style="color:var(--good)">${bnNum(ok)} ঠিক</span> · <span style="color:var(--bad)">${bnNum(no)} ভুল</span></span>
+    </div>
+    ${pips}
+    ${questionCard(q, S.practice?"অনুশীলন":"পরীক্ষা")}
+    <section class="card">${body}</section>`;
+  const $=id=>document.getElementById(id);
+  $("quit").onclick=goHome;
+  bindQuestionCard(q);
+  $("micbtn") && ($("micbtn").onclick=()=> mic.listening ? stopAndCheck() : startListening());
+  $("typeform") && ($("typeform").onsubmit=e=>{ e.preventDefault(); submit($("typed").value); });
+  $("typed") && ($("typed").oninput=e=>S.typed=e.target.value);
+  app.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>submit(S.choices[+b.dataset.choice].en));
+  $("hearchoices") && ($("hearchoices").onclick=()=>speak(S.choices.map((c,i)=>`${["A","B","C","D"][i]}. ${c.en}.`).join(" ")));
+  app.querySelectorAll("[data-input]").forEach(b=>b.onclick=()=>setInput(b.dataset.input));
+  $("idk") && ($("idk").onclick=()=>{ stopMicQuietly(); submit(""); });
+  $("next") && ($("next").onclick=next);
+  $("override") && ($("override").onclick=override);
+  bindAnswerRows(q);
+}
+function heardHTML(){ const t=heardText(); return t?esc(t):`<i>আপনার উত্তর এখানে দেখা যাবে</i>`; }
+function renderHeard(){ const h=document.getElementById("heard"); if(h) h.innerHTML=heardHTML(); }
+function renderResult(){
+  const {ok}=tally(), n=S.results.length, graded=!S.practice, passed=graded&&ok>=S.spec.pass;
+  const missed=S.results.filter(r=>!r.ok);
+  app.innerHTML = `
+    <section class="card" style="text-align:center;align-items:center">
+      <div class="eyebrow">${S.practice?"অনুশীলন":S.spec.label}</div>
+      <div class="big ${graded?(passed?"result-ok":"result-no"):""}">${bnNum(ok)} / ${bnNum(n)}</div>
+      <h2 class="bn">${graded?(passed?"পাস করেছেন! অভিনন্দন!":"এবার হয়নি। আরও অনুশীলন করুন।"):"শেষ হয়েছে"}</h2>
+      <div class="en-sub">${graded?(passed?"Passed!":"Not yet — keep practicing"):"Round finished"}</div>
+      ${graded?`<p class="note bn" style="margin:0">${passed?`${bnNum(S.spec.pass)}টি ঠিক হলেই অফিসার পরীক্ষা থামিয়ে দেন।`:`পাস করতে ${bnNum(S.spec.pass)}টি ঠিক উত্তর লাগে।`}</p>`:""}
+    </section>
+    ${missed.length?`<section class="card"><h2 class="bn">যেগুলো আবার দেখবেন</h2><div class="missed">${missed.map(r=>`<div class="item"><b lang="en">${esc(r.q.text)}</b>${r.q.bn?`<span class="bn muted">${esc(r.q.bn)}</span>`:""}<div><span class="bn">উত্তর:</span> <b lang="en">${r.q.answers.slice(0,Math.max(2,r.q.need)).map(a=>esc(clean(a))).join(" · ")}</b></div></div>`).join("")}</div></section>`:""}
+    <div class="row">
+      ${missed.length?`<button class="btn" id="redo"><span class="bn">এই ${bnNum(missed.length)}টি আবার</span><span class="en">Practice these again</span></button>`:""}
+      <button class="btn ${missed.length?"ghost":""}" id="again"><span class="bn">নতুন পরীক্ষা</span><span class="en">New test</span></button>
+    </div>
+    <button class="link bn" id="home" style="align-self:center">← শুরুতে ফিরুন</button>`;
+  const nums=missed.map(r=>r.q.n);
+  document.getElementById("redo") && (document.getElementById("redo").onclick=()=>startQuiz(nums));
+  document.getElementById("again").onclick=()=>startQuiz();
+  document.getElementById("home").onclick=goHome;
+}
+
+// ---------- Connect to the viewer's voice features when available ----------
+if(window.claude && window.claude.use){
+  window.claude.use("tts").then(t=>{ if(t){ tts=t; render(); } }).catch(()=>{});
+  window.claude.use("dictation").then(d=>{
+    if(!d) return; dict=d;
+    d.onPartial(({text})=>{ mic.partial=text; renderHeard(); });
+    d.onFinal(({text})=>{ mic.finalText=(mic.finalText+" "+text).trim(); mic.partial=""; renderHeard(); });
+    d.onState(({state,reason})=>{
+      if(state==="idle" && mic.listening){ mic.listening=false;
+        if(reason==="viewer_stopped" && S.screen==="quiz" && S.phase==="ask" && heardText()) submit(heardText()); else render(); }
+    });
+  }).catch(()=>{});
+}
+if(synth){ try{ synth.getVoices(); synth.addEventListener && synth.addEventListener("voiceschanged",()=>{ if(S.screen!=="home") render(); }); }catch(e){} }
+render();
+</script>
+
+</body>
+</html>
